@@ -2,8 +2,8 @@
 # ============================================================
 #  System Information Script
 #  Shell Scripting Homework
-#  Name        : Soham Ambore
-#  Enrollment  : 24bcs10258
+#  Name        : Utkarsh Bahuguna
+#  Enrollment  : 24bcs10161
 #
 #  Demonstrates: variables, echo, date, hostname, whoami, df,
 #                ps, read -p, mkdir, touch, > output redirection

@@ -31,7 +31,7 @@ provider "aws" {
     tags = {
       ManagedBy = "Terraform"
       Project   = "Session18"
-      Owner     = "Soham Ambore"
+      Owner     = "Utkarsh Bahuguna"
     }
   }
 }

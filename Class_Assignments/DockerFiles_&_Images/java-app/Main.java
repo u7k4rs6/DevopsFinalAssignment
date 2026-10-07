@@ -28,7 +28,7 @@ public class Main {
                       <body style="font-family: system-ui, sans-serif; text-align: center; padding: 60px;">
                         <h1>Hello World from Java</h1>
                         <p>Deployed with a multi-stage Dockerfile (JDK compiles, JRE runs)</p>
-                        <p>Name: Soham Ambore &nbsp;|&nbsp; Enrollment No: 24bcs10258</p>
+                        <p>Name: Utkarsh Bahuguna &nbsp;|&nbsp; Enrollment No: 24bcs10161</p>
                         <p>Served by com.sun.net.httpserver from inside a Docker container</p>
                         <p>Hostname (container id): %s</p>
                         <p>Java version: %s</p>

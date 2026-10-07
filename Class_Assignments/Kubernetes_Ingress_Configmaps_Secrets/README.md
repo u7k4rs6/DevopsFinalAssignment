@@ -1,7 +1,7 @@
 # Ingress, ConfigMaps & Secrets (Session 12)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 All output below was captured from a real run on my machine — Minikube `v1.39.0` (`docker`
 driver), Kubernetes `v1.37.0`, `ingress-nginx` controller `v1.15.1`, macOS on Apple Silicon

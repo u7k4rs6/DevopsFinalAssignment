@@ -1,7 +1,7 @@
 # Docker Fundamentals
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 ---
 
@@ -454,7 +454,7 @@ Apache-app/
   <body style="font-family: system-ui, sans-serif; text-align: center; padding: 60px;">
     <h1>Hello World from Apache</h1>
     <p>This static page is served by the Apache HTTP Server (httpd) inside a Docker container</p>
-    <p>Name: Soham Ambore &nbsp;|&nbsp; Enrollment No: 24bcs10258</p>
+    <p>Name: Utkarsh Bahuguna &nbsp;|&nbsp; Enrollment No: 24bcs10161</p>
   </body>
 </html>
 ```
@@ -531,7 +531,7 @@ export default function App() {
     <div style={{ fontFamily: 'system-ui, sans-serif', textAlign: 'center', padding: '60px' }}>
       <h1>Hello World from React</h1>
       <p>This React app was built with Vite and is served by Nginx inside a Docker container</p>
-      <p>Name: Soham Ambore &nbsp;|&nbsp; Enrollment No: 24bcs10258</p>
+      <p>Name: Utkarsh Bahuguna &nbsp;|&nbsp; Enrollment No: 24bcs10161</p>
       <button onClick={() => setCount((c) => c + 1)}
               style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
         Clicked {count} times
@@ -646,7 +646,7 @@ nginx-app/
   <body style="font-family: system-ui, sans-serif; text-align: center; padding: 60px;">
     <h1>Hello World from Nginx</h1>
     <p>This static page is served by Nginx inside a Docker container</p>
-    <p>Name: Soham Ambore &nbsp;|&nbsp; Enrollment No: 24bcs10258</p>
+    <p>Name: Utkarsh Bahuguna &nbsp;|&nbsp; Enrollment No: 24bcs10161</p>
   </body>
 </html>
 ```

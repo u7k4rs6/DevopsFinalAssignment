@@ -1,7 +1,7 @@
 # Complete CI/CD & DevSecOps (Session 17)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 A complete CI/CD + DevSecOps pipeline for the class demo app (`session-17-devsecops/demo`, the
 Flask "DevSecOps Hub" dashboard). Every stage in the expected flow is a separate GitHub Actions

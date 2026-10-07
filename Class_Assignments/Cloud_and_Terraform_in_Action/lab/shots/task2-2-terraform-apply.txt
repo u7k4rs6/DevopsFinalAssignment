@@ -4,7 +4,7 @@ aws_vpc.main: Creating...
 aws_s3_bucket.assets: Creating...
 aws_vpc.main: Creation complete after 0s [id=vpc-a788f4e9]
 aws_iam_role.web: Creation complete after 0s [id=s19-webapp-ec2-role]
-aws_s3_bucket.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10161]
 aws_s3_bucket_public_access_block.assets: Creating...
 aws_iam_instance_profile.web: Creating...
 aws_internet_gateway.main: Creating...
@@ -13,9 +13,9 @@ aws_iam_role_policy.read_assets: Creating...
 aws_s3_object.index: Creating...
 aws_security_group.web: Creating...
 aws_internet_gateway.main: Creation complete after 0s [id=igw-273bad0c]
-aws_s3_bucket_public_access_block.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket_public_access_block.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10161]
 aws_iam_role_policy.read_assets: Creation complete after 0s [id=s19-webapp-ec2-role:read-assets-bucket]
-aws_s3_object.index: Creation complete after 0s [id=s19-webapp-assets-24bcs10258/index.html]
+aws_s3_object.index: Creation complete after 0s [id=s19-webapp-assets-24bcs10161/index.html]
 aws_route_table.public: Creating...
 aws_security_group.web: Creation complete after 0s [id=sg-779ebd1578d34acd2]
 aws_route_table.public: Creation complete after 0s [id=rtb-499ed8ab]
@@ -28,7 +28,7 @@ aws_instance.web: Creation complete after 10s [id=i-fffcb0bc585566ee6]
 Apply complete! Resources: 13 added, 0 changed, 0 destroyed.
 Outputs:
 ami_used = "ami-1e749f67 (ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20170727)"
-assets_bucket = "s19-webapp-assets-24bcs10258"
+assets_bucket = "s19-webapp-assets-24bcs10161"
 availability_zone = "ap-south-1a"
 instance_id = "i-fffcb0bc585566ee6"
 instance_private_ip = "10.20.1.4"

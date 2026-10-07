@@ -1,7 +1,7 @@
 # Linux Fundamentals
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 ---
 

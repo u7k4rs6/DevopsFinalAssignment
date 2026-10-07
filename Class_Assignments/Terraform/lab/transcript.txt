@@ -35,7 +35,7 @@ terraform.tfvars
 +++ new/terraform.tfvars
 @@ -1,5 +1,5 @@
  aws_region        = "ap-south-1"
- bucket_name       = "soham-24bcs10258-terraform-demo"
+ bucket_name       = "soham-24bcs10161-terraform-demo"
 -environment     = "dev"
 +environment       = "dev"
  enable_versioning = true
@@ -60,7 +60,7 @@ Terraform will perform the following actions:
       + acceleration_status         = (known after apply)
       + acl                         = (known after apply)
       + arn                         = (known after apply)
-      + bucket                      = "soham-24bcs10258-terraform-demo"
+      + bucket                      = "soham-24bcs10161-terraform-demo"
       + bucket_domain_name          = (known after apply)
       + bucket_namespace            = (known after apply)
       + bucket_prefix               = (known after apply)
@@ -75,13 +75,13 @@ Terraform will perform the following actions:
       + request_payer               = (known after apply)
       + tags                        = {
           + "Environment" = "dev"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
         }
       + tags_all                    = {
           + "Environment" = "dev"
           + "ManagedBy"   = "Terraform"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
-          + "Owner"       = "Soham Ambore"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
+          + "Owner"       = "Utkarsh Bahuguna"
           + "Project"     = "Session18"
         }
       + website_domain              = (known after apply)
@@ -171,7 +171,7 @@ Terraform will perform the following actions:
       + storage_class          = (known after apply)
       + tags_all               = {
           + "ManagedBy" = "Terraform"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "Session18"
         }
       + version_id             = (known after apply)
@@ -181,10 +181,10 @@ Plan: 5 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
   + bucket_arn         = (known after apply)
-  + bucket_name        = "soham-24bcs10258-terraform-demo"
+  + bucket_name        = "soham-24bcs10161-terraform-demo"
   + bucket_region      = "ap-south-1"
   + versioning_status  = "Enabled"
-  + welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+  + welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 
 ─────────────────────────────────────────────────────────────────────────────
 
@@ -195,28 +195,28 @@ To perform exactly these actions, run the following command to apply:
 
 $ terraform apply -no-color -auto-approve tfplan
 aws_s3_bucket.demo: Creating...
-aws_s3_bucket.demo: Creation complete after 1s [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket.demo: Creation complete after 1s [id=soham-24bcs10161-terraform-demo]
 aws_s3_bucket_public_access_block.demo: Creating...
 aws_s3_bucket_server_side_encryption_configuration.demo: Creating...
 aws_s3_bucket_versioning.demo: Creating...
 aws_s3_object.welcome: Creating...
-aws_s3_bucket_server_side_encryption_configuration.demo: Creation complete after 0s [id=soham-24bcs10258-terraform-demo]
-aws_s3_object.welcome: Creation complete after 0s [id=soham-24bcs10258-terraform-demo/welcome.txt]
-aws_s3_bucket_public_access_block.demo: Creation complete after 0s [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket_versioning.demo: Creation complete after 1s [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket_server_side_encryption_configuration.demo: Creation complete after 0s [id=soham-24bcs10161-terraform-demo]
+aws_s3_object.welcome: Creation complete after 0s [id=soham-24bcs10161-terraform-demo/welcome.txt]
+aws_s3_bucket_public_access_block.demo: Creation complete after 0s [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket_versioning.demo: Creation complete after 1s [id=soham-24bcs10161-terraform-demo]
 
 Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-bucket_arn = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-bucket_name = "soham-24bcs10258-terraform-demo"
+bucket_arn = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+bucket_name = "soham-24bcs10161-terraform-demo"
 bucket_region = "ap-south-1"
 versioning_status = "Enabled"
-welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 
-$ export AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=ap-south-1; E=--endpoint-url=http://localhost:4566; aws $E s3 ls; aws $E s3 ls s3://soham-24bcs10258-terraform-demo/; aws $E s3 cp s3://soham-24bcs10258-terraform-demo/welcome.txt -; aws $E s3api get-bucket-versioning --bucket soham-24bcs10258-terraform-demo; aws $E s3api get-bucket-encryption --bucket soham-24bcs10258-terraform-demo --query "ServerSideEncryptionConfiguration.Rules[0]"; aws $E s3api get-bucket-tagging --bucket soham-24bcs10258-terraform-demo --output text
-2026-10-07 00:19:42 soham-24bcs10258-terraform-demo
+$ export AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=ap-south-1; E=--endpoint-url=http://localhost:4566; aws $E s3 ls; aws $E s3 ls s3://soham-24bcs10161-terraform-demo/; aws $E s3 cp s3://soham-24bcs10161-terraform-demo/welcome.txt -; aws $E s3api get-bucket-versioning --bucket soham-24bcs10161-terraform-demo; aws $E s3api get-bucket-encryption --bucket soham-24bcs10161-terraform-demo --query "ServerSideEncryptionConfiguration.Rules[0]"; aws $E s3api get-bucket-tagging --bucket soham-24bcs10161-terraform-demo --output text
+2026-10-07 00:19:42 soham-24bcs10161-terraform-demo
 2026-10-07 00:19:42         42 welcome.txt
 Created by Terraform for Session 18 - dev
 {
@@ -235,16 +235,16 @@ $ terraform show -no-color | head -45
 # aws_s3_bucket.demo:
 resource "aws_s3_bucket" "demo" {
     acceleration_status         = null
-    arn                         = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-    bucket                      = "soham-24bcs10258-terraform-demo"
-    bucket_domain_name          = "soham-24bcs10258-terraform-demo.s3.amazonaws.com"
+    arn                         = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+    bucket                      = "soham-24bcs10161-terraform-demo"
+    bucket_domain_name          = "soham-24bcs10161-terraform-demo.s3.amazonaws.com"
     bucket_namespace            = "global"
     bucket_prefix               = null
     bucket_region               = "ap-south-1"
-    bucket_regional_domain_name = "soham-24bcs10258-terraform-demo.s3.ap-south-1.amazonaws.com"
+    bucket_regional_domain_name = "soham-24bcs10161-terraform-demo.s3.ap-south-1.amazonaws.com"
     force_destroy               = true
     hosted_zone_id              = "Z11RGJOFQNVJUP"
-    id                          = "soham-24bcs10258-terraform-demo"
+    id                          = "soham-24bcs10161-terraform-demo"
     object_lock_enabled         = false
     policy                      = null
     region                      = "ap-south-1"
@@ -279,13 +279,13 @@ resource "aws_s3_bucket" "demo" {
 }
 
 $ terraform output -no-color; echo; terraform output -raw bucket_arn; echo; terraform state list
-bucket_arn = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-bucket_name = "soham-24bcs10258-terraform-demo"
+bucket_arn = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+bucket_name = "soham-24bcs10161-terraform-demo"
 bucket_region = "ap-south-1"
 versioning_status = "Enabled"
-welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 
-arn:aws:s3:::soham-24bcs10258-terraform-demo
+arn:aws:s3:::soham-24bcs10161-terraform-demo
 aws_s3_bucket.demo
 aws_s3_bucket_public_access_block.demo
 aws_s3_bucket_server_side_encryption_configuration.demo
@@ -302,16 +302,16 @@ $ terraform plan -no-color | grep -v "^$" | sed -n "/Terraform will perform/,/Pl
 Terraform will perform the following actions:
   # aws_s3_bucket.demo will be updated in-place
   ~ resource "aws_s3_bucket" "demo" {
-        id                          = "soham-24bcs10258-terraform-demo"
+        id                          = "soham-24bcs10161-terraform-demo"
       ~ tags                        = {
           + "Environment" = "dev"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
         }
       ~ tags_all                    = {
           + "Environment" = "dev"
           + "ManagedBy"   = "Terraform"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
-          + "Owner"       = "Soham Ambore"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
+          + "Owner"       = "Utkarsh Bahuguna"
           + "Project"     = "Session18"
         }
         # (14 unchanged attributes hidden)
@@ -319,9 +319,9 @@ Terraform will perform the following actions:
     }
 Plan: 0 to add, 1 to change, 0 to destroy.
 
-$ terraform apply -no-color -auto-approve | grep -E "Modifying|Modifications complete|Apply complete"; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3api get-bucket-tagging --bucket soham-24bcs10258-terraform-demo --output table; terraform plan -no-color | grep -E "No changes|Plan:"
-aws_s3_bucket.demo: Modifying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket.demo: Modifications complete after 0s [id=soham-24bcs10258-terraform-demo]
+$ terraform apply -no-color -auto-approve | grep -E "Modifying|Modifications complete|Apply complete"; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3api get-bucket-tagging --bucket soham-24bcs10161-terraform-demo --output table; terraform plan -no-color | grep -E "No changes|Plan:"
+aws_s3_bucket.demo: Modifying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket.demo: Modifications complete after 0s [id=soham-24bcs10161-terraform-demo]
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 --------------------------------------------------------
 |                   GetBucketTagging                   |
@@ -331,23 +331,23 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ||      Key     |                Value                ||
 |+--------------+-------------------------------------+|
 ||  ManagedBy   |  Terraform                          ||
-||  Name        |  soham-24bcs10258-terraform-demo  ||
-||  Owner       |  Soham Ambore                     ||
+||  Name        |  soham-24bcs10161-terraform-demo  ||
+||  Owner       |  Utkarsh Bahuguna                     ||
 ||  Project     |  Session18                          ||
 ||  Environment |  dev                                ||
 |+--------------+-------------------------------------+|
 No changes. Your infrastructure matches the configuration.
 
 $ terraform destroy -no-color -auto-approve | grep -E "Destroying|Destruction complete|Destroy complete"; terraform state list | wc -l; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 ls; echo "buckets left: $(AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 ls | wc -l)"
-aws_s3_bucket_public_access_block.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket_server_side_encryption_configuration.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket_versioning.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_object.welcome: Destroying... [id=soham-24bcs10258-terraform-demo/welcome.txt]
+aws_s3_bucket_public_access_block.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket_server_side_encryption_configuration.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket_versioning.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_object.welcome: Destroying... [id=soham-24bcs10161-terraform-demo/welcome.txt]
 aws_s3_bucket_versioning.demo: Destruction complete after 0s
 aws_s3_bucket_server_side_encryption_configuration.demo: Destruction complete after 0s
 aws_s3_bucket_public_access_block.demo: Destruction complete after 0s
 aws_s3_object.welcome: Destruction complete after 0s
-aws_s3_bucket.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
 aws_s3_bucket.demo: Destruction complete after 0s
 Destroy complete! Resources: 5 destroyed.
        0

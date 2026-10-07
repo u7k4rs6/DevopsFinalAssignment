@@ -38,7 +38,7 @@ Terraform will perform the following actions:
       + role        = "s19-webapp-ec2-role"
       + tags_all    = {
           + "ManagedBy" = "Terraform"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -72,7 +72,7 @@ Terraform will perform the following actions:
       + path                  = "/"
       + tags_all              = {
           + "ManagedBy" = "Terraform"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -136,7 +136,7 @@ Terraform will perform the following actions:
       + tags_all                             = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-web"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -144,7 +144,7 @@ Terraform will perform the following actions:
       + user_data                            = <<-EOT
             #!/bin/bash
             apt-get update -y && apt-get install -y nginx awscli
-            aws s3 cp s3://s19-webapp-assets-24bcs10258/index.html /var/www/html/index.html
+            aws s3 cp s3://s19-webapp-assets-24bcs10161/index.html /var/www/html/index.html
             systemctl enable --now nginx
         EOT
       + user_data_base64                     = (known after apply)
@@ -190,7 +190,7 @@ Terraform will perform the following actions:
       + tags_all = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-igw"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -217,7 +217,7 @@ Terraform will perform the following actions:
       + tags_all         = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-public-rt"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -237,7 +237,7 @@ Terraform will perform the following actions:
       + acceleration_status         = (known after apply)
       + acl                         = (known after apply)
       + arn                         = (known after apply)
-      + bucket                      = "s19-webapp-assets-24bcs10258"
+      + bucket                      = "s19-webapp-assets-24bcs10161"
       + bucket_domain_name          = (known after apply)
       + bucket_namespace            = (known after apply)
       + bucket_prefix               = (known after apply)
@@ -256,7 +256,7 @@ Terraform will perform the following actions:
       + tags_all                    = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-assets"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -318,7 +318,7 @@ Terraform will perform the following actions:
       + storage_class          = (known after apply)
       + tags_all               = {
           + "ManagedBy" = "Terraform"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -384,7 +384,7 @@ Terraform will perform the following actions:
       + tags_all               = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-web-sg"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -415,7 +415,7 @@ Terraform will perform the following actions:
       + tags_all                                       = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-public-subnet"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -447,7 +447,7 @@ Terraform will perform the following actions:
       + tags_all                             = {
           + "ManagedBy" = "Terraform"
           + "Name"      = "s19-webapp-vpc"
-          + "Owner"     = "Soham Ambore"
+          + "Owner"     = "Utkarsh Bahuguna"
           + "Project"   = "s19-webapp"
           + "Session"   = "19"
         }
@@ -457,7 +457,7 @@ Plan: 13 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
   + ami_used            = "ami-1e749f67 (ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20170727)"
-  + assets_bucket       = "s19-webapp-assets-24bcs10258"
+  + assets_bucket       = "s19-webapp-assets-24bcs10161"
   + availability_zone   = "ap-south-1a"
   + instance_id         = (known after apply)
   + instance_private_ip = (known after apply)
@@ -479,7 +479,7 @@ aws_vpc.main: Creating...
 aws_s3_bucket.assets: Creating...
 aws_vpc.main: Creation complete after 0s [id=vpc-a788f4e9]
 aws_iam_role.web: Creation complete after 0s [id=s19-webapp-ec2-role]
-aws_s3_bucket.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10161]
 aws_s3_bucket_public_access_block.assets: Creating...
 aws_iam_instance_profile.web: Creating...
 aws_internet_gateway.main: Creating...
@@ -488,9 +488,9 @@ aws_iam_role_policy.read_assets: Creating...
 aws_s3_object.index: Creating...
 aws_security_group.web: Creating...
 aws_internet_gateway.main: Creation complete after 0s [id=igw-273bad0c]
-aws_s3_bucket_public_access_block.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket_public_access_block.assets: Creation complete after 0s [id=s19-webapp-assets-24bcs10161]
 aws_iam_role_policy.read_assets: Creation complete after 0s [id=s19-webapp-ec2-role:read-assets-bucket]
-aws_s3_object.index: Creation complete after 0s [id=s19-webapp-assets-24bcs10258/index.html]
+aws_s3_object.index: Creation complete after 0s [id=s19-webapp-assets-24bcs10161/index.html]
 aws_route_table.public: Creating...
 aws_security_group.web: Creation complete after 0s [id=sg-779ebd1578d34acd2]
 aws_route_table.public: Creation complete after 0s [id=rtb-499ed8ab]
@@ -503,7 +503,7 @@ aws_instance.web: Creation complete after 10s [id=i-fffcb0bc585566ee6]
 Apply complete! Resources: 13 added, 0 changed, 0 destroyed.
 Outputs:
 ami_used = "ami-1e749f67 (ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20170727)"
-assets_bucket = "s19-webapp-assets-24bcs10258"
+assets_bucket = "s19-webapp-assets-24bcs10161"
 availability_zone = "ap-south-1a"
 instance_id = "i-fffcb0bc585566ee6"
 instance_private_ip = "10.20.1.4"
@@ -543,7 +543,7 @@ $ AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://lo
 |  i-fffcb0bc585566ee6|  t3.micro |  running |  10.20.1.4 |  54.214.199.118 |  subnet-8ad741b3 |  arn:aws:iam::000000000000:instance-profile/s19-webapp-ec2-profile   |
 +---------------------+-----------+----------+------------+-----------------+------------------+----------------------------------------------------------------------+
 
-$ AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 ls s3://s19-webapp-assets-24bcs10258/; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 cp s3://s19-webapp-assets-24bcs10258/index.html -; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 iam get-role-policy --role-name s19-webapp-ec2-role --policy-name read-assets-bucket --query PolicyDocument
+$ AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 ls s3://s19-webapp-assets-24bcs10161/; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 s3 cp s3://s19-webapp-assets-24bcs10161/index.html -; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 iam get-role-policy --role-name s19-webapp-ec2-role --policy-name read-assets-bucket --query PolicyDocument
 2026-10-07 00:25:05         44 index.html
 <h1>Session 19 - deployed by Terraform</h1>
 {
@@ -556,8 +556,8 @@ $ AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://lo
             ],
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:s3:::s19-webapp-assets-24bcs10258",
-                "arn:aws:s3:::s19-webapp-assets-24bcs10258/*"
+                "arn:aws:s3:::s19-webapp-assets-24bcs10161",
+                "arn:aws:s3:::s19-webapp-assets-24bcs10161/*"
             ]
         }
     ]
@@ -639,7 +639,7 @@ Plan: 0 to add, 4 to change, 0 to destroy.
   ~ instance_public_ip  = "54.214.199.118" -> (known after apply)
 
 $ terraform destroy -no-color -auto-approve | grep -E "Destroying|Destruction complete|Destroy complete"; echo "resources left in state: $(terraform state list | wc -l)"; AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 --region ap-south-1 ec2 describe-instances --query "Reservations[].Instances[].[InstanceId,State.Name]" --output text
-aws_s3_bucket_public_access_block.assets: Destroying... [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket_public_access_block.assets: Destroying... [id=s19-webapp-assets-24bcs10161]
 aws_iam_role_policy.read_assets: Destroying... [id=s19-webapp-ec2-role:read-assets-bucket]
 aws_instance.web: Destroying... [id=i-fffcb0bc585566ee6]
 aws_iam_role_policy.read_assets: Destruction complete after 0s
@@ -647,10 +647,10 @@ aws_s3_bucket_public_access_block.assets: Destruction complete after 0s
 aws_instance.web: Destruction complete after 10s
 aws_route_table_association.public: Destroying... [id=rtbassoc-47b90b2e]
 aws_iam_instance_profile.web: Destroying... [id=s19-webapp-ec2-profile]
-aws_s3_object.index: Destroying... [id=s19-webapp-assets-24bcs10258/index.html]
+aws_s3_object.index: Destroying... [id=s19-webapp-assets-24bcs10161/index.html]
 aws_security_group.web: Destroying... [id=sg-779ebd1578d34acd2]
 aws_s3_object.index: Destruction complete after 0s
-aws_s3_bucket.assets: Destroying... [id=s19-webapp-assets-24bcs10258]
+aws_s3_bucket.assets: Destroying... [id=s19-webapp-assets-24bcs10161]
 aws_iam_instance_profile.web: Destruction complete after 0s
 aws_route_table_association.public: Destruction complete after 0s
 aws_security_group.web: Destruction complete after 0s

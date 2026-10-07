@@ -1,7 +1,7 @@
 # Kubernetes Core Objects, Pod Lifecycle & Deployment Strategies (Session 10)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 All output below was captured from a real run on my machine — Minikube `v1.39.0` (`docker`
 driver), Kubernetes `v1.37.0`, macOS on Apple Silicon (`arm64`). The manifests are the ones from

@@ -1,7 +1,7 @@
 # Kubernetes Troubleshooting (Session 14)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 Every command and every output below was captured from a real run on my machine — Docker Desktop
 Kubernetes, client `v1.37.0`, server `v1.34.3`, single node `desktop-control-plane`, macOS on

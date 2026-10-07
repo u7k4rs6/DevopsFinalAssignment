@@ -1,7 +1,7 @@
 # Kubernetes Volumes
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 A container's own filesystem is thrown away every time the container restarts. Volumes are how
 Kubernetes gives a container a directory that lives longer than that. The types differ in **how

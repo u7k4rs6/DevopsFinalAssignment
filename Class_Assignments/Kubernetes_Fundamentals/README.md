@@ -1,7 +1,7 @@
 # Kubernetes Fundamentals
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 Run on Minikube `v1.39.0` (`docker` driver), Kubernetes `v1.37.0`, macOS Apple Silicon (`arm64`).
 

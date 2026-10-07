@@ -1,7 +1,7 @@
 # EC2 — Elastic Compute Cloud (Compute)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 EC2 lets you rent virtual machines (called **instances**) in AWS data centers. You choose the operating system, CPU, memory, disk and network settings, start it in minutes, and pay only while it runs. It exists so you do not have to buy and manage physical servers, and so you can add or remove capacity as demand changes.
 

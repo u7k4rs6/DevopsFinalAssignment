@@ -1,6 +1,6 @@
 # ---------- S3: static assets the web server serves ----------
 resource "aws_s3_bucket" "assets" {
-  bucket        = "${var.project}-assets-24bcs10258"
+  bucket        = "${var.project}-assets-24bcs10161"
   force_destroy = true
 
   tags = { Name = "${var.project}-assets" }

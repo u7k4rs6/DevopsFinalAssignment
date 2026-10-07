@@ -1,7 +1,7 @@
 # Cloud & Terraform in Action (Session 19)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 An end-to-end AWS infrastructure built from one Terraform project: a VPC with a public subnet,
 internet gateway and route table, a security group, an EC2 web server with an IAM role, and an
@@ -33,7 +33,7 @@ flowchart LR
         end
         rt -.associated with.-> subnet
       end
-      s3[(S3 bucket<br/>s19-webapp-assets-24bcs10258<br/>index.html)]
+      s3[(S3 bucket<br/>s19-webapp-assets-24bcs10161<br/>index.html)]
       iam[IAM role s19-webapp-ec2-role<br/>s3:GetObject, s3:ListBucket<br/>on the assets bucket only]
     end
     ec2 -->|instance profile| iam
@@ -188,7 +188,7 @@ aws_instance.web: Creation complete after 10s [id=i-fffcb0bc585566ee6]
 Apply complete! Resources: 13 added, 0 changed, 0 destroyed.
 Outputs:
 ami_used = "ami-1e749f67 (ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20170727)"
-assets_bucket = "s19-webapp-assets-24bcs10258"
+assets_bucket = "s19-webapp-assets-24bcs10161"
 availability_zone = "ap-south-1a"
 instance_id = "i-fffcb0bc585566ee6"
 instance_private_ip = "10.20.1.4"
@@ -258,8 +258,8 @@ route table has two routes, `local` (traffic inside the VPC stays inside) and `0
             "Action": ["s3:GetObject", "s3:ListBucket"],
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:s3:::s19-webapp-assets-24bcs10258",
-                "arn:aws:s3:::s19-webapp-assets-24bcs10258/*"
+                "arn:aws:s3:::s19-webapp-assets-24bcs10161",
+                "arn:aws:s3:::s19-webapp-assets-24bcs10161/*"
             ]
         }
     ]

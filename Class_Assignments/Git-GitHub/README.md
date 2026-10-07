@@ -1,7 +1,7 @@
 # Git & GitHub
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 All output in this file was captured from an actual run on my machine (macOS, `git version 2.51.0`).
 
@@ -247,7 +247,7 @@ git show --stat 85295b4
 
 ```
 commit 85295b40dcdc0be4cfea5972e1c4711172d0bea0
-Author: Soham Ambore <soham.24bcs10258@sst.scaler.com>
+Author: Utkarsh Bahuguna <soham.24bcs10161@sst.scaler.com>
 Date:   Thu Sep 3 21:36:11 2026 +0530
 
     Feature commit 2: add feature2.txt

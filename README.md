@@ -1,6 +1,7 @@
 # Learn_DevOps
 
-DevOps class assignments — **Soham Ambore**, Enrollment No **24bcs10258**.
+DevOps class assignments - **Utkarsh Bahuguna**, Enrollment No **24bcs10161**.
+Email: **utkarsh.24bcs10161@sst.scaler.com**.
 
 All nineteen homework assignments, each with a `README.md` containing the commands I ran, the **real output** captured from those runs, and an explanation of what the output means.
 
@@ -92,5 +93,4 @@ Where something behaved differently than the task expected — a deprecated base
 | AWS | Terraform `v1.16.4` against LocalStack `4.0` (an AWS emulator in Docker) |
 
 Linux-only commands (`adduser`, `useradd`, `journalctl`, `ip`, `ss`, `tracepath`, `traceroute`) were run in the Ubuntu container, because macOS does not provide them. The Dockerfile for that environment is committed at [`Class_Assignments/Linux_Fundamentals/lab/Dockerfile`](Class_Assignments/Linux_Fundamentals/lab/Dockerfile).
-
 

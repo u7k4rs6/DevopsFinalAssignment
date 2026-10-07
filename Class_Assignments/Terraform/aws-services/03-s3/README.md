@@ -1,7 +1,7 @@
 # S3 — Simple Storage Service (Object Storage)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 S3 stores files (called **objects**) in containers (called **buckets**) and serves them over HTTPS. You do not manage disks or servers; storage grows automatically and you pay for what you store and transfer. It exists to give applications a cheap, highly durable place for any amount of data — backups, logs, images, static websites, data lakes, Terraform state.
 

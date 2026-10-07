@@ -1,7 +1,7 @@
 # Terraform S3 Demo
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 Create an AWS S3 bucket with Terraform and walk through the full workflow:
 `init → fmt → validate → plan → apply → show → output → destroy`.
@@ -107,7 +107,7 @@ terraform.tfvars
 +++ new/terraform.tfvars
 @@ -1,5 +1,5 @@
  aws_region        = "ap-south-1"
- bucket_name       = "soham-24bcs10258-terraform-demo"
+ bucket_name       = "soham-24bcs10161-terraform-demo"
 -environment     = "dev"
 +environment       = "dev"
  enable_versioning = true
@@ -146,7 +146,7 @@ terraform plan -out=tfplan
 ```
   # aws_s3_bucket.demo will be created
   + resource "aws_s3_bucket" "demo" {
-      + bucket                      = "soham-24bcs10258-terraform-demo"
+      + bucket                      = "soham-24bcs10161-terraform-demo"
   # aws_s3_bucket_public_access_block.demo will be created
   # aws_s3_bucket_server_side_encryption_configuration.demo will be created
               + sse_algorithm     = "AES256"
@@ -156,10 +156,10 @@ terraform plan -out=tfplan
 Plan: 5 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
-  + bucket_name        = "soham-24bcs10258-terraform-demo"
+  + bucket_name        = "soham-24bcs10161-terraform-demo"
   + bucket_region      = "ap-south-1"
   + versioning_status  = "Enabled"
-  + welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+  + welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 
 Saved the plan to: tfplan
 ```
@@ -180,7 +180,7 @@ terraform apply tfplan
 
 ```
 aws_s3_bucket.demo: Creating...
-aws_s3_bucket.demo: Creation complete after 1s [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket.demo: Creation complete after 1s [id=soham-24bcs10161-terraform-demo]
 aws_s3_bucket_public_access_block.demo: Creating...
 aws_s3_bucket_server_side_encryption_configuration.demo: Creating...
 aws_s3_bucket_versioning.demo: Creating...
@@ -190,11 +190,11 @@ Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-bucket_arn = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-bucket_name = "soham-24bcs10258-terraform-demo"
+bucket_arn = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+bucket_name = "soham-24bcs10161-terraform-demo"
 bucket_region = "ap-south-1"
 versioning_status = "Enabled"
-welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 ```
 
 The ordering is the dependency graph in action. The bucket was created first and on its own,
@@ -206,15 +206,15 @@ then the four resources that reference it were created together.
 
 ```bash
 aws --endpoint-url=http://localhost:4566 s3 ls
-aws --endpoint-url=http://localhost:4566 s3 ls s3://soham-24bcs10258-terraform-demo/
-aws --endpoint-url=http://localhost:4566 s3 cp s3://soham-24bcs10258-terraform-demo/welcome.txt -
-aws --endpoint-url=http://localhost:4566 s3api get-bucket-versioning --bucket soham-24bcs10258-terraform-demo
-aws --endpoint-url=http://localhost:4566 s3api get-bucket-encryption --bucket soham-24bcs10258-terraform-demo
-aws --endpoint-url=http://localhost:4566 s3api get-bucket-tagging --bucket soham-24bcs10258-terraform-demo
+aws --endpoint-url=http://localhost:4566 s3 ls s3://soham-24bcs10161-terraform-demo/
+aws --endpoint-url=http://localhost:4566 s3 cp s3://soham-24bcs10161-terraform-demo/welcome.txt -
+aws --endpoint-url=http://localhost:4566 s3api get-bucket-versioning --bucket soham-24bcs10161-terraform-demo
+aws --endpoint-url=http://localhost:4566 s3api get-bucket-encryption --bucket soham-24bcs10161-terraform-demo
+aws --endpoint-url=http://localhost:4566 s3api get-bucket-tagging --bucket soham-24bcs10161-terraform-demo
 ```
 
 ```
-2026-10-07 00:19:42 soham-24bcs10258-terraform-demo
+2026-10-07 00:19:42 soham-24bcs10161-terraform-demo
 2026-10-07 00:19:42         42 welcome.txt
 Created by Terraform for Session 18 - dev
 {
@@ -244,12 +244,12 @@ terraform show | head -45
 ```
 # aws_s3_bucket.demo:
 resource "aws_s3_bucket" "demo" {
-    arn                         = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-    bucket                      = "soham-24bcs10258-terraform-demo"
-    bucket_domain_name          = "soham-24bcs10258-terraform-demo.s3.amazonaws.com"
+    arn                         = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+    bucket                      = "soham-24bcs10161-terraform-demo"
+    bucket_domain_name          = "soham-24bcs10161-terraform-demo.s3.amazonaws.com"
     bucket_region               = "ap-south-1"
     force_destroy               = true
-    id                          = "soham-24bcs10258-terraform-demo"
+    id                          = "soham-24bcs10161-terraform-demo"
     region                      = "ap-south-1"
     tags                        = {}
     tags_all                    = {}
@@ -271,13 +271,13 @@ terraform state list
 ```
 
 ```
-bucket_arn = "arn:aws:s3:::soham-24bcs10258-terraform-demo"
-bucket_name = "soham-24bcs10258-terraform-demo"
+bucket_arn = "arn:aws:s3:::soham-24bcs10161-terraform-demo"
+bucket_name = "soham-24bcs10161-terraform-demo"
 bucket_region = "ap-south-1"
 versioning_status = "Enabled"
-welcome_object_url = "s3://soham-24bcs10258-terraform-demo/welcome.txt"
+welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
 
-arn:aws:s3:::soham-24bcs10258-terraform-demo
+arn:aws:s3:::soham-24bcs10161-terraform-demo
 aws_s3_bucket.demo
 aws_s3_bucket_public_access_block.demo
 aws_s3_bucket_server_side_encryption_configuration.demo
@@ -297,16 +297,16 @@ Running `plan` right after a successful `apply` should say "No changes". It didn
 ```
   # aws_s3_bucket.demo will be updated in-place
   ~ resource "aws_s3_bucket" "demo" {
-        id                          = "soham-24bcs10258-terraform-demo"
+        id                          = "soham-24bcs10161-terraform-demo"
       ~ tags                        = {
           + "Environment" = "dev"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
         }
       ~ tags_all                    = {
           + "Environment" = "dev"
           + "ManagedBy"   = "Terraform"
-          + "Name"        = "soham-24bcs10258-terraform-demo"
-          + "Owner"       = "Soham Ambore"
+          + "Name"        = "soham-24bcs10161-terraform-demo"
+          + "Owner"       = "Utkarsh Bahuguna"
           + "Project"     = "Session18"
         }
     }
@@ -324,13 +324,13 @@ hand in the console. Either way, the fix is the same: apply the code again.
 
 ```bash
 terraform apply -auto-approve
-aws --endpoint-url=http://localhost:4566 s3api get-bucket-tagging --bucket soham-24bcs10258-terraform-demo --output table
+aws --endpoint-url=http://localhost:4566 s3api get-bucket-tagging --bucket soham-24bcs10161-terraform-demo --output table
 terraform plan
 ```
 
 ```
-aws_s3_bucket.demo: Modifying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket.demo: Modifications complete after 0s [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket.demo: Modifying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket.demo: Modifications complete after 0s [id=soham-24bcs10161-terraform-demo]
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 --------------------------------------------------------
 |                   GetBucketTagging                   |
@@ -338,8 +338,8 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ||      Key     |                Value                ||
 |+--------------+-------------------------------------+|
 ||  ManagedBy   |  Terraform                          ||
-||  Name        |  soham-24bcs10258-terraform-demo  ||
-||  Owner       |  Soham Ambore                     ||
+||  Name        |  soham-24bcs10161-terraform-demo  ||
+||  Owner       |  Utkarsh Bahuguna                     ||
 ||  Project     |  Session18                          ||
 ||  Environment |  dev                                ||
 No changes. Your infrastructure matches the configuration.
@@ -360,12 +360,12 @@ aws --endpoint-url=http://localhost:4566 s3 ls
 ```
 
 ```
-aws_s3_bucket_public_access_block.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket_server_side_encryption_configuration.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_bucket_versioning.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
-aws_s3_object.welcome: Destroying... [id=soham-24bcs10258-terraform-demo/welcome.txt]
+aws_s3_bucket_public_access_block.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket_server_side_encryption_configuration.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_bucket_versioning.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
+aws_s3_object.welcome: Destroying... [id=soham-24bcs10161-terraform-demo/welcome.txt]
 ...
-aws_s3_bucket.demo: Destroying... [id=soham-24bcs10258-terraform-demo]
+aws_s3_bucket.demo: Destroying... [id=soham-24bcs10161-terraform-demo]
 aws_s3_bucket.demo: Destruction complete after 0s
 Destroy complete! Resources: 5 destroyed.
        0

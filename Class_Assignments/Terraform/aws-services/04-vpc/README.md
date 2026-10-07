@@ -1,7 +1,7 @@
 # VPC — Virtual Private Cloud (Networking)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 A VPC is your own private, isolated network inside AWS. You choose its IP address range, split it into subnets, and decide how traffic flows in, out and between resources. It exists so that servers and databases can talk to each other privately, while you control exactly which parts are reachable from the internet.
 

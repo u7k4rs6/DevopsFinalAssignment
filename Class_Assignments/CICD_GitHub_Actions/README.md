@@ -1,7 +1,7 @@
 # CI/CD & GitHub Actions (Session 16)
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 A complete CI/CD demo project built on the class example `10-final-cicd-pipeline`: the same
 calculator, turned into a small Flask API with a Dockerfile, a GitHub Actions workflow with CI

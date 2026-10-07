@@ -22,7 +22,7 @@ provider "aws" {
       Project   = var.project
       Session   = "19"
       ManagedBy = "Terraform"
-      Owner     = "Soham Ambore"
+      Owner     = "Utkarsh Bahuguna"
     }
   }
 }

@@ -1,7 +1,7 @@
 # DynamoDB and RDS — Managed Databases
 
-**Name:** Soham Ambore
-**Enrollment No:** 24bcs10258
+**Name:** Utkarsh Bahuguna
+**Enrollment No:** 24bcs10161
 
 AWS offers managed databases so you do not have to install, patch, back up and fail over database servers yourself. **DynamoDB** is a serverless NoSQL key-value database built for fast lookups at any scale. **RDS** runs traditional relational (SQL) databases such as MySQL and PostgreSQL for you. They solve different problems, so this document covers both and ends with when to pick which.
 
