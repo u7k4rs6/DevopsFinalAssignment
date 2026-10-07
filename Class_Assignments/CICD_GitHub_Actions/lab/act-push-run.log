@@ -18,7 +18,7 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Test          ]   ✅  Success - Set up job
 [Calculator CI/CD/Test          ]   ☁  git clone 'https://github.com/actions/setup-python' # ref=v5
 [Calculator CI/CD/Security Check] ⭐ Run Main Checkout source code
-[Calculator CI/CD/Security Check]   🐳  docker cp src=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Security Check]   🐳  docker cp src=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Security Check]   ✅  Success - Main Checkout source code [16.868041ms]
 [Calculator CI/CD/Security Check] ⭐ Run Main Check for committed secret files
 [Calculator CI/CD/Security Check]   🐳  docker exec cmd=[bash -e /var/run/act/workflow/1] user= workdir=
@@ -29,10 +29,10 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Security Check]   ✅  Success - Complete job
 [Calculator CI/CD/Security Check] 🏁  Job succeeded
 [Calculator CI/CD/Test          ] ⭐ Run Main Checkout source code
-[Calculator CI/CD/Test          ]   🐳  docker cp src=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Test          ]   🐳  docker cp src=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Test          ]   ✅  Success - Main Checkout source code [16.995416ms]
 [Calculator CI/CD/Test          ] ⭐ Run Main Setup Python
-[Calculator CI/CD/Test          ]   🐳  docker cp src=/Users/sohamambore3107/.cache/act/actions-setup-python@v5/ dst=/var/run/act/actions/actions-setup-python@v5/
+[Calculator CI/CD/Test          ]   🐳  docker cp src=/Users/utkarsh24bcs10161/.cache/act/actions-setup-python@v5/ dst=/var/run/act/actions/actions-setup-python@v5/
 [Calculator CI/CD/Test          ]   🐳  docker exec cmd=[/opt/acttoolcache/node/24.19.0/arm64/bin/node /var/run/act/actions/actions-setup-python@v5/dist/setup/index.js] user= workdir=
 [Calculator CI/CD/Test          ]   ❓  ::group::Installed versions
 [Calculator CI/CD/Test          ]   | Version 3.12 was not found in the local cache
@@ -79,25 +79,25 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Test          ]   🐳  docker exec cmd=[bash -e /var/run/act/workflow/2] user= workdir=
 [Calculator CI/CD/Test          ]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.15/arm64/lib/python3.12/site-packages (26.2.1)
 [Calculator CI/CD/Test          ]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
-[Calculator CI/CD/Test          ]   | Collecting flask==3.1.2 (from -r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting flask==3.1.2 (from -r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
-[Calculator CI/CD/Test          ]   | Collecting gunicorn==23.0.0 (from -r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 2))
+[Calculator CI/CD/Test          ]   | Collecting gunicorn==23.0.0 (from -r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 2))
 [Calculator CI/CD/Test          ]   |   Downloading gunicorn-23.0.0-py3-none-any.whl.metadata (4.4 kB)
 [Calculator CI/CD/Test          ]   | Collecting pytest==8.4.2 (from -r requirements-dev.txt (line 2))
 [Calculator CI/CD/Test          ]   |   Downloading pytest-8.4.2-py3-none-any.whl.metadata (7.7 kB)
-[Calculator CI/CD/Test          ]   | Collecting blinker>=1.9.0 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting blinker>=1.9.0 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
-[Calculator CI/CD/Test          ]   | Collecting click>=8.1.3 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting click>=8.1.3 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
-[Calculator CI/CD/Test          ]   | Collecting itsdangerous>=2.2.0 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting itsdangerous>=2.2.0 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
-[Calculator CI/CD/Test          ]   | Collecting jinja2>=3.1.2 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting jinja2>=3.1.2 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
-[Calculator CI/CD/Test          ]   | Collecting markupsafe>=2.1.1 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting markupsafe>=2.1.1 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
-[Calculator CI/CD/Test          ]   | Collecting werkzeug>=3.1.0 (from flask==3.1.2->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
+[Calculator CI/CD/Test          ]   | Collecting werkzeug>=3.1.0 (from flask==3.1.2->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 1))
 [Calculator CI/CD/Test          ]   |   Downloading werkzeug-3.1.9-py3-none-any.whl.metadata (4.1 kB)
-[Calculator CI/CD/Test          ]   | Collecting packaging (from gunicorn==23.0.0->-r /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 2))
+[Calculator CI/CD/Test          ]   | Collecting packaging (from gunicorn==23.0.0->-r /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/requirements.txt (line 2))
 [Calculator CI/CD/Test          ]   |   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
 [Calculator CI/CD/Test          ]   | Collecting iniconfig>=1 (from pytest==8.4.2->-r requirements-dev.txt (line 2))
 [Calculator CI/CD/Test          ]   |   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
@@ -129,7 +129,7 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Test          ]   | ============================= test session starts ==============================
 [Calculator CI/CD/Test          ]   | platform linux -- Python 3.12.15, pytest-8.4.2, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.15/arm64/bin/python
 [Calculator CI/CD/Test          ]   | cachedir: .pytest_cache
-[Calculator CI/CD/Test          ]   | rootdir: /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Test          ]   | rootdir: /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Test          ]   | collecting ... collected 9 items
 [Calculator CI/CD/Test          ]   | 
 [Calculator CI/CD/Test          ]   | tests/test_api.py::test_health PASSED                                    [ 11%]
@@ -162,7 +162,7 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Build         ]   ✅  Success - Set up job
 [Calculator CI/CD/Build         ]   ☁  git clone 'https://github.com/actions/upload-artifact' # ref=v4
 [Calculator CI/CD/Build         ] ⭐ Run Main Checkout source code
-[Calculator CI/CD/Build         ]   🐳  docker cp src=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Build         ]   🐳  docker cp src=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Build         ]   ✅  Success - Main Checkout source code [16.274625ms]
 [Calculator CI/CD/Build         ] ⭐ Run Main Build application
 [Calculator CI/CD/Build         ]   🐳  docker exec cmd=[bash -e /var/run/act/workflow/1] user= workdir=
@@ -183,7 +183,7 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Build         ]   | Build Date: Tue Oct  6 18:16:57 UTC 2026
 [Calculator CI/CD/Build         ]   ✅  Success - Main Show build info [51.065416ms]
 [Calculator CI/CD/Build         ] ⭐ Run Main Upload build artifact
-[Calculator CI/CD/Build         ]   🐳  docker cp src=/Users/sohamambore3107/.cache/act/actions-upload-artifact@v4/ dst=/var/run/act/actions/actions-upload-artifact@v4/
+[Calculator CI/CD/Build         ]   🐳  docker cp src=/Users/utkarsh24bcs10161/.cache/act/actions-upload-artifact@v4/ dst=/var/run/act/actions/actions-upload-artifact@v4/
 [Calculator CI/CD/Build         ]   🐳  docker exec cmd=[/opt/acttoolcache/node/24.19.0/arm64/bin/node /var/run/act/actions/actions-upload-artifact@v4/dist/upload/index.js] user= workdir=
 [Calculator CI/CD/Build         ]   | (node:51) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 [Calculator CI/CD/Build         ]   | (Use `node --trace-deprecation ...` to show where the warning was created)
@@ -198,9 +198,9 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Build         ]   | Finalizing artifact upload
 [Calculator CI/CD/Build         ]   | Artifact calculator-build.zip successfully finalized. Artifact ID 1242866976
 [Calculator CI/CD/Build         ]   | Artifact calculator-build has been successfully uploaded! Final size is 1336 bytes. Artifact ID is 1242866976
-[Calculator CI/CD/Build         ]   | Artifact download URL: https://github.com/soham124/Learn_DevOps/actions/runs/1/artifacts/1242866976
+[Calculator CI/CD/Build         ]   | Artifact download URL: https://github.com/utkarsh10161/Learn_DevOps/actions/runs/1/artifacts/1242866976
 [Calculator CI/CD/Build         ]   ✅  Success - Main Upload build artifact [3.300684375s]
-[Calculator CI/CD/Build         ]   ⚙  ::set-output:: artifact-url=https://github.com/soham124/Learn_DevOps/actions/runs/1/artifacts/1242866976
+[Calculator CI/CD/Build         ]   ⚙  ::set-output:: artifact-url=https://github.com/utkarsh10161/Learn_DevOps/actions/runs/1/artifacts/1242866976
 [Calculator CI/CD/Build         ]   ⚙  ::set-output:: artifact-id=1242866976
 [Calculator CI/CD/Build         ]   ⚙  ::set-output:: artifact-digest=85014f696356032a152c3e2551de233715d2027a35e943638235b171f2cf0777
 [Calculator CI/CD/Build         ] ⭐ Run Complete job
@@ -215,7 +215,7 @@ time="2026-10-06T23:45:46+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Docker Build & Push]   🐳  docker exec cmd=[node --no-warnings -e console.log(process.execPath)] user= workdir=
 [Calculator CI/CD/Docker Build & Push]   ✅  Success - Set up job
 [Calculator CI/CD/Docker Build & Push] ⭐ Run Main Checkout source code
-[Calculator CI/CD/Docker Build & Push]   🐳  docker cp src=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Docker Build & Push]   🐳  docker cp src=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions/. dst=/Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Docker Build & Push]   ✅  Success - Main Checkout source code [13.565666ms]
 [Calculator CI/CD/Docker Build & Push] ⭐ Run Main Compute image tag
 [Calculator CI/CD/Docker Build & Push]   🐳  docker exec cmd=[bash -e /var/run/act/workflow/meta] user= workdir=

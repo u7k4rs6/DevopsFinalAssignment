@@ -1,4 +1,4 @@
-$ cd /private/tmp/claude-501/-Users-sohamambore3107/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/gitops-config && git log --oneline && find app -type f | sort && grep -E 'replicas|image:' app/deployment.yaml
+$ cd /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/gitops-config && git log --oneline && find app -type f | sort && grep -E 'replicas|image:' app/deployment.yaml
 6360907 v1: session20-mini with 2 replicas
 app/configmap.yaml
 app/deployment.yaml

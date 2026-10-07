@@ -296,7 +296,7 @@ DEFAULT_CURRENCY=INR
 ENVIRONMENT=production
 LOG_LEVEL=INFO
 MAX_BOOKING_DAYS=30
-/tmp/claude-501/-Users-sohamambore3107/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s12.sh: line 7: 82349 Terminated: 15          kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 18080:80 > /dev/null 2>&1
+/tmp/claude-501/-Users-utkarsh24bcs10161/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s12.sh: line 7: 82349 Terminated: 15          kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 18080:80 > /dev/null 2>&1
 
 $ kubectl exec deploy/yatri-backend -- env | grep -E 'POSTGRES' | sort
 POSTGRES_DB=yatri_production_db

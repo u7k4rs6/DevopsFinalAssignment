@@ -5,7 +5,7 @@ $ act push -W .github/workflows/ci-cd.yml -P ubuntu-latest=catthehacker/ubuntu:a
 [Calculator CI/CD/Test          ]   | ============================= test session starts ==============================
 [Calculator CI/CD/Test          ]   | platform linux -- Python 3.12.15, pytest-8.4.2, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.15/arm64/bin/python
 [Calculator CI/CD/Test          ]   | cachedir: .pytest_cache
-[Calculator CI/CD/Test          ]   | rootdir: /Users/sohamambore3107/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
+[Calculator CI/CD/Test          ]   | rootdir: /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Test          ]   | collecting ... collected 9 items
 [Calculator CI/CD/Test          ]   | 
 [Calculator CI/CD/Test          ]   | tests/test_api.py::test_health PASSED                                    [ 11%]

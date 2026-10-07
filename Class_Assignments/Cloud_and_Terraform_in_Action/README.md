@@ -292,7 +292,7 @@ resource "aws_subnet" "public" {
     map_public_ip_on_launch                        = true
     vpc_id                                         = "vpc-a788f4e9"
 
--rw-r--r--@ 1 sohamambore3107  staff  31174  7 Oct 00:25 terraform.tfstate
+-rw-r--r--@ 1 utkarsh24bcs10161  staff  31174  7 Oct 00:25 terraform.tfstate
 ```
 
 The state is how Terraform knows that `aws_vpc.main` in the code **is** `vpc-a788f4e9` in AWS.

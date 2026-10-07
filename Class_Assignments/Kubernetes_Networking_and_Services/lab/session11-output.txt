@@ -132,7 +132,7 @@ $ curl -s http://127.0.0.1:52575 | grep -o '<title>.*</title>'
 <title>Welcome to nginx!</title>
 
 ###END###
-/tmp/claude-501/-Users-sohamambore3107/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s11.sh: line 81: 63914 Terminated: 15          minikube service web-service-nodeport --url > /tmp/np-url.txt 2> /dev/null
+/tmp/claude-501/-Users-utkarsh24bcs10161/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s11.sh: line 81: 63914 Terminated: 15          minikube service web-service-nodeport --url > /tmp/np-url.txt 2> /dev/null
 ###SHOT:task2-3-nodeport-direct-nodeip-fails-on-macos###
 $ minikube ip
 192.168.49.2
@@ -172,7 +172,7 @@ $ curl -s -o /dev/null -w 'HTTP %{http_code}\n' http://127.0.0.1:52597
 HTTP 200
 
 ###END###
-/tmp/claude-501/-Users-sohamambore3107/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s11.sh: line 113: 64669 Terminated: 15          minikube service web-service-loadbalancer --url > /tmp/lb-url.txt 2> /dev/null
+/tmp/claude-501/-Users-utkarsh24bcs10161/a3b6f990-5f77-4cd7-82b8-7462c87e1953/scratchpad/s11.sh: line 113: 64669 Terminated: 15          minikube service web-service-loadbalancer --url > /tmp/lb-url.txt 2> /dev/null
 ###SHOT:task4-1-externalname-service###
 $ kubectl apply -f 04-externalname/service.yaml
 service/external-database-service created

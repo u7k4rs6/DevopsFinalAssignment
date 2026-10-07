@@ -12,8 +12,8 @@ calculator-staging   localhost:5001/calculator-api:9036109   Up About a minute  
 
 {"error":"Cannot divide by zero"}
 
-$ unzip -l /private/tmp/claude-501/-Users-sohamambore3107/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip; unzip -p /private/tmp/claude-501/-Users-sohamambore3107/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip build-info.txt
-Archive:  /private/tmp/claude-501/-Users-sohamambore3107/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip
+$ unzip -l /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip; unzip -p /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip build-info.txt
+Archive:  /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/artifacts/1/calculator-build/calculator-build.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
         0  10-06-2026 18:17   app/__init__.py

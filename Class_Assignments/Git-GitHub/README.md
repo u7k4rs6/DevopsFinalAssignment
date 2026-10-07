@@ -247,7 +247,7 @@ git show --stat 85295b4
 
 ```
 commit 85295b40dcdc0be4cfea5972e1c4711172d0bea0
-Author: Utkarsh Bahuguna <soham.24bcs10161@sst.scaler.com>
+Author: Utkarsh Bahuguna <utkarsh.24bcs10161@sst.scaler.com>
 Date:   Thu Sep 3 21:36:11 2026 +0530
 
     Feature commit 2: add feature2.txt

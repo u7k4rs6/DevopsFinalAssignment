@@ -386,7 +386,7 @@ scaled it straight back to 3.
 
 **Setup:** Argo CD `v3.5.3` was installed on Minikube from the official manifest. Nothing was
 pushed to GitHub at this stage, so the Git server is **Gitea** running as a Docker container on
-Minikube's network (`http://192.168.49.3:3000/soham/gitops-config.git`). The workflow is
+Minikube's network (`http://192.168.49.3:3000/utkarsh/gitops-config.git`). The workflow is
 identical to using GitHub; only the URL in
 [`argocd-application.yaml`](gitops/argocd-application.yaml) changes. The repo's final contents
 are in [`gitops/gitops-config/`](gitops/gitops-config/).

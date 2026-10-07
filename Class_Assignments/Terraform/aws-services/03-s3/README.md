@@ -18,7 +18,7 @@ S3 is **object storage**, not a file system or a disk:
 
 A bucket is the top-level container for objects.
 
-- Name must be **globally unique** (DNS-compatible, lowercase), e.g. `soham-devops-artifacts-2026`.
+- Name must be **globally unique** (DNS-compatible, lowercase), e.g. `utkarsh-devops-artifacts-2026`.
 - Created in one Region.
 - Settings live at bucket level: versioning, encryption, lifecycle rules, bucket policy, logging, replication.
 - Secure defaults for new buckets (since April 2023): **Block Public Access is on** and **ACLs are disabled** (Object Ownership = bucket owner enforced). Access is controlled with IAM and bucket policies.
@@ -32,8 +32,8 @@ An object = **key** (its name) + **data** + **metadata**.
 - Each object has metadata (content type, custom tags) and, with versioning, a version ID.
 
 ```bash
-aws s3 cp report.pdf s3://soham-devops-artifacts-2026/reports/report.pdf
-aws s3 ls s3://soham-devops-artifacts-2026/reports/
+aws s3 cp report.pdf s3://utkarsh-devops-artifacts-2026/reports/report.pdf
+aws s3 ls s3://utkarsh-devops-artifacts-2026/reports/
 ```
 
 ## Storage classes
@@ -90,7 +90,7 @@ Applied with:
 
 ```bash
 aws s3api put-bucket-lifecycle-configuration \
-  --bucket soham-devops-artifacts-2026 \
+  --bucket utkarsh-devops-artifacts-2026 \
   --lifecycle-configuration file://lifecycle.json
 ```
 
@@ -124,8 +124,8 @@ Example: deny any request that does not use HTTPS.
       "Principal": "*",
       "Action": "s3:*",
       "Resource": [
-        "arn:aws:s3:::soham-devops-artifacts-2026",
-        "arn:aws:s3:::soham-devops-artifacts-2026/*"
+        "arn:aws:s3:::utkarsh-devops-artifacts-2026",
+        "arn:aws:s3:::utkarsh-devops-artifacts-2026/*"
       ],
       "Condition": { "Bool": { "aws:SecureTransport": "false" } }
     }

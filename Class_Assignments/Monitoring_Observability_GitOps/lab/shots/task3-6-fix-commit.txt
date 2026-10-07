@@ -1,4 +1,4 @@
-$ cd /private/tmp/claude-501/-Users-sohamambore3107/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/gitops-config && sed -i '' 's/^apiVersion: v2/apiVersion: v1/' app/configmap.yaml && git diff | grep -E '^[-+][a-z]' && git commit -qam 'fix: configmap apiVersion must be v1' && git push -q origin main 2>&1 | grep -v -E 'Processed|Processing'; git log --oneline
+$ cd /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11417ea863e8/scratchpad/gitops-config && sed -i '' 's/^apiVersion: v2/apiVersion: v1/' app/configmap.yaml && git diff | grep -E '^[-+][a-z]' && git commit -qam 'fix: configmap apiVersion must be v1' && git push -q origin main 2>&1 | grep -v -E 'Processed|Processing'; git log --oneline
 -apiVersion: v2
 +apiVersion: v1
 7100c47 fix: configmap apiVersion must be v1

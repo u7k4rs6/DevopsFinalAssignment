@@ -1,7 +1,7 @@
 $ terraform plan -no-color -out=tfplan    (excerpt - full plan in lab/transcript.txt)
   # aws_s3_bucket.demo will be created
   + resource "aws_s3_bucket" "demo" {
-      + bucket                      = "soham-24bcs10161-terraform-demo"
+      + bucket                      = "utkarsh-24bcs10161-terraform-demo"
   # aws_s3_bucket_public_access_block.demo will be created
   + resource "aws_s3_bucket_public_access_block" "demo" {
       + block_public_acls       = true
@@ -16,8 +16,8 @@ $ terraform plan -no-color -out=tfplan    (excerpt - full plan in lab/transcript
   + resource "aws_s3_object" "welcome" {
 Plan: 5 to add, 0 to change, 0 to destroy.
 Changes to Outputs:
-  + bucket_name        = "soham-24bcs10161-terraform-demo"
+  + bucket_name        = "utkarsh-24bcs10161-terraform-demo"
   + bucket_region      = "ap-south-1"
   + versioning_status  = "Enabled"
-  + welcome_object_url = "s3://soham-24bcs10161-terraform-demo/welcome.txt"
+  + welcome_object_url = "s3://utkarsh-24bcs10161-terraform-demo/welcome.txt"
 Saved the plan to: tfplan
