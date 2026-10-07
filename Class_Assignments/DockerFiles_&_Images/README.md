@@ -1,4 +1,4 @@
-# DockerFiles & Images — Multi-Stage Builds
+# DockerFiles & Images  -  Multi-Stage Builds
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
@@ -23,7 +23,7 @@ The task says to clone the repo containing the multi-stage Dockerfile. I cloned 
 git clone https://github.com/aryen1101/devops-heros
 ```
 
-It contains only session PDFs and a networking cheat sheet — no multi-stage Dockerfile:
+It contains only session PDFs and a networking cheat sheet  -  no multi-stage Dockerfile:
 
 ```
 devops-heros/
@@ -103,7 +103,7 @@ server.listen(PORT, '0.0.0.0', () => {
 }
 ```
 
-`esbuild` is a **devDependency** — needed to build, useless at run time. That is precisely the kind of thing multi-stage exists to leave behind.
+`esbuild` is a **devDependency**  -  needed to build, useless at run time. That is precisely the kind of thing multi-stage exists to leave behind.
 
 ### Dockerfile
 
@@ -161,7 +161,7 @@ The mechanics, in three points:
 
 - **`FROM node:20 AS build`** names the stage `build` so it can be referenced later.
 - **`FROM node:20-alpine AS production`** discards stage 1 entirely and starts fresh.
-- **`COPY --from=build /app/dist/server.js ./server.js`** is the whole trick — reach into the finished stage and take one file. `node_modules`, `esbuild`, and the original source never cross the boundary.
+- **`COPY --from=build /app/dist/server.js ./server.js`** is the whole trick  -  reach into the finished stage and take one file. `node_modules`, `esbuild`, and the original source never cross the boundary.
 
 `USER node` is a security habit worth forming: containers run as root by default, and dropping to an unprivileged user limits the damage if the app is compromised.
 
@@ -206,7 +206,7 @@ d14535318c7e   apache-hello      "httpd-foreground"       4 minutes ago   Up 4 m
 4c9b17614ceb   python-hello      "python app.py"          4 minutes ago   Up 4 minutes   0.0.0.0:3002->5000/tcp, [::]:3002->5000/tcp   hello-python
 ```
 
-**Confirmed: `0.0.0.0:8080->8080/tcp`** — the application is running on port 8080 as the task requires.
+**Confirmed: `0.0.0.0:8080->8080/tcp`**  -  the application is running on port 8080 as the task requires.
 
 ![docker run and docker ps showing the multi-stage container mapped on port 8080](images/multistage-run-and-ps.png)
 
@@ -323,7 +323,7 @@ single-stage-app   latest    1.6GB
 | Contains source | Yes | No, only the bundle | |
 | Runs as | `root` | `node` | |
 
-Same application, same behaviour, same port — **8x smaller**, from adding a second `FROM` and one `COPY --from`.
+Same application, same behaviour, same port  -  **8x smaller**, from adding a second `FROM` and one `COPY --from`.
 
 ---
 
@@ -390,7 +390,7 @@ port 8083 -> HTTP 200 | 514 bytes | <h1>Hello World from Java</h1>
 ![all three multi-stage deployments built, running and returning HTTP 200 on ports 8081, 8082 and 8083](images/deploy-three-apps.png)
 
 
-### 1. nodejs-app — bundle, then discard dependencies
+### 1. nodejs-app  -  bundle, then discard dependencies
 
 ```dockerfile
 # ---------- Stage 1: build ----------
@@ -434,7 +434,7 @@ $ curl -s http://localhost:8081 | grep -oE '<h1>[^<]*</h1>'
 
 ---
 
-### 2. python-app — build wheels, then discard the compiler
+### 2. python-app  -  build wheels, then discard the compiler
 
 ```dockerfile
 # ---------- Stage 1: build the dependency wheels ----------
@@ -463,7 +463,7 @@ This is the idiomatic Python version of the pattern. Some Python packages contai
 
 Instead: stage 1 uses the **full** `python:3.12` image (which has the toolchain) and runs `pip wheel` to compile everything into `.whl` files. Stage 2 uses `python:3.12-slim` and installs **from those wheels** with `--no-index`, so pip never needs a compiler or the network. Then `rm -rf /wheels` in the same `RUN` layer, so the wheels do not persist in the image.
 
-I also switched from Flask's development server to **gunicorn** — the dev server prints a warning that it is unsuitable for production, and this assignment is about deployment.
+I also switched from Flask's development server to **gunicorn**  -  the dev server prints a warning that it is unsuitable for production, and this assignment is about deployment.
 
 ```bash
 docker build -t deploy-python-img python-app
@@ -486,7 +486,7 @@ $ curl -s http://localhost:8082 | grep -oE '<h1>[^<]*</h1>'
 
 ---
 
-### 3. java-app — compile with the JDK, run on the JRE
+### 3. java-app  -  compile with the JDK, run on the JRE
 
 ```dockerfile
 # ---------- Stage 1: compile with the full JDK ----------
@@ -559,13 +559,13 @@ java-hello        555MB
 ```bash
 # from Class_Assignments/DockerFiles_&_Images
 
-# Task 1 — multi-stage app on port 8080
+# Task 1  -  multi-stage app on port 8080
 docker build -t multi-stage-app multi-stage-dockerfile
 docker run -d --name multistage-app -p 8080:8080 multi-stage-app
 docker ps
 curl http://localhost:8080
 
-# Task 3 — three multi-stage deployments
+# Task 3  -  three multi-stage deployments
 docker build -t deploy-node-img   nodejs-app && docker run -d --name deploy-node   -p 8081:3000 deploy-node-img
 docker build -t deploy-python-img python-app && docker run -d --name deploy-python -p 8082:5000 deploy-python-img
 docker build -t deploy-java-img   java-app   && docker run -d --name deploy-java   -p 8083:8080 deploy-java-img
@@ -601,8 +601,8 @@ What the artifact is differs by ecosystem:
 
 **Why it matters beyond size:**
 
-- **Faster deploys** — pulling 194MB instead of 1.6GB on every rollout.
-- **Smaller attack surface** — no compiler, no source in the shipped image.
+- **Faster deploys**  -  pulling 194MB instead of 1.6GB on every rollout.
+- **Smaller attack surface**  -  no compiler, no source in the shipped image.
 - **Secrets do not leak.** A token used in stage 1 is absent from the final image entirely, whereas
   deleting a file in a later `RUN` of a single-stage build leaves it in the earlier **layer**, still
   recoverable. This is the strongest argument for multi-stage.
@@ -611,6 +611,6 @@ What the artifact is differs by ecosystem:
 
 - Name stages with `AS <name>`; a bare `--from=0` works but is fragile.
 - `COPY --from` paths must match where that stage actually wrote the files.
-- Delete intermediates in the **same `RUN`** that created them — each `RUN` is its own layer.
+- Delete intermediates in the **same `RUN`** that created them  -  each `RUN` is its own layer.
 - Copy the dependency manifest before the source, in every stage.
 - `openjdk:*` images are deprecated; use `eclipse-temurin`.

@@ -3,7 +3,7 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-Every command and output below was captured from a real run on my machine — Minikube
+Every command and output below was captured from a real run on my machine  -  Minikube
 (`docker` driver), Kubernetes `v1.37.0`, with the `metrics-server` and `storage-provisioner`
 addons, macOS on Apple Silicon. The mini project uses the manifests from the class repo,
 `session-13-storage-hpa-probes/mini-project`. The full raw transcript is in
@@ -59,7 +59,7 @@ StorageClass and dynamic provisioning is in
 **[01-kubernetes-volumes/README.md](01-kubernetes-volumes/README.md)**. These are the practical
 runs behind it.
 
-### emptyDir — shared between containers, gone with the Pod
+### emptyDir  -  shared between containers, gone with the Pod
 
 ```bash
 kubectl apply -f 01-kubernetes-volumes/pod-volumes.yml
@@ -78,7 +78,7 @@ command terminated with exit code 1
 ```
 
 The `writer` container writes, the `reader` container (a different container, same Pod) sees the
-lines. The reader's mount is `readOnly: true`, so its write fails — the volume is shared, but
+lines. The reader's mount is `readOnly: true`, so its write fails  -  the volume is shared, but
 each container's permission on it can be different.
 
 ![Reader container sees the writer's lines but cannot write](images/task1-1-emptydir.png)
@@ -99,7 +99,7 @@ Only one new line: the three earlier ones were deleted with the old Pod. That is
 
 ![After recreating the Pod the old emptyDir contents are gone](images/task1-2-emptydir-deleted.png)
 
-### hostPath — lives on the node
+### hostPath  -  lives on the node
 
 ```bash
 kubectl get pod hostpath-demo -o wide
@@ -522,7 +522,7 @@ node: `ReadWriteOnce` means one **node**, not one Pod.
 
 ![The file written before deleting the pod is readable from both pods afterwards](images/task3-3-storage-persistence.png)
 
-### Verify the probes — break a container on purpose
+### Verify the probes  -  break a container on purpose
 
 nginx returns `403` for `/` when there is no `index.html`, which makes every probe fail:
 

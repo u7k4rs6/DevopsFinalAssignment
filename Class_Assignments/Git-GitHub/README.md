@@ -17,8 +17,8 @@ All output in this file was captured from an actual run on my machine (macOS, `g
 
 `git commit` only ever commits what is in the **staging area** (the index).
 
-- `git commit -m "msg"` — commits **only what you already staged** with `git add`. If you staged nothing, the commit fails.
-- `git commit -a -m "msg"` — the `-a` means "all". Before committing, git automatically stages every **tracked** file that was modified or deleted, then commits.
+- `git commit -m "msg"`  -  commits **only what you already staged** with `git add`. If you staged nothing, the commit fails.
+- `git commit -a -m "msg"`  -  the `-a` means "all". Before committing, git automatically stages every **tracked** file that was modified or deleted, then commits.
 
 The catch that most people miss: **`-a` does not stage untracked (brand new) files.** A file git has never seen before is invisible to `-a`. You still need `git add` for it.
 
@@ -64,7 +64,7 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-### Attempt 1 — plain `git commit -m` with nothing staged
+### Attempt 1  -  plain `git commit -m` with nothing staged
 
 ```bash
 git commit -m 'try to commit without staging'
@@ -89,7 +89,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 **Nothing was committed.** The command exited with code `1` because the staging area was empty. Git even hints at the fix in its own message: `use "git add" and/or "git commit -a"`.
 
-### Attempt 2 — `git commit -a -m`
+### Attempt 2  -  `git commit -a -m`
 
 ```bash
 git commit -a -m 'Commit with -a: auto-stages tracked modified files'
@@ -132,7 +132,7 @@ git log --oneline --stat
 
 ### Explanation of what I observed
 
-The commit made by `-a` contains **`file1.txt` only** — `1 file changed`. `file2.txt` is still sitting there untracked.
+The commit made by `-a` contains **`file1.txt` only**  -  `1 file changed`. `file2.txt` is still sitting there untracked.
 
 That is the whole difference in one run:
 
@@ -162,9 +162,9 @@ So `-a` is a shortcut for `git add -u && git commit`, not for `git add . && git 
 
 ### What cherry-pick does
 
-`git cherry-pick <commit>` takes the **diff introduced by one single commit** and replays it on top of your current branch as a **new commit with a new hash**. It is not a merge — no branch history is joined. You are picking one change out of a branch and leaving the rest behind.
+`git cherry-pick <commit>` takes the **diff introduced by one single commit** and replays it on top of your current branch as a **new commit with a new hash**. It is not a merge  -  no branch history is joined. You are picking one change out of a branch and leaving the rest behind.
 
-### Step 1 — build up 4 commits on `main`
+### Step 1  -  build up 4 commits on `main`
 
 ```bash
 git add file2.txt
@@ -181,7 +181,7 @@ echo 'third change on main' > file3.txt && git add file3.txt && git commit -m 'T
  create mode 100644 file3.txt
 ```
 
-### Step 2 — view the commits on `main` with `git log`
+### Step 2  -  view the commits on `main` with `git log`
 
 ```bash
 git log --oneline
@@ -201,7 +201,7 @@ Four commits on `main`.
 
 ![four commits on main shown by git log --oneline](images/task2-1-main-commits.png)
 
-### Step 3 — create a new branch and make 3 commits on it
+### Step 3  -  create a new branch and make 3 commits on it
 
 ```bash
 git checkout -b feature
@@ -223,7 +223,7 @@ Switched to a new branch 'feature'
  create mode 100644 feature3.txt
 ```
 
-### Step 4 — use `git log` to identify the specific commit
+### Step 4  -  use `git log` to identify the specific commit
 
 ```bash
 git log --oneline
@@ -239,7 +239,7 @@ e587ec8 Feature commit 3: add feature3.txt
 8bfb41a Initial commit: add file1.txt
 ```
 
-The commit I want is the middle one: **`85295b4` — "Feature commit 2"**. Picking the middle commit on purpose, because it proves the pick is selective — the commit before it and after it must stay behind.
+The commit I want is the middle one: **`85295b4`  -  "Feature commit 2"**. Picking the middle commit on purpose, because it proves the pick is selective  -  the commit before it and after it must stay behind.
 
 ```bash
 git show --stat 85295b4
@@ -258,7 +258,7 @@ Date:   Thu Sep 3 21:36:11 2026 +0530
 
 ![three commits on the feature branch and git show identifying commit 85295b4](images/task2-2-feature-commits.png)
 
-### Step 5 — switch back to `main` and confirm the change is not there yet
+### Step 5  -  switch back to `main` and confirm the change is not there yet
 
 ```bash
 git checkout main
@@ -281,7 +281,7 @@ file3.txt
 
 No `feature2.txt` on `main`. This is the "before" state.
 
-### Step 6 — cherry-pick that one commit into `main`
+### Step 6  -  cherry-pick that one commit into `main`
 
 ```bash
 git cherry-pick 85295b4
@@ -296,7 +296,7 @@ git cherry-pick 85295b4
 
 Note the hash in the output: **`d6acc02`**, not `85295b4`. Cherry-pick created a *new* commit that carries the same change. The original author date is preserved (git prints the `Date:` line to tell you so), but it is a different commit object on a different branch.
 
-### Step 7 — verify the change is now available on `main`
+### Step 7  -  verify the change is now available on `main`
 
 ```bash
 git log --oneline
@@ -319,7 +319,7 @@ file3.txt
 feature work 2 -- THIS is the one we cherry-pick
 ```
 
-**Verified.** `feature2.txt` is on `main` with the correct contents, and `feature1.txt` / `feature3.txt` are **not** — exactly one commit came across.
+**Verified.** `feature2.txt` is on `main` with the correct contents, and `feature1.txt` / `feature3.txt` are **not**  -  exactly one commit came across.
 
 ![git cherry-pick creating commit d6acc02 on main, and verification that feature2.txt is present](images/task2-3-cherry-pick.png)
 
@@ -343,7 +343,7 @@ git log --oneline --graph --all --decorate
 
 ![git log --graph --all showing Feature commit 2 appearing twice with different hashes](images/task2-4-commit-graph.png)
 
-This graph is the clearest evidence of what happened. Both branches fork from `043413e`. The message "Feature commit 2" now appears **twice** — once as `85295b4` on `feature`, once as `d6acc02` on `main`. The branches were never merged; the change was copied.
+This graph is the clearest evidence of what happened. Both branches fork from `043413e`. The message "Feature commit 2" now appears **twice**  -  once as `85295b4` on `feature`, once as `d6acc02` on `main`. The branches were never merged; the change was copied.
 
 ### Explanation
 

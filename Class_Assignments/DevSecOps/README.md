@@ -16,7 +16,7 @@ Code → Build → Unit Test → SAST → SCA → Secret Scan → Docker Build �
 `v0.2.89`, which runs GitHub Actions workflows in Docker using the same YAML and marketplace
 actions. The container registry is a local `registry:2` (`localhost:5001`) and the Kubernetes
 cluster is a `kind` cluster (`devsecops`, Kubernetes `v1.37.0`), with its kubeconfig passed to the
-pipeline as the secret `KUBE_CONFIG` — the same way a real cluster's credentials are given to
+pipeline as the secret `KUBE_CONFIG`  -  the same way a real cluster's credentials are given to
 GitHub Actions. Machine: macOS on Apple Silicon. The four full pipeline logs are in [`lab/`](lab/).
 
 **What the four runs show:** the first three runs each hit a different real problem, and the
@@ -28,7 +28,7 @@ plants a fake secret and an old dependency on purpose, to show the last two scan
 |---|---|---|
 | 1 | App code as given in class (`debug=True`) | **SAST** (Bandit) |
 | 2 | Code fixed, but base image had 20 fixable HIGH/CRITICAL CVEs | **Image scan** (Trivy) |
-| 3 | OS packages patched | **Nothing — pushed and deployed** |
+| 3 | OS packages patched | **Nothing  -  pushed and deployed** |
 | 4 | Planted fake AWS key + `Flask==2.2.2` | **Secret scan** (Gitleaks) + **SCA** (pip-audit) |
 
 ---
@@ -60,14 +60,14 @@ DevSecOps/
 
 The class workflow uses CodeQL for SAST; CodeQL only runs on GitHub's own infrastructure, so I
 used Bandit, which runs anywhere and is Python-specific. SAST and SCA cover different code: SAST
-reads the code we wrote, SCA checks the code we downloaded — and most of an application is
+reads the code we wrote, SCA checks the code we downloaded  -  and most of an application is
 downloaded code.
 
 ---
 
 ## Task 1: The pipeline catching real problems
 
-### Run 1 — SAST blocks `debug=True`
+### Run 1  -  SAST blocks `debug=True`
 
 ```bash
 act push -W .github/workflows/devsecops.yml -P ubuntu-latest=catthehacker/ubuntu:act-latest \
@@ -89,15 +89,15 @@ SECURITY GATE: FAILED - image will NOT be pushed or deployed
 ```
 
 The Flask debugger is a web page that lets whoever sees an error page run Python on the
-server — on a public app, that means anyone. The fix ([`app/app.py`](app/app.py)): no debug, and
+server  -  on a public app, that means anyone. The fix ([`app/app.py`](app/app.py)): no debug, and
 `app.run()` binds to `127.0.0.1` unless `APP_HOST` says otherwise. It is only used for local
 development anyway; the container runs `gunicorn` (see the [Dockerfile](Dockerfile)).
 
 ![Run 1: Bandit reports debug=True (High) and 0.0.0.0 binding (Medium); the gate fails](images/task1-1-run1-sast-blocks-debug.png)
 
-### Run 2 — Trivy blocks a vulnerable base image
+### Run 2  -  Trivy blocks a vulnerable base image
 
-With the code fixed, SAST, SCA and secret scanning passed and the image was built — then Trivy
+With the code fixed, SAST, SCA and secret scanning passed and the image was built  -  then Trivy
 scanned it:
 
 ```
@@ -114,7 +114,7 @@ Image Scan   : failure
 SECURITY GATE: FAILED - image will NOT be pushed or deployed
 ```
 
-None of these are in my code or my Python libraries — they are Debian packages inside the
+None of these are in my code or my Python libraries  -  they are Debian packages inside the
 `python:3.12-slim` base image, which had been sitting in my local Docker cache. Every one has a
 fixed version available, which is exactly why the scan uses `--ignore-unfixed`: fail on problems
 we *can* fix. Two fixes:
@@ -126,7 +126,7 @@ we *can* fix. Two fixes:
 
 ---
 
-## Task 2: Run 3 — the full pipeline passing
+## Task 2: Run 3  -  the full pipeline passing
 
 ### Build and unit tests
 
@@ -278,7 +278,7 @@ the real server state. The pod runs gunicorn with debug off.)
 
 ---
 
-## Task 3: Run 4 — secret and vulnerable dependency
+## Task 3: Run 4  -  secret and vulnerable dependency
 
 To prove the other two scanners work, I added a file with a **fake** AWS key (random characters
 in the AWS key format) and downgraded Flask to `2.2.2`:

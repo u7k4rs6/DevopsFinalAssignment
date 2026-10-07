@@ -1,4 +1,4 @@
-# Mini project — manifests
+# Mini project  -  manifests
 
 A web app that combines persistent storage, autoscaling and health probes. The run, output and
 screenshots are in the [main README](../README.md#task-3-mini-project).

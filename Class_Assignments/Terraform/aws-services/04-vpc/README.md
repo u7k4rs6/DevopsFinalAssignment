@@ -1,4 +1,4 @@
-# VPC — Virtual Private Cloud (Networking)
+# VPC  -  Virtual Private Cloud (Networking)
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
@@ -113,7 +113,7 @@ A **NAT Gateway** lets instances in private subnets start connections **out** to
 
 - Placed in a **public subnet** with an Elastic IP; private route tables send `0.0.0.0/0` to it.
 - It is **per-AZ**. For high availability create one in each AZ and route each private subnet to the NAT in its own AZ (also avoids cross-AZ data charges).
-- Cost: charged **per hour** it exists **plus per GB** processed — often a noticeable line on the bill. Turn it off in labs when not needed.
+- Cost: charged **per hour** it exists **plus per GB** processed  -  often a noticeable line on the bill. Turn it off in labs when not needed.
 - For traffic to S3 or DynamoDB, a free **gateway VPC endpoint** avoids sending that traffic through the NAT.
 - For IPv6, an **egress-only internet gateway** plays the same outbound-only role.
 

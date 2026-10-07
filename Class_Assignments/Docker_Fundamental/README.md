@@ -94,7 +94,7 @@ docker: Error response from daemon: ports are not available:
 exposing port TCP 0.0.0.0:3001 -> 127.0.0.1:0: listen tcp 0.0.0.0:3001: bind: address already in use
 ```
 
-The container port never changes — it is baked into the image. Only the **host** side of
+The container port never changes  -  it is baked into the image. Only the **host** side of
 `-p host:container` needs to be free.
 
 ---
@@ -137,7 +137,7 @@ server.listen(PORT, '0.0.0.0', () => {
 });
 ```
 
-Two deliberate choices here. It binds to **`0.0.0.0`**, not `localhost` — a server bound to `127.0.0.1` inside a container is unreachable from outside it, no matter what `-p` says, and this catches people constantly. And it prints `os.hostname()`, which inside a container is the **container ID**, so the rendered page proves it is genuinely containerised.
+Two deliberate choices here. It binds to **`0.0.0.0`**, not `localhost`  -  a server bound to `127.0.0.1` inside a container is unreachable from outside it, no matter what `-p` says, and this catches people constantly. And it prints `os.hostname()`, which inside a container is the **container ID**, so the rendered page proves it is genuinely containerised.
 
 ### Dockerfile
 
@@ -167,7 +167,7 @@ CMD ["node", "app.js"]
 
 The `COPY package.json` before `COPY app.js` ordering is intentional. Docker caches each layer, and invalidates every later layer when one changes. Dependencies change rarely and source changes constantly, so installing dependencies **first** means an app-code edit does not re-run `npm install`.
 
-`EXPOSE` is documentation only — it does not publish anything. `-p` at run time is what actually publishes a port.
+`EXPOSE` is documentation only  -  it does not publish anything. `-p` at run time is what actually publishes a port.
 
 ### Commands
 
@@ -200,7 +200,7 @@ $ curl -s http://localhost:3007 | grep -oE '<h1>[^<]*</h1>'
 
 ![Node.js app showing Hello World from Node.js in the browser](nodejs-app/screenshot.png)
 
-The page shows `Hostname (container id): d0f97839bc8b`, which matches the container ID from `docker run` — proof the page is served from inside the container.
+The page shows `Hostname (container id): d0f97839bc8b`, which matches the container ID from `docker run`  -  proof the page is served from inside the container.
 
 ---
 
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
 ```
 
-Same `host="0.0.0.0"` point as Node — Flask defaults to `127.0.0.1`, which would make the container unreachable.
+Same `host="0.0.0.0"` point as Node  -  Flask defaults to `127.0.0.1`, which would make the container unreachable.
 
 ### Dockerfile
 
@@ -269,7 +269,7 @@ EXPOSE 5000
 CMD ["python", "app.py"]
 ```
 
-`--no-cache-dir` stops pip keeping its download cache inside the image, which would add weight for no benefit — nothing installs packages again at run time.
+`--no-cache-dir` stops pip keeping its download cache inside the image, which would add weight for no benefit  -  nothing installs packages again at run time.
 
 ### Commands and output
 
@@ -363,7 +363,7 @@ public class Main {
 }
 ```
 
-`com.sun.net.httpserver` ships with the JDK, so this needs no Maven/Gradle build and no external dependencies — which keeps the Dockerfile focused on Docker rather than on Java build tooling.
+`com.sun.net.httpserver` ships with the JDK, so this needs no Maven/Gradle build and no external dependencies  -  which keeps the Dockerfile focused on Docker rather than on Java build tooling.
 
 ### Dockerfile
 
@@ -399,7 +399,7 @@ ERROR: failed to build: failed to solve: openjdk:21-jdk-slim:
 failed to resolve source metadata for docker.io/library/openjdk:21-jdk-slim: not found
 ```
 
-The `openjdk` Docker Hub images are **deprecated and no longer published**. Most tutorials still reference them. The current official OpenJDK builds are `eclipse-temurin`, so I switched the base image and it built cleanly. Compiling with `javac` at **build** time rather than at container start is the other choice here — it means the image ships a compiled class and the container starts immediately.
+The `openjdk` Docker Hub images are **deprecated and no longer published**. Most tutorials still reference them. The current official OpenJDK builds are `eclipse-temurin`, so I switched the base image and it built cleanly. Compiling with `javac` at **build** time rather than at container start is the other choice here  -  it means the image ships a compiled class and the container starts immediately.
 
 ### Commands and output
 
@@ -428,7 +428,7 @@ $ curl -s http://localhost:3003 | grep -oE '<h1>[^<]*</h1>'
 
 ![Java app showing Hello World from Java in the browser](java-app/screenshot.png)
 
-At 555MB this is by far the largest of the six — a JDK contains a full compiler toolchain. The [Dockerfiles & Images](../DockerFiles_&_Images) homework cuts this to 286MB by compiling in a JDK stage and running on a JRE.
+At 555MB this is by far the largest of the six  -  a JDK contains a full compiler toolchain. The [Dockerfiles & Images](../DockerFiles_&_Images) homework cuts this to 286MB by compiling in a JDK stage and running on a JRE.
 
 ---
 
@@ -475,7 +475,7 @@ EXPOSE 80
 # so we do not need to override it.
 ```
 
-This is the shortest Dockerfile of the six, and it shows a pattern worth understanding: for a static site there is **no application code and no `CMD`**. The `httpd` base image already ends with `CMD ["httpd-foreground"]`, so all I supply is content dropped into the directory it already serves — `/usr/local/apache2/htdocs/`.
+This is the shortest Dockerfile of the six, and it shows a pattern worth understanding: for a static site there is **no application code and no `CMD`**. The `httpd` base image already ends with `CMD ["httpd-foreground"]`, so all I supply is content dropped into the directory it already serves  -  `/usr/local/apache2/htdocs/`.
 
 The `-foreground` part matters. A container lives exactly as long as its main process, so a daemon that forks into the background would cause the container to exit immediately. Every official web server image ships a foreground entrypoint for this reason.
 
@@ -546,7 +546,7 @@ export default function App() {
 
 The counter button is there on purpose: it proves this is genuinely React with working state, and not just an HTML file with React's name on it.
 
-### Dockerfile — multi-stage
+### Dockerfile  -  multi-stage
 
 ```dockerfile
 # ---------------------------------------------------------
@@ -578,9 +578,9 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 ```
 
-React is the one app here that genuinely needs a **build step**, and that makes it the natural place for a multi-stage build. Once Vite has compiled the JSX into plain HTML/CSS/JS, Node is no longer needed at all — the output is static files. So stage 2 starts from `nginx:alpine` and copies only `/app/dist` across.
+React is the one app here that genuinely needs a **build step**, and that makes it the natural place for a multi-stage build. Once Vite has compiled the JSX into plain HTML/CSS/JS, Node is no longer needed at all  -  the output is static files. So stage 2 starts from `nginx:alpine` and copies only `/app/dist` across.
 
-The result is **102MB**, the joint-smallest of the six — smaller than the plain Node app at 194MB, despite React being the most complex application here, because the toolchain never ships.
+The result is **102MB**, the joint-smallest of the six  -  smaller than the plain Node app at 194MB, despite React being the most complex application here, because the toolchain never ships.
 
 ### Commands and output
 
@@ -601,7 +601,7 @@ $ curl -s http://localhost:3005 | grep -oE '<h1>[^<]*</h1>'
 [exit code: 1]
 ```
 
-### Why that last command "failed" — and why it matters
+### Why that last command "failed"  -  and why it matters
 
 The `grep` for `<h1>` found nothing, even though the app works perfectly. That is not a bug, it is how React works, and it is a good illustration of why the task says *verify Hello World is displayed on a webpage*.
 
@@ -612,7 +612,7 @@ React renders **client-side**. The HTML that nginx serves is only a 327-byte she
 <script type="module" src="/assets/index-....js"></script>
 ```
 
-There is no `<h1>` in the served HTML — the `<h1>` is created by JavaScript in the browser after the bundle loads. So `curl` can never see it. This is exactly the difference between server-rendered and client-rendered apps, and it is why the five other apps could be verified with `curl` but React needs a real browser.
+There is no `<h1>` in the served HTML  -  the `<h1>` is created by JavaScript in the browser after the bundle loads. So `curl` can never see it. This is exactly the difference between server-rendered and client-rendered apps, and it is why the five other apps could be verified with `curl` but React needs a real browser.
 
 So I verified it in an actual browser, which executes the JavaScript:
 
@@ -665,7 +665,7 @@ EXPOSE 80
 # Base image CMD already starts nginx in the foreground
 ```
 
-Structurally identical to the Apache one, with one difference worth noting — the **document root path**:
+Structurally identical to the Apache one, with one difference worth noting  -  the **document root path**:
 
 | Server | Default document root |
 |---|---|
@@ -699,7 +699,7 @@ $ curl -s http://localhost:3006 | grep -oE '<h1>[^<]*</h1>'
 
 ![Nginx app showing Hello World from Nginx in the browser](nginx-app/screenshot.png)
 
-At 0.78 ms this was the fastest response of the six, which is what you would expect — nginx reading one small static file off disk, with no application runtime in the request path at all.
+At 0.78 ms this was the fastest response of the six, which is what you would expect  -  nginx reading one small static file off disk, with no application runtime in the request path at all.
 
 ---
 
@@ -733,24 +733,24 @@ docker rm -f hello-node hello-python hello-java hello-apache hello-react hello-n
 
 1. `FROM` a base image with the runtime
 2. `WORKDIR` to set where things happen
-3. `COPY` the dependency manifest and install — **before** the source, for layer caching
+3. `COPY` the dependency manifest and install  -  **before** the source, for layer caching
 4. `COPY` the application code
 5. `EXPOSE` to document the port
 6. `CMD` to run a long-lived foreground process
 
 **Mistakes that actually bit me:**
 
-- **Bind to `0.0.0.0`, not `127.0.0.1`** — a container-local bind is unreachable from the host whatever `-p` says.
+- **Bind to `0.0.0.0`, not `127.0.0.1`**  -  a container-local bind is unreachable from the host whatever `-p` says.
 - **`EXPOSE` publishes nothing.** Only `-p host:container` does.
 - **The main process must stay in the foreground**, or the container exits.
-- **Host ports collide** with whatever else is running — `lsof -nP -iTCP:<port> -sTCP:LISTEN` finds the culprit.
-- **Base image tags disappear** — `openjdk:21-jdk-slim` is deprecated; `eclipse-temurin` replaced it.
-- **Document roots differ** — `/usr/share/nginx/html` vs `/usr/local/apache2/htdocs`. Wrong path silently serves the default page.
-- **Client-rendered apps cannot be verified with `curl`** — React's served HTML has no `<h1>` at all.
+- **Host ports collide** with whatever else is running  -  `lsof -nP -iTCP:<port> -sTCP:LISTEN` finds the culprit.
+- **Base image tags disappear**  -  `openjdk:21-jdk-slim` is deprecated; `eclipse-temurin` replaced it.
+- **Document roots differ**  -  `/usr/share/nginx/html` vs `/usr/local/apache2/htdocs`. Wrong path silently serves the default page.
+- **Client-rendered apps cannot be verified with `curl`**  -  React's served HTML has no `<h1>` at all.
 
 **On image size** (102MB to 555MB for the same page):
 
-- Alpine bases are much smaller — `nginx:alpine` 102MB vs `httpd:2.4` 205MB
+- Alpine bases are much smaller  -  `nginx:alpine` 102MB vs `httpd:2.4` 205MB
 - A JDK is heavy at 555MB, because it carries a compiler
 - The multi-stage React build is joint-smallest at 102MB despite being the most complex app, because
   the build toolchain is discarded. That is the subject of the next assignment.

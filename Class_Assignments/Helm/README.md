@@ -3,7 +3,7 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-Every command and output below was captured from a real run on my machine — Helm `v4.3.0`,
+Every command and output below was captured from a real run on my machine  -  Helm `v4.3.0`,
 Minikube with Kubernetes `v1.37.0` (`docker` driver), macOS on Apple Silicon. The mini project
 uses the `notes-chart` from the class repo, `session-15-helm/mini-project`. The full raw
 transcript is in [`lab/transcript.txt`](lab/transcript.txt).
@@ -23,7 +23,7 @@ Chart (templates + values)  --helm install-->  Release "web"  (revision 1)
 
 ## Task 1: Helm commands
 
-### `helm version` — tools used
+### `helm version`  -  tools used
 
 ```bash
 helm version --short; kubectl version; kubectl get nodes
@@ -40,7 +40,7 @@ minikube   Ready    control-plane   41m   v1.37.0
 
 ![Helm v4.3.0 and the single-node Minikube cluster](images/task0-1-versions.png)
 
-### `helm create` — generate a chart skeleton
+### `helm create`  -  generate a chart skeleton
 
 ```bash
 helm create web-chart && find web-chart -type f | sort
@@ -114,7 +114,7 @@ NOTES:
   ...
 ```
 
-`web` is the **release name** — one chart can be installed many times under different names.
+`web` is the **release name**  -  one chart can be installed many times under different names.
 `--wait` makes Helm wait until the Pods are actually Ready before reporting success, instead of
 returning as soon as the YAML is accepted.
 
@@ -147,12 +147,12 @@ service/web-web-chart   ClusterIP   10.102.250.13   <none>        80/TCP    15s
 ```
 
 `helm list` shows releases, `helm status` shows one release plus the resources it owns. Note
-`APP VERSION 1.16.0`: that comes from `Chart.yaml`, not from the running image — it is only a
+`APP VERSION 1.16.0`: that comes from `Chart.yaml`, not from the running image  -  it is only a
 label, which is why the image tag is set separately in `values.yaml`.
 
 ![helm list, helm status and the Deployment, Pod and Service the release created](images/task1-4-helm-list-status.png)
 
-### `helm get` — what Helm stored for the release
+### `helm get`  -  what Helm stored for the release
 
 ```bash
 helm get values web -n helm-lab --all | head -12
@@ -179,7 +179,7 @@ which is what makes rollback possible.
 
 ![helm get values and helm get manifest for revision 1](images/task1-5-helm-get.png)
 
-### `helm repo` — add chart repositories
+### `helm repo`  -  add chart repositories
 
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -200,12 +200,12 @@ bitnami             	https://charts.bitnami.com/bitnami
 prometheus-community	https://prometheus-community.github.io/helm-charts
 ```
 
-A repo is just a URL with an index of published charts — like `apt` sources for Kubernetes apps.
+A repo is just a URL with an index of published charts  -  like `apt` sources for Kubernetes apps.
 `helm repo update` downloads the latest index.
 
 ![Two chart repositories added and updated](images/task1-6-helm-repo.png)
 
-### `helm search` — find charts
+### `helm search`  -  find charts
 
 ```bash
 helm search repo nginx | head -6
@@ -248,7 +248,7 @@ pod/web-web-chart-5c6695df77-qcx9h   0/1     Completed   0          2m56s
 pod/web-web-chart-5c6695df77-zwfrq   0/1     Completed   0          2m41s
 ```
 
-One command removed the Deployment, Service and ServiceAccount together — no need to remember
+One command removed the Deployment, Service and ServiceAccount together  -  no need to remember
 which files created what. The two pods shown are the last ones shutting down (`Completed`).
 I ran this after Task 2 and the mini project, which is why `notes` is still listed.
 
@@ -276,7 +276,7 @@ HTTP/1.1 200 OK
 Server: nginx/1.25.5
 ```
 
-The `Server:` header is the proof — it comes from the nginx actually answering inside the
+The `Server:` header is the proof  -  it comes from the nginx actually answering inside the
 cluster, not from the YAML.
 
 ![Revision 1 serving nginx 1.25.5](images/task2-1-verify-rev1.png)
@@ -311,14 +311,14 @@ HTTP/1.1 200 OK
 Server: nginx/1.26.3
 ```
 
-Two new pods on `1.26`, and the old `1.25` pod (`849df6fbdd`) shutting down — a rolling update.
+Two new pods on `1.26`, and the old `1.25` pod (`849df6fbdd`) shutting down  -  a rolling update.
 (The `couldn't attach` warning in the screenshot is a harmless `kubectl run` race: the pod
 finished before kubectl attached, so it printed the logs instead, which is why the response
 appears twice.)
 
 ![Revision 2 running two nginx 1.26 pods](images/task2-3-verify-rev2.png)
 
-### 4. Upgrade again — a broken release (revision 3)
+### 4. Upgrade again  -  a broken release (revision 3)
 
 ```bash
 helm upgrade web web-chart -n helm-lab --set image.tag=1.99-doesnotexist --set replicaCount=2 --wait --timeout 60s
@@ -348,7 +348,7 @@ web 	helm-lab 	3       	2026-10-06 23:39:36.681148 +0530 IST	failed	web-chart-0.
 ```
 
 The new pod is stuck in `ErrImagePull`. The site is still up only because the Deployment's
-rolling update refuses to kill old pods until new ones are Ready — but the Deployment spec now
+rolling update refuses to kill old pods until new ones are Ready  -  but the Deployment spec now
 points at a broken image, so any restart would take the site down.
 
 ![Revision 3 failed with one pod in ErrImagePull](images/task2-5-verify-rev3.png)
@@ -392,7 +392,7 @@ replicaCount: 2
 ```
 
 Two things worth noticing. First, a rollback does **not** delete revision 3 or rewind to number
-2 — it creates **revision 4**, a copy of revision 2, so the history keeps a record of the mistake.
+2  -  it creates **revision 4**, a copy of revision 2, so the history keeps a record of the mistake.
 Second, the pod names (`5c6695df77-...`) are the same as before: the Deployment went back to the
 exact spec of revision 2, so Kubernetes just removed the broken pod and kept the healthy ones.
 
@@ -400,7 +400,7 @@ exact spec of revision 2, so Kubernetes just removed the broken pod and kept the
 
 ---
 
-## Task 3: Mini project — Notes app chart
+## Task 3: Mini project  -  Notes app chart
 
 The chart is in [`notes-chart/`](notes-chart/): a ConfigMap, a Deployment that loads it with
 `envFrom`, and a NodePort Service. Two values files give two environments from one chart:
@@ -523,7 +523,7 @@ nginx version: nginx/1.25.5
 ```
 
 A gotcha this hides: environment variables from a ConfigMap are only read when a container
-starts. Changing just the ConfigMap would *not* have changed `ENVIRONMENT` in running pods — it
+starts. Changing just the ConfigMap would *not* have changed `ENVIRONMENT` in running pods  -  it
 worked here because the image tag also changed, which replaced every pod.
 
 ![Three prod pods running nginx 1.25 with ENVIRONMENT=production](images/task3-5-notes-verify-prod.png)
@@ -552,7 +552,7 @@ development
 nginx version: nginx/1.24.0
 ```
 
-Back to one pod, `development`, nginx `1.24` — and the pod-template hash `6bdbd76d95` is the same
+Back to one pod, `development`, nginx `1.24`  -  and the pod-template hash `6bdbd76d95` is the same
 one revision 1 had, because the spec is identical.
 
 ![After rollback: one dev pod on nginx 1.24](images/task3-7-notes-verify-rollback.png)

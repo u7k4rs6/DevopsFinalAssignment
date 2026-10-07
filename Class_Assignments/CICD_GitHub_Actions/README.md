@@ -39,21 +39,21 @@ CICD_GitHub_Actions/
 
 | Concept | Where it is in this project |
 |---|---|
-| **CI** (Continuous Integration) | Every push / PR is automatically tested and built — jobs `test`, `security-check`, `build` |
-| **CD** (Continuous Delivery/Deployment) | A passing push to `main` is packaged as an image and deployed — jobs `docker`, `deploy` |
+| **CI** (Continuous Integration) | Every push / PR is automatically tested and built  -  jobs `test`, `security-check`, `build` |
+| **CD** (Continuous Delivery/Deployment) | A passing push to `main` is packaged as an image and deployed  -  jobs `docker`, `deploy` |
 | **Pipeline** | The whole chain: test → build → image → deploy, where each stage only runs if the previous one passed |
 | **GitHub Actions** | GitHub's built-in CI/CD service that runs the YAML in `.github/workflows/` |
-| **Workflow** | `ci-cd.yml` — triggered by `on: push`, `pull_request`, `workflow_dispatch` |
+| **Workflow** | `ci-cd.yml`  -  triggered by `on: push`, `pull_request`, `workflow_dispatch` |
 | **Job** | A group of steps on one fresh machine (5 jobs here). `needs:` sets the order |
 | **Step** | One command (`run:`) or one reusable action (`uses:`) inside a job |
-| **Runner** | The machine a job runs on — `runs-on: ubuntu-latest` |
+| **Runner** | The machine a job runs on  -  `runs-on: ubuntu-latest` |
 | **Secret** | `DEPLOY_TOKEN`, read via `${{ secrets.DEPLOY_TOKEN }}` and masked as `***` in logs |
 | **Artifact** | `build/` uploaded by `actions/upload-artifact` so later jobs or people can download it |
 | **Build / Test** | `build.sh` + `docker build` / `pytest -v` |
 
 The difference between CI and CD in one line: CI answers "is this commit good?", CD answers "get
 the good commit running somewhere". That is why the CD jobs have
-`if: github.event_name == 'push' && github.ref == 'refs/heads/main'` — a pull request should be
+`if: github.event_name == 'push' && github.ref == 'refs/heads/main'`  -  a pull request should be
 tested, but must not deploy.
 
 ---
@@ -128,7 +128,7 @@ act push -W .github/workflows/ci-cd.yml -P ubuntu-latest=catthehacker/ubuntu:act
 [Calculator CI/CD/Build         ] 🏁  Job succeeded
 ```
 
-Each job runs on a **fresh** runner, so anything one job produces is gone when it ends — an
+Each job runs on a **fresh** runner, so anything one job produces is gone when it ends  -  an
 artifact is how a job hands files to people or to a later job. The commit SHA in
 `build-info.txt` comes from the `GITHUB_SHA` variable the runner provides.
 
@@ -167,7 +167,7 @@ can be redeployed by tag. The tag is passed to the next job through a **job outp
 
 ![Docker job building the image and pushing it to the registry](images/task2-3-docker-build-push.png)
 
-### Deploy to Staging job (CD) — secret + smoke test
+### Deploy to Staging job (CD)  -  secret + smoke test
 
 ```
 [Calculator CI/CD/Deploy to Staging  ] ⭐ Run Main Use the deploy secret
@@ -180,7 +180,7 @@ can be redeployed by tag. The tag is passed to the next job through a **job outp
 [Calculator CI/CD/Deploy to Staging  ] 🏁  Job succeeded
 ```
 
-The step deliberately `echo`es the secret, and the log shows `***` — the runner masks every
+The step deliberately `echo`es the secret, and the log shows `***`  -  the runner masks every
 secret value wherever it appears in output. The smoke test calls the freshly deployed container:
 `/health` reports version `9036109`, the same commit the image was built from.
 
@@ -228,7 +228,7 @@ calculator-staging   localhost:5001/calculator-api:9036109   Up About a minute  
 
 A pipeline is only useful if it **stops** bad changes. Two runs show that.
 
-### Pull request — CI runs, CD does not
+### Pull request  -  CI runs, CD does not
 
 ```bash
 act pull_request -W .github/workflows/ci-cd.yml -P ubuntu-latest=catthehacker/ubuntu:act-latest
@@ -240,7 +240,7 @@ act pull_request -W .github/workflows/ci-cd.yml -P ubuntu-latest=catthehacker/ub
 [Calculator CI/CD/Build         ] 🏁  Job succeeded
 ```
 
-Only three jobs ran. `docker` and `deploy` were skipped by their `if:` condition — reviewers get
+Only three jobs ran. `docker` and `deploy` were skipped by their `if:` condition  -  reviewers get
 test results on the PR, but nothing is deployed until it is merged.
 
 ![Pull request run: only the three CI jobs ran](images/task3-1-pull-request-run.png)

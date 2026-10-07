@@ -8,7 +8,7 @@ internet gateway and route table, a security group, an EC2 web server with an IA
 S3 bucket that the server reads its web page from. 13 resources and 2 data sources, created
 with one `apply` and removed with one `destroy`.
 
-All output is from a real run — Terraform `v1.16.4`, AWS provider `v6.67.0`, macOS on Apple
+All output is from a real run  -  Terraform `v1.16.4`, AWS provider `v6.67.0`, macOS on Apple
 Silicon. As in Session 18, the AWS API was **LocalStack** (`localstack/localstack:4.0`, an AWS
 emulator running in Docker on `localhost:4566`), because I don't have working AWS credentials
 here. LocalStack's EC2 is a simulation: it really creates the VPC, subnet, routes, security
@@ -95,10 +95,10 @@ terraform-infra/
 | **Variables** | [`variables.tf`](terraform-infra/variables.tf) declares them, [`terraform.tfvars`](terraform-infra/terraform.tfvars) sets them, `-var` overrides them (Task 3) |
 | **Resources** | 13 `resource` blocks across `network.tf`, `security.tf`, `compute.tf`, `storage.tf` |
 | **Data sources** | `data.aws_ami.ubuntu` (look up the newest Ubuntu AMI instead of hard-coding an ID), `data.aws_availability_zones.available` |
-| **Outputs** | [`outputs.tf`](terraform-infra/outputs.tf) — VPC/subnet/SG/instance IDs, IPs, AMI, bucket |
+| **Outputs** | [`outputs.tf`](terraform-infra/outputs.tf)  -  VPC/subnet/SG/instance IDs, IPs, AMI, bucket |
 | **Implicit dependencies** | Any reference, e.g. `subnet_id = aws_subnet.public.id`, makes Terraform create the subnet first |
 | **Explicit dependency** | `depends_on = [aws_s3_object.index, aws_route_table_association.public]` on the instance: `user_data` downloads the object at boot, but only mentions the bucket *name*, so without `depends_on` Terraform could start the instance before the file exists |
-| **State** | `terraform.tfstate` — the mapping from `aws_vpc.main` to `vpc-a788f4e9` (Task 2) |
+| **State** | `terraform.tfstate`  -  the mapping from `aws_vpc.main` to `vpc-a788f4e9` (Task 2) |
 
 ---
 

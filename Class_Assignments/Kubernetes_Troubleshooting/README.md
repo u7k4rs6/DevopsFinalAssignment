@@ -3,7 +3,7 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-Every command and every output below was captured from a real run on my machine — Docker Desktop
+Every command and every output below was captured from a real run on my machine  -  Docker Desktop
 Kubernetes, client `v1.37.0`, server `v1.34.3`, single node `desktop-control-plane`, macOS on
 Apple Silicon. The manifests are the ones from the class repo,
 `session-14-kubernetes-troubleshooting`.
@@ -28,7 +28,7 @@ three say the pod is fine but something still does not work.
 
 ---
 
-## Task 1: `kubectl get` — what is happening
+## Task 1: `kubectl get`  -  what is happening
 
 ```bash
 kubectl apply -f 01-kubectl-get/sample-workload.yaml
@@ -43,7 +43,7 @@ telling me where to look:
 | Column | What it tells you |
 | --- | --- |
 | `READY` | `0/1` means the container exists but is not serving |
-| `STATUS` | `CrashLoopBackOff`, `ImagePullBackOff`, `Pending` — each points at a different layer |
+| `STATUS` | `CrashLoopBackOff`, `ImagePullBackOff`, `Pending`  -  each points at a different layer |
 | `RESTARTS` | A climbing count means the container starts and dies repeatedly |
 | `AGE` | A pod that is minutes old and already has 12 restarts is worse than one with 12 over a week |
 
@@ -59,11 +59,11 @@ kubectl get all
 
 `get all` widens from pods to the objects around them. Worth noticing here: `deployment.apps/web`
 reports `2/2` READY while `service/web-service` exists alongside it. The deployment being healthy
-says nothing about whether the Service can actually reach it — that gap is what Task 9 is about.
+says nothing about whether the Service can actually reach it  -  that gap is what Task 9 is about.
 
 ---
 
-## Task 2: `kubectl describe` — why is it happening
+## Task 2: `kubectl describe`  -  why is it happening
 
 ```bash
 kubectl describe pod describe-demo
@@ -75,7 +75,7 @@ kubectl describe pod describe-demo
 resolved (`nginx@sha256:6784fb…`, not just the `nginx:1.27` tag I asked for), which node it landed
 on, the container state, the five `Conditions`, and the Events at the bottom.
 
-`Events: <none>` here is not a bug — this pod started 74 minutes ago and Kubernetes events expire
+`Events: <none>` here is not a bug  -  this pod started 74 minutes ago and Kubernetes events expire
 from etcd after about an hour by default. That expiry matters during a real incident: if you come
 back to a broken pod the next morning, the events that explained it are already gone. Describe it
 while it is still failing.
@@ -94,7 +94,7 @@ Whichever one is `False` first is the layer where the problem lives. Task 8 is a
 
 ---
 
-## Task 3: `kubectl logs` — what the application says
+## Task 3: `kubectl logs`  -  what the application says
 
 ```bash
 kubectl apply -f 03-kubectl-logs/pod.yaml
@@ -105,7 +105,7 @@ kubectl logs logs-demo | head -7
 ![kubectl logs showing the application startup sequence and repeated health lines](images/task3-1-kubectl-logs.png)
 
 `describe` tells you what Kubernetes did to the container. `logs` tells you what the process
-inside it wrote to stdout and stderr — everything Kubernetes itself cannot know.
+inside it wrote to stdout and stderr  -  everything Kubernetes itself cannot know.
 
 The four startup lines followed by repeating `Application is healthy` are exactly the script in
 `pod.yaml`, so the container is doing what it was asked. Two flags worth having in hand:
@@ -119,7 +119,7 @@ kubectl logs logs-demo --previous  # logs of the container that died, not the on
 
 ---
 
-## Task 4: `kubectl exec` — check from inside
+## Task 4: `kubectl exec`  -  check from inside
 
 ```bash
 kubectl exec exec-demo -- hostname
@@ -147,7 +147,7 @@ to attach to, which is why Task 6 uses `logs --previous` instead.
 
 ---
 
-## Task 5: Events — what the control plane tried to do
+## Task 5: Events  -  what the control plane tried to do
 
 ```bash
 kubectl apply -f 05-events/pod.yaml
@@ -157,10 +157,10 @@ kubectl events --for pod/events-demo
 ![kubectl events for the events-demo pod showing Scheduled, Pulled, Created and Started](images/task5-1-kubectl-events.png)
 
 This is the successful path written out in full: `Scheduled` → `Pulled` → `Created` → `Started`.
-Learning what a *healthy* sequence looks like is what makes a broken one obvious — in the next
+Learning what a *healthy* sequence looks like is what makes a broken one obvious  -  in the next
 three tasks the failure is always a missing or repeating step in this same chain.
 
-Note `Container image "nginx:1.27" already present on machine` — the image was cached from an
+Note `Container image "nginx:1.27" already present on machine`  -  the image was cached from an
 earlier pod, so there is no `Pulling` event at all. On a cold node you would see `Pulling` first.
 
 Useful variants:
@@ -173,7 +173,7 @@ kubectl events --watch
 
 ---
 
-## Task 6: `CrashLoopBackOff` — the image is fine, the app is not
+## Task 6: `CrashLoopBackOff`  -  the image is fine, the app is not
 
 ```bash
 kubectl apply -f 06-crashloopbackoff/broken-pod.yaml
@@ -184,7 +184,7 @@ kubectl logs crash-demo --previous
 
 ![crash-demo in CrashLoopBackOff with 16 restarts, and its logs showing the failure message](images/task6-1-crashloopbackoff-logs.png)
 
-`CrashLoopBackOff` is not an error — it is Kubernetes telling you it has given up restarting
+`CrashLoopBackOff` is not an error  -  it is Kubernetes telling you it has given up restarting
 quickly and is now waiting between attempts:
 
 ```text
@@ -209,8 +209,8 @@ kubectl describe pod crash-demo
 
 The `State` / `Last State` pair is the part to read:
 
-- `State: Waiting, Reason: CrashLoopBackOff` — what it is doing *now* (sitting out the backoff)
-- `Last State: Terminated, Reason: Error, Exit Code: 1` — what happened on the *previous* attempt
+- `State: Waiting, Reason: CrashLoopBackOff`  -  what it is doing *now* (sitting out the backoff)
+- `Last State: Terminated, Reason: Error, Exit Code: 1`  -  what happened on the *previous* attempt
 
 **Exit code 1 is the actual finding.** The container ran, the process chose to exit with an error.
 That points at the application, not at Kubernetes. And in `broken-pod.yaml` the cause is literal:
@@ -225,7 +225,7 @@ command:
     exit 1
 ```
 
-Also note `Started: 13:05:43` and `Finished: 13:05:43` — the container lived for under a second.
+Also note `Started: 13:05:43` and `Finished: 13:05:43`  -  the container lived for under a second.
 A container that dies instantly is almost always a bad command or a missing config; one that dies
 after 30 seconds is usually a failed dependency or a probe.
 
@@ -241,12 +241,12 @@ kubectl logs crash-demo
 ![crash-demo recreated from fixed-pod.yaml, now Running with 0 restarts](images/task6-3-crashloop-fixed.png)
 
 `0` restarts and `Application is healthy` in the logs. A bare pod has to be deleted and recreated
-because `spec.containers[].command` is immutable — `kubectl apply` alone would be rejected. Under
+because `spec.containers[].command` is immutable  -  `kubectl apply` alone would be rejected. Under
 a Deployment you would edit the template and let the rollout replace the pods.
 
 ---
 
-## Task 7: `ImagePullBackOff` — the app never even started
+## Task 7: `ImagePullBackOff`  -  the app never even started
 
 ```bash
 kubectl apply -f 07-imagepullbackoff/broken-pod.yaml
@@ -263,14 +263,14 @@ CrashLoopBackOff   = Kubernetes got the image, the container ran, the app failed
 ImagePullBackOff   = Kubernetes never got the image, nothing ran at all
 ```
 
-There are no logs to read here — there was never a process. Everything is in the events, and the
+There are no logs to read here  -  there was never a process. Everything is in the events, and the
 message is specific enough to act on immediately:
 
 ```text
 failed to resolve reference "docker.io/library/nginx:this-image-does-not-exist": not found
 ```
 
-`NotFound` means the registry answered and said that tag does not exist — so this is a typo, not a
+`NotFound` means the registry answered and said that tag does not exist  -  so this is a typo, not a
 network or credentials problem. A `401`/`403` would point at registry authentication instead, and
 a timeout at network reachability. Reading *which* failure it is saves checking the wrong thing.
 
@@ -289,7 +289,7 @@ kubectl get pod image-demo
 
 ---
 
-## Task 8: `Pending` — the scheduler could not place it
+## Task 8: `Pending`  -  the scheduler could not place it
 
 ```bash
 kubectl apply -f 08-pending-pods/broken-pod.yaml
@@ -317,7 +317,7 @@ Node-Selectors:  kubernetes.io/hostname=node-that-does-not-exist
 ```
 
 The pod is asking for a node that is not in this cluster, so the scheduler has nowhere to put it.
-The usual causes of `Pending` are all variations of the same thing — the scheduler cannot satisfy
+The usual causes of `Pending` are all variations of the same thing  -  the scheduler cannot satisfy
 a constraint:
 
 - a `nodeSelector` / affinity rule no node matches (this case)
@@ -342,7 +342,7 @@ kubectl get pod pending-demo
 ## Task 9: Service and DNS troubleshooting
 
 This is the case where every pod is `Running` and the application still does not work. The link
-between a Service and its pods is not the Service's name or its port — it is the **selector**, and
+between a Service and its pods is not the Service's name or its port  -  it is the **selector**, and
 a selector that matches nothing fails completely silently.
 
 ```bash
@@ -359,7 +359,7 @@ But `ENDPOINTS` is `<none>`, and its selector is `app=does-not-exist`.
 **`kubectl get endpoints` is the single most useful Service troubleshooting command.** A Service is
 really two things: a stable virtual IP, and a list of real pod IPs behind it that the endpoints
 controller maintains by matching the selector against pod labels. An empty endpoints list means the
-match failed — the Service is a front door with nothing behind it.
+match failed  -  the Service is a front door with nothing behind it.
 
 ### The same bug in the Service that is supposed to work
 
@@ -373,7 +373,7 @@ kubectl get pods -l app=web --show-labels
 ![web-service loses its endpoints after apply; its selector is app=web-asdfddd while the pods are labelled app=web](images/task9-2-web-service-selector-bug.png)
 
 This one is worth reading carefully, because it is the realistic version of the bug.
-`web-service` **had** endpoints — `10.244.0.21:80, 10.244.0.22:80`, visible in Task 1. Applying
+`web-service` **had** endpoints  -  `10.244.0.21:80, 10.244.0.22:80`, visible in Task 1. Applying
 `service.yaml` reported `service/web-service configured` and the endpoints dropped to `<none>`.
 
 A one-character-class typo in a selector took a working Service down, and `apply` reported success:
@@ -385,7 +385,7 @@ Pod labels:        app=web,pod-template-hash=77cc89f59f
 ```
 
 `--show-labels` next to the selector is how you confirm it. Nothing in `get pods` would ever show
-this — all the pods are `Running` and healthy. The failure lives entirely in the gap between two
+this  -  all the pods are `Running` and healthy. The failure lives entirely in the gap between two
 strings.
 
 ### The fix
@@ -397,11 +397,11 @@ kubectl get endpoints web-service
 
 ![web-service endpoints repopulate with both pod IPs immediately after the selector is corrected](images/task9-3-web-service-fixed.png)
 
-The endpoints come back the moment the selector matches — the controller reconciles within a
+The endpoints come back the moment the selector matches  -  the controller reconciles within a
 second, no restart needed. (I used `patch` rather than editing `service.yaml` so the class repo's
 manifest stays as it is; fixing the selector in the file and re-applying does the same thing.)
 
-### A DNS client — and a third ImagePullBackOff
+### A DNS client  -  and a third ImagePullBackOff
 
 ```bash
 kubectl apply -f 09-service-dns-troubleshooting/dns-test-pod.yaml
@@ -412,7 +412,7 @@ kubectl describe pod dns-test
 ![dns-test fails to pull registry.k8s.io/e2e-test-images/dnsutils:1.3, so a busybox pod is used instead](images/task9-4-dns-test-pod-imagepull.png)
 
 The lab's `dns-test-pod.yaml` would not start: `registry.k8s.io/e2e-test-images/dnsutils:1.3` is
-`not found`. Same failure class as Task 7, and diagnosed the same way — the registry answered
+`not found`. Same failure class as Task 7, and diagnosed the same way  -  the registry answered
 `NotFound`, so the tag is wrong rather than the network being down. `busybox:1.36` has `nslookup`
 and `wget` built in, so I used that as the DNS client instead:
 
@@ -439,7 +439,7 @@ options ndots:5                                          → names with <5 dots 
 ```
 
 `web-service` has no dots, so the resolver appends `default.svc.cluster.local` and gets
-`10.96.77.117` — the ClusterIP from Task 1. The short name only works from a pod in the *same*
+`10.96.77.117`  -  the ClusterIP from Task 1. The short name only works from a pod in the *same*
 namespace, because it depends on that first search entry. Use the full
 `web-service.default.svc.cluster.local` in anything that might move namespaces.
 
@@ -452,8 +452,8 @@ kubectl exec dns-test-busybox -- wget -qO- --timeout=5 http://broken-service
 
 ![broken-service resolves to a ClusterIP over DNS, but connecting to it is refused because it has no endpoints](images/task9-6-dns-resolves-but-no-endpoints.png)
 
-This is the most useful result in the session. `broken-service` — the one with the selector that
-matches nothing — **resolves perfectly**:
+This is the most useful result in the session. `broken-service`  -  the one with the selector that
+matches nothing  -  **resolves perfectly**:
 
 ```text
 Name:    broken-service.default.svc.cluster.local
@@ -482,7 +482,7 @@ instead of hanging.
 
 ---
 
-## Task 10: Mini project — everything at once
+## Task 10: Mini project  -  everything at once
 
 ```bash
 kubectl apply -f mini-project/service.yaml
@@ -495,7 +495,7 @@ kubectl get endpoints troubleshooting-service
 
 Two pods `Running`, and `troubleshooting-service` shows `10.244.0.27:80, 10.244.0.28:80`. Both
 endpoints present is the check that the selector `app=troubleshooting-app` actually matches the
-deployment's pod template — the thing that was broken in Task 9, verified here in one command.
+deployment's pod template  -  the thing that was broken in Task 9, verified here in one command.
 
 The error in the middle of that capture is mine and I left it in: `kubectl broken-pod.yaml` is
 missing `apply -f`, so kubectl read `broken-pod.yaml` as a subcommand name.
@@ -511,7 +511,7 @@ kubectl describe pod project-broken-pod
 The full loop on an unknown pod, in order:
 
 1. `kubectl get pod project-broken-pod` → `ImagePullBackOff`. Not a crash, not `Pending`.
-2. `ImagePullBackOff` means there are no logs to read — skip `kubectl logs` entirely.
+2. `ImagePullBackOff` means there are no logs to read  -  skip `kubectl logs` entirely.
 3. `kubectl describe pod` → `Failed to pull image "nginx:this-tag-does-not-exist": not found`.
 4. `NotFound` from the registry → the tag is wrong. Fix the tag, recreate the pod.
 
@@ -536,7 +536,7 @@ Three things that changed how I read failures:
 1. **The status name is the symptom, not the cause.** `CrashLoopBackOff` only tells you the
    container keeps dying. `Exit Code: 1` in `Last State` is the actual finding.
 2. **The status tells you which command to skip.** `ImagePullBackOff` means no container ever ran,
-   so `kubectl logs` will always be empty — go straight to events.
+   so `kubectl logs` will always be empty  -  go straight to events.
 3. **Empty endpoints is silent.** Nothing errors, every pod is `Running`, DNS resolves, and the
    Service is still completely dead. `kubectl get endpoints` is the only command that shows it.
 
@@ -555,8 +555,8 @@ Both found by running them, both the same class of error as the ones the session
 
 ## References
 
-- Debug Running Pods — https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/
-- Debug Services — https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/
-- DNS for Services and Pods — https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
-- Pod Lifecycle — https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/
-- kubectl reference — https://kubernetes.io/docs/reference/kubectl/
+- Debug Running Pods  -  https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/
+- Debug Services  -  https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/
+- DNS for Services and Pods  -  https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
+- Pod Lifecycle  -  https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/
+- kubectl reference  -  https://kubernetes.io/docs/reference/kubectl/

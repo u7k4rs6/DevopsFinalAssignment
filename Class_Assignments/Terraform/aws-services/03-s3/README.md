@@ -1,9 +1,9 @@
-# S3 — Simple Storage Service (Object Storage)
+# S3  -  Simple Storage Service (Object Storage)
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-S3 stores files (called **objects**) in containers (called **buckets**) and serves them over HTTPS. You do not manage disks or servers; storage grows automatically and you pay for what you store and transfer. It exists to give applications a cheap, highly durable place for any amount of data — backups, logs, images, static websites, data lakes, Terraform state.
+S3 stores files (called **objects**) in containers (called **buckets**) and serves them over HTTPS. You do not manage disks or servers; storage grows automatically and you pay for what you store and transfer. It exists to give applications a cheap, highly durable place for any amount of data  -  backups, logs, images, static websites, data lakes, Terraform state.
 
 ## What is S3?
 
@@ -59,7 +59,7 @@ Versioning keeps every version of an object in the bucket.
 - Overwriting an object creates a new version; the old one stays.
 - Deleting an object adds a **delete marker**; earlier versions can still be restored.
 - Why: protects against accidental overwrites/deletes and ransomware-style changes. Strongly recommended for Terraform state buckets.
-- Every version is billed as storage — combine with lifecycle rules to expire old versions.
+- Every version is billed as storage  -  combine with lifecycle rules to expire old versions.
 
 ## Lifecycle policies
 

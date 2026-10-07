@@ -16,7 +16,7 @@ const server = http.createServer((req, res) => {
     <p>Listening on port: ${PORT}</p>
     <p>Node version: ${process.version}</p>
     <p style="color:#666;">This bundle was produced in the <b>build</b> stage and copied
-    into a clean <b>runtime</b> stage — no compiler or node_modules in the final image.</p>
+    into a clean <b>runtime</b> stage  -  no compiler or node_modules in the final image.</p>
   </body>
 </html>`);
 });

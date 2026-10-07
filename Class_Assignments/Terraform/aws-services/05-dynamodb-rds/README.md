@@ -1,4 +1,4 @@
-# DynamoDB and RDS — Managed Databases
+# DynamoDB and RDS  -  Managed Databases
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
@@ -13,8 +13,8 @@ DynamoDB is a fully managed, serverless NoSQL database. There are no servers or 
 
 "NoSQL" here means:
 
-- **No fixed schema** — apart from the key, each item can have different attributes.
-- **No joins** — you design tables around the questions (access patterns) your app will ask, often storing related data together.
+- **No fixed schema**  -  apart from the key, each item can have different attributes.
+- **No joins**  -  you design tables around the questions (access patterns) your app will ask, often storing related data together.
 - Access is by **key**, not by arbitrary SQL queries. Lookups by key are fast at any size; searching by non-key fields needs an index or a slow full **Scan**.
 
 Capacity modes: **on-demand** (pay per request, scales automatically) or **provisioned** (set read/write capacity, optional auto scaling, cheaper for steady traffic).
@@ -145,7 +145,7 @@ resource "aws_db_instance" "app" {
 ### Security
 
 - **Network**: place the instance in **private subnets**, `publicly_accessible = false`, and allow the DB port only from the app's security group.
-- **Encryption at rest** with KMS — must be chosen at creation; it covers storage, backups, snapshots and replicas.
+- **Encryption at rest** with KMS  -  must be chosen at creation; it covers storage, backups, snapshots and replicas.
 - **Encryption in transit** with TLS/SSL connections.
 - **Authentication**: database users, plus **IAM database authentication** (MySQL, MariaDB, PostgreSQL) and master password management in **Secrets Manager**.
 - **IAM** controls who can manage RDS resources (create, delete, modify).
@@ -187,7 +187,7 @@ Read replicas are for **scaling reads**.
 - Lifting existing MySQL/PostgreSQL/Oracle/SQL Server apps into AWS without re-designing them.
 - Reporting that needs joins and ad-hoc SQL.
 
-## DynamoDB vs RDS — which one?
+## DynamoDB vs RDS  -  which one?
 
 | Aspect | DynamoDB | RDS |
 |--------|----------|-----|

@@ -3,12 +3,12 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-All output below was captured from a real run on my machine — Minikube `v1.39.0` (`docker`
+All output below was captured from a real run on my machine  -  Minikube `v1.39.0` (`docker`
 driver), Kubernetes `v1.37.0`, macOS on Apple Silicon (`arm64`). The manifests are the ones from
 the class repo, `session10-k8s-core-objects`. The full raw transcripts are in [`lab/`](lab/).
 
 One thing worth saying up front: the class material reaches the app with
-`curl http://$(minikube ip):30010`. That does not work on macOS with the Docker driver — the
+`curl http://$(minikube ip):30010`. That does not work on macOS with the Docker driver  -  the
 node lives on an internal bridge the host cannot route to. So every in-cluster test below runs
 from a small `curlimages/curl` pod inside the cluster, and the one place a host-side URL is
 actually the point uses `minikube service --url`. The failure itself is shown in
@@ -27,7 +27,7 @@ actually the point uses `minikube service --url`. The failure itself is shown in
 ### The five phases are not the STATUS column
 
 `kubectl get pods` shows a *friendly* STATUS that mixes together the Pod phase and the container
-state. There are only five real phases — `Pending`, `Running`, `Succeeded`, `Failed`, `Unknown` —
+state. There are only five real phases  -  `Pending`, `Running`, `Succeeded`, `Failed`, `Unknown`  - 
 and `CrashLoopBackOff`, `ImagePullBackOff` and `Completed` are none of them. All twelve pods at
 once:
 
@@ -52,7 +52,7 @@ lifecycle-succeeded         0/1     Completed          0             2m31s 10.24
 lifecycle-termination       1/1     Running            0             2m31s 10.244.0.24   minikube
 ```
 
-Two columns are doing the real work here. `READY` is `0/1` for everything that is not serving —
+Two columns are doing the real work here. `READY` is `0/1` for everything that is not serving  - 
 including `lifecycle-succeeded`, which finished *successfully*. `RESTARTS` separates the two
 failure modes: `lifecycle-crashloop` is on restart 4, `lifecycle-failed` has never restarted,
 because its pod has `restartPolicy: Never`.
@@ -79,7 +79,7 @@ Task completed successfully
 ```
 
 This is the clean way to see it. `lifecycle-succeeded` and `lifecycle-failed` both show STATUS
-`Error`/`Completed` in the listing, but their actual phases are `Succeeded` and `Failed` — the
+`Error`/`Completed` in the listing, but their actual phases are `Succeeded` and `Failed`  -  the
 container ran to completion in both cases, and the only difference is the exit code.
 
 ![Pod phases read directly with jsonpath, showing Running, Succeeded and Failed alongside the container state object](images/task1-2-running-and-phases.png)
@@ -104,7 +104,7 @@ Events:
 ```
 
 `Pending` means the Pod object exists in etcd but no kubelet has been given it. Note it has no
-IP and no node — those are assigned at scheduling time. The scheduler keeps retrying (`x10`),
+IP and no node  -  those are assigned at scheduling time. The scheduler keeps retrying (`x10`),
 so this pod will sit here forever rather than fail.
 
 ![A Pending pod with no IP and no node, and the FailedScheduling event explaining there is insufficient memory](images/task1-3-pending-unschedulable.png)
@@ -136,13 +136,13 @@ Application crashed
 ```
 
 `Started` and `Finished` are three seconds apart, exactly the container's lifetime, and the
-restart count keeps climbing. `CrashLoopBackOff` is the *waiting* state between restarts — the
+restart count keeps climbing. `CrashLoopBackOff` is the *waiting* state between restarts  -  the
 kubelet backs off 10s, 20s, 40s and so on up to five minutes, which is why catching the pod at
 a random moment shows `Error` (mid-crash) as often as `CrashLoopBackOff` (mid-wait). Both are
 the same loop.
 
 `kubectl logs --previous` is the command that matters here, because plain `logs` on a
-just-restarted container can return nothing — the useful output belongs to the *dead* instance.
+just-restarted container can return nothing  -  the useful output belongs to the *dead* instance.
 
 ![A crash-looping pod on its fourth restart, with logs showing the crash and Last State showing Exit Code 1 three seconds after start](images/task1-4-crashloopbackoff.png)
 
@@ -179,13 +179,13 @@ lifecycle-startup     1/1     Running   0             2m31s
 
 This is the whole distinction in one screenshot. The liveness pod has been **restarted twice**
 and the event says why: the probe failed, so the kubelet killed the container. The readiness pod
-has never restarted — a failing readiness probe does not kill anything, it only pulls the pod
+has never restarted  -  a failing readiness probe does not kill anything, it only pulls the pod
 out of Service endpoints so it stops receiving traffic.
 
 | Probe | On failure | Use it for |
 |---|---|---|
-| `readinessProbe` | Pod removed from Service endpoints, container left alone | "Not ready for traffic yet" — warming caches, waiting on a dependency |
-| `livenessProbe` | Container **killed and restarted** | "Process is wedged" — deadlock, event loop stuck |
+| `readinessProbe` | Pod removed from Service endpoints, container left alone | "Not ready for traffic yet"  -  warming caches, waiting on a dependency |
+| `livenessProbe` | Container **killed and restarted** | "Process is wedged"  -  deadlock, event loop stuck |
 | `startupProbe` | Holds the other two off until it passes | Slow-booting apps that would otherwise be killed during startup |
 
 ![Three probe pods side by side: the liveness pod has restarted twice with a failed-liveness-probe event, while readiness and startup show zero restarts](images/task1-6-readiness-vs-liveness.png)
@@ -211,7 +211,7 @@ Sidecar is running
 Sidecar is running
 ```
 
-`READY 2/2` on the multi-container pod is the thing to notice — both containers share the pod's
+`READY 2/2` on the multi-container pod is the thing to notice  -  both containers share the pod's
 network namespace and must both be up for the pod to count as ready. The init container ran to
 completion *before* the app container started, which is the guarantee init containers give you,
 and `-c` is required to say which container's logs you want.
@@ -237,7 +237,7 @@ real	0m10.511s
 Ten and a half seconds for a delete that looks instant in the API. The pod's
 `terminationGracePeriodSeconds` is 10: Kubernetes sends `SIGTERM`, waits, and only sends
 `SIGKILL` if the process is still alive at the deadline. That window is what lets an app finish
-in-flight requests — and it is the same window that matters in the rolling update below.
+in-flight requests  -  and it is the same window that matters in the rolling update below.
 
 ![A delete of the termination pod timed at 10.5 seconds, matching its 10 second grace period](images/task1-8-graceful-termination.png)
 
@@ -285,12 +285,12 @@ NAME                     READY   AGE   CONTAINERS   IMAGES
 statefulset.apps/mysql   0/3     67s   mysql        mysql:5.7
 ```
 
-The important line is `replicaset.apps/myapp-5b9587f95d`. I never created that — the Deployment
+The important line is `replicaset.apps/myapp-5b9587f95d`. I never created that  -  the Deployment
 did. A Deployment *is* a ReplicaSet manager: it creates one ReplicaSet per pod-template version
 and that `pod-template-hash` in the selector is how it keeps the generations apart. That is the
 entire mechanism behind every rollout in Task 3.
 
-The DaemonSet shows `DESIRED 1` because this is a single-node cluster — it wants one pod per
+The DaemonSet shows `DESIRED 1` because this is a single-node cluster  -  it wants one pod per
 node, so on a 50-node cluster that column would read 50 without changing the manifest.
 
 ![The full object listing showing the Deployment has created its own ReplicaSet with a pod-template-hash selector](images/task2-2-core-objects-listing.png)
@@ -311,7 +311,7 @@ Number of Nodes Misscheduled: 0
 Pods Status:  1 Running / 0 Waiting / 0 Succeeded / 0 Failed
 ```
 
-A DaemonSet counts *nodes*, not replicas — there is no `replicas:` field to set. This is what
+A DaemonSet counts *nodes*, not replicas  -  there is no `replicas:` field to set. This is what
 log collectors, metrics agents and CNI plugins use, because "one per machine" is the requirement
 rather than a number.
 
@@ -339,7 +339,7 @@ myapp-rs-xf7cp   1/1   Running   0     48s
 
 Still three pods. `myapp-rs-9nhdh` is gone and `myapp-rs-6phkr` has taken its place with an AGE
 of 6 seconds against the survivors' 48. The ReplicaSet controller compares desired against
-actual continuously and acted within seconds — this reconciliation loop is the thing that makes
+actual continuously and acted within seconds  -  this reconciliation loop is the thing that makes
 Kubernetes self-healing, and it is why you almost never delete pods to "fix" them.
 
 ![A deleted pod replaced within six seconds by a new one with a different name, keeping the replica count at three](images/task2-5-replicaset-selfheal.png)
@@ -365,7 +365,7 @@ mysql-0   0/1     ImagePullBackOff   0          58s
    1             "os": "linux"
 ```
 
-`no match for platform in manifest` is not a typo'd tag or a missing registry login — the image
+`no match for platform in manifest` is not a typo'd tag or a missing registry login  -  the image
 exists, it just has no `linux/arm64` build. The manifest inspect confirms it: `amd64` only.
 MySQL never published 5.7 for arm64, and this is a very easy failure to misread as a broken
 cluster.
@@ -390,10 +390,10 @@ mysql-2   1/1     Running   0          53s
 mysql:8.4
 ```
 
-The stuck pod had to be deleted by hand — a StatefulSet will not roll past a pod that never
+The stuck pod had to be deleted by hand  -  a StatefulSet will not roll past a pod that never
 becomes ready, so updating the image alone left `mysql-0` sitting in `ImagePullBackOff`.
 
-Now the StatefulSet behaviour is visible: **`mysql-0`, `mysql-1`, `mysql-2`** — stable ordinal
+Now the StatefulSet behaviour is visible: **`mysql-0`, `mysql-1`, `mysql-2`**  -  stable ordinal
 names, created in order, each with its own PersistentVolumeClaim. Compare that with the
 Deployment's `myapp-5b9587f95d-58vj2`, where the suffix is random and a replacement pod gets a
 completely new name and no identity. That difference is the entire reason StatefulSets exist.
@@ -402,7 +402,7 @@ completely new name and no identity. That difference is the entire reason Statef
 
 | Object | Adds over the previous | Pod naming |
 |---|---|---|
-| Pod | Nothing — dies and stays dead | fixed name |
+| Pod | Nothing  -  dies and stays dead | fixed name |
 | ReplicaSet | Keeps N copies alive | random suffix |
 | Deployment | Versioned rollouts and rollback over ReplicaSets | hash + random suffix |
 | DaemonSet | One pod per node, no replica count | node-based |
@@ -417,7 +417,7 @@ completely new name and no identity. That difference is the entire reason Statef
 - Poll the Service throughout to measure whether traffic was dropped
 - Check the revision history and roll back
 
-`deployment-v1.yaml` sets `maxSurge: 1` and `maxUnavailable: 0` across 4 replicas — one extra
+`deployment-v1.yaml` sets `maxSurge: 1` and `maxUnavailable: 0` across 4 replicas  -  one extra
 pod may be created, and no pod may be taken away before its replacement is ready.
 
 ```bash
@@ -441,7 +441,7 @@ kubectl apply -f 01-rolling-update/deployment-v2.yaml
 kubectl get pods -l app=app-rolling -L version
 ```
 
-Sampling every four seconds during the rollout shows the pod set churning — old `v1` pods in
+Sampling every four seconds during the rollout shows the pod set churning  -  old `v1` pods in
 `Terminating` while new `v2` pods are still `ContainerCreating`, and the total never dropping
 below 4.
 
@@ -450,7 +450,7 @@ below 4.
 ### Was there actually zero downtime?
 
 This is the claim the strategy is sold on, so it is worth measuring rather than assuming. The
-poll loop runs *inside* the cluster pod — one `kubectl exec` per request adds API-server
+poll loop runs *inside* the cluster pod  -  one `kubectl exec` per request adds API-server
 latency and can time out on its own, which is not the same thing as the Service being down.
 
 ```bash
@@ -469,7 +469,7 @@ kubectl apply -f 01-rolling-update/deployment-v2.yaml
 
 **58 of 60 requests succeeded, and 2 failed.** Not the perfect zero the diagram promises, and
 the honest answer is that `maxUnavailable: 0` alone does not guarantee zero dropped requests.
-It guarantees a ready replacement exists before an old pod is removed — but when a pod *is*
+It guarantees a ready replacement exists before an old pod is removed  -  but when a pod *is*
 removed, its endpoint removal and the `iptables` update race against connections still being
 accepted by the terminating pod. Closing that last gap needs a `preStop` hook that sleeps for a
 second or two and an app that drains connections on `SIGTERM`, so the pod keeps serving while
@@ -497,7 +497,7 @@ deployment.apps/app-rolling rolled back
 VERSION: v1
 ```
 
-Back on v1 with one command, because revision 1's ReplicaSet was never deleted — the rollback is
+Back on v1 with one command, because revision 1's ReplicaSet was never deleted  -  the rollback is
 just scaling the old ReplicaSet back up and the new one down. `CHANGE-CAUSE` is `<none>` for
 both revisions since nothing set the annotation; in a real pipeline that field would carry the
 commit or image tag, which is what makes the history readable later.
@@ -519,7 +519,7 @@ kubectl apply -f 02-blue-green/deployment-green.yaml
 kubectl get pods -l app=myapp --show-labels
 ```
 
-Six pods running — three blue, three green — distinguished only by a `slot` label. Green is
+Six pods running  -  three blue, three green  -  distinguished only by a `slot` label. Green is
 live in the cluster but receives nothing, because no Service selects it yet.
 
 ![Six pods running across blue and green deployments, separated by the slot label](images/task4-1-both-environments-up.png)
@@ -556,12 +556,12 @@ VERSION: v2 (GREEN)
 ...
 ```
 
-Nothing was deployed, scaled or restarted — a single label in the Service selector changed and
+Nothing was deployed, scaled or restarted  -  a single label in the Service selector changed and
 the entire cut-over happened. The endpoints list swaps to the green pod IPs at the same moment.
 
 Worth noting from the first attempt at this: curling in the same instant as the `apply` returned
 connection refused, because endpoint propagation to `kube-proxy` is fast but not instantaneous.
-Polling across a couple of seconds shows it settling, which is the accurate picture — "instant"
+Polling across a couple of seconds shows it settling, which is the accurate picture  -  "instant"
 means no rebuild, not zero microseconds.
 
 ![The Service selector switched to slot=green, with subsequent requests all returning VERSION: v2 (GREEN)](images/task4-3-the-switch-to-green.png)
@@ -592,7 +592,7 @@ price is that you pay for double the pods for the whole window.
 - Shift the ratio to 7:3 and measure again
 - Promote the canary to 100%
 
-A Kubernetes Service has no traffic-weight setting — it load balances across whatever pods match
+A Kubernetes Service has no traffic-weight setting  -  it load balances across whatever pods match
 its selector. So the "percentage" in a canary is just the pod ratio, and both deployments carry
 the same `app: myapp-canary` label that the Service selects on.
 
@@ -625,7 +625,7 @@ kubectl get pods -l app=myapp-canary -L version --no-headers | awk '{print $6}' 
 ### Measuring the split
 
 The class material samples 20 requests. My first run at that sample size came out **5 canary
-hits out of 20 — 25%**, which would look like the canary was getting far more than its share.
+hits out of 20  -  25%**, which would look like the canary was getting far more than its share.
 It was not: `kube-proxy` picks a backend per connection at random, so 20 requests is simply too
 small a sample to see a 10% split. Running 100 requests instead:
 
@@ -640,7 +640,7 @@ done' | sort | uniq -c
   92 STABLE v1
 ```
 
-8% against an expected 10% — that is the 9:1 ratio showing up as it should.
+8% against an expected 10%  -  that is the 9:1 ratio showing up as it should.
 
 ![100 requests across a 9:1 pod ratio returning 8 canary and 92 stable responses](images/task5-4-traffic-split-9-to-1.png)
 
@@ -660,7 +660,7 @@ kubectl scale deployment app-stable --replicas=7
 ```
 
 22% measured against 30% expected. The traffic share follows the pod count, but only as an
-average — this is exactly why production canaries use an ingress controller or a service mesh
+average  -  this is exactly why production canaries use an ingress controller or a service mesh
 when they need a precise 5% or 1%, since the pod-ratio method would need 20 or 100 pods to
 express it.
 
@@ -691,7 +691,7 @@ deleting anything, so the decision stays reversible right up until the `delete`.
 - Apply v2 with `strategy: Recreate` and poll the Service continuously
 - Show the outage window in the poll output
 
-`Recreate` tears down every old pod *before* creating any new one. The downtime is not a bug —
+`Recreate` tears down every old pod *before* creating any new one. The downtime is not a bug  - 
 it is the point, for cases where two versions must never run at once: a breaking database
 migration, a `ReadWriteOnce` volume that only one pod can mount, or a legacy app with a single
 writer.
@@ -726,7 +726,7 @@ VERSION: v2 (UPGRADED)
 ```
 
 Seven consecutive failed requests, then v2 answers. At no point did a v1 and a v2 response
-appear near each other — compare that with the rolling update, where 34 v1 and 24 v2 responses
+appear near each other  -  compare that with the rolling update, where 34 v1 and 24 v2 responses
 were interleaved. That is the entire difference between the two strategies in one output.
 
 ![The recreate transition showing seven consecutive connection failures followed by VERSION: v2](images/task6-2-the-downtime-window.png)
@@ -743,7 +743,7 @@ app-recreate-7bd8d89b8b-bdtnq   1/1     Running   0          2s
 app-recreate-7bd8d89b8b-jv8ph   1/1     Running   0          2s
 ```
 
-All three pods are 2 seconds old — a completely new generation, with no survivors from v1.
+All three pods are 2 seconds old  -  a completely new generation, with no survivors from v1.
 
 ![All three pods replaced with a fresh generation aged two seconds](images/task6-3-pods-all-gone-then-back.png)
 
@@ -783,7 +783,7 @@ not exist. Registries answer "does not exist" and "you are not allowed to see it
 so a private image with missing credentials and a typo'd public tag produce the same error. The
 way to tell them apart is to try pulling the tag yourself.
 
-Note all three replicas fail identically — this is a spec problem, not a flaky node.
+Note all three replicas fail identically  -  this is a spec problem, not a flaky node.
 
 ![Three pods in ImagePullBackOff with the describe output showing pull access denied for a tag that does not exist](images/task7-1-broken-image.png)
 
@@ -797,10 +797,10 @@ kubectl apply -f troubleshooting/selector-mismatch.yaml
 The Deployment "selector-error-demo" is invalid: spec.template.metadata.labels: Invalid value: {"app":"wrong-app-name"}: `selector` does not match template `labels`
 ```
 
-Rejected outright by the API server — nothing was created, so there is no pod to debug. This is
+Rejected outright by the API server  -  nothing was created, so there is no pod to debug. This is
 the better class of failure: validation catches it at `apply` time rather than leaving a
 Deployment that manages zero pods forever. The same mistake on a **Service** is not caught,
-because a Service selector is allowed to match nothing — that failure mode is in
+because a Service selector is allowed to match nothing  -  that failure mode is in
 [Session 11, Task 7](../Kubernetes_Networking_and_Services/README.md).
 
 ![The API server rejecting the deployment because its selector does not match its template labels](images/task7-2-selector-mismatch.png)
@@ -810,13 +810,13 @@ because a Service selector is allowed to match nothing — that failure mode is 
 ## What I took away
 
 The Deployment creating its own ReplicaSet with a `pod-template-hash` was the piece that made
-everything else click — rollouts, rollback and blue-green are all just that one mechanism being
+everything else click  -  rollouts, rollback and blue-green are all just that one mechanism being
 driven differently, which is also why `rollout undo` is instant.
 
 Measuring the strategies rather than trusting the diagrams was worth it. The rolling update
 dropped 2 requests in 60 despite `maxUnavailable: 0`, and the reason (endpoint removal racing
 pod termination, no `preStop` hook) is something the manifest does not hint at. The canary's
-9:1 split read as 25% at a 20-request sample and 8% at 100 — the small sample would have been
+9:1 split read as 25% at a 20-request sample and 8% at 100  -  the small sample would have been
 easy to write up as a wrong result.
 
 `mysql:5.7` failing with `no match for platform in manifest` cost the most time, and looked

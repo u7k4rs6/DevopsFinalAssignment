@@ -69,10 +69,10 @@ async function loadStatus() {
 
 function renderStatusCards(data) {
   const cards = [
-    { icon: '⚡', label: 'Status',         value: data.status?.toUpperCase() || '—',  sub: data.app || '' },
-    { icon: '🐍', label: 'Python Version', value: data.python_version || '—',          sub: data.platform || '' },
-    { icon: '⏱️', label: 'Uptime',         value: data.uptime || '—',                 sub: 'since last restart' },
-    { icon: '📊', label: 'Total Requests', value: data.total_requests ?? '—',          sub: 'v' + (data.version || '?') },
+    { icon: '⚡', label: 'Status',         value: data.status?.toUpperCase() || ' - ',  sub: data.app || '' },
+    { icon: '🐍', label: 'Python Version', value: data.python_version || ' - ',          sub: data.platform || '' },
+    { icon: '⏱️', label: 'Uptime',         value: data.uptime || ' - ',                 sub: 'since last restart' },
+    { icon: '📊', label: 'Total Requests', value: data.total_requests ?? ' - ',          sub: 'v' + (data.version || '?') },
   ];
 
   const html = cards.map((c, i) => `
@@ -107,7 +107,7 @@ async function doGreet() {
     const data = await res.json();
     showResult('greet-result', data.message || JSON.stringify(data, null, 2));
   } catch {
-    showResult('greet-result', '⚠️ Network error — is the server running?', true);
+    showResult('greet-result', '⚠️ Network error  -  is the server running?', true);
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Greet 👋'; }
   }
@@ -177,7 +177,7 @@ async function runPipeline() {
   } catch {
     if (container) {
       container.classList.remove('hidden');
-      container.innerHTML = `<div style="color:var(--danger);padding:1rem">⚠️ Network error — is the server running?</div>`;
+      container.innerHTML = `<div style="color:var(--danger);padding:1rem">⚠️ Network error  -  is the server running?</div>`;
     }
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = '▶ Run Pipeline'; }
@@ -196,7 +196,7 @@ async function renderPipeline(data, container) {
     const statusClass = `badge-${stage.status}`;
     const durText     = stage.status !== 'skipped'
       ? `${stage.duration_s}s`
-      : '—';
+      : ' - ';
 
     const row = document.createElement('div');
     row.className = 'stage-row';

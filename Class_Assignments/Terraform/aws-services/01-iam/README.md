@@ -1,4 +1,4 @@
-# IAM — Identity and Access Management (Governance)
+# IAM  -  Identity and Access Management (Governance)
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
@@ -9,8 +9,8 @@ IAM is the AWS service that decides **who** can call AWS and **what** they are a
 
 IAM answers two questions for every request:
 
-1. **Authentication** — who is making this request? (a user, a role session, the root user)
-2. **Authorization** — is this identity allowed to do this action on this resource?
+1. **Authentication**  -  who is making this request? (a user, a role session, the root user)
+2. **Authorization**  -  is this identity allowed to do this action on this resource?
 
 The answer comes from **policies** (JSON documents) attached to identities or resources. If no policy allows an action, it is denied by default.
 
@@ -37,14 +37,14 @@ A role is an identity with permissions but **no password or permanent keys**. So
 
 Who assumes roles:
 
-- AWS services — an EC2 instance, a Lambda function, an ECS task.
+- AWS services  -  an EC2 instance, a Lambda function, an ECS task.
 - Users from another AWS account (cross-account access).
 - Users signed in through an external identity provider (SSO, GitHub Actions OIDC).
 
 A role has two policies:
 
-- **Trust policy** — who is allowed to assume the role.
-- **Permissions policy** — what the role can do once assumed.
+- **Trust policy**  -  who is allowed to assume the role.
+- **Permissions policy**  -  what the role can do once assumed.
 
 Trust policy that lets EC2 instances assume a role:
 
@@ -86,7 +86,7 @@ Main policy types:
 | Permissions boundary | User/role | Maximum permissions an identity can ever get |
 | SCP (Organizations) | Account/OU | Guardrail for whole accounts |
 
-Least-privilege example — read-only access to one S3 bucket:
+Least-privilege example  -  read-only access to one S3 bucket:
 
 ```json
 {
@@ -114,9 +114,9 @@ Note the two ARNs: `ListBucket` applies to the bucket itself, `GetObject` applie
 
 Permissions are the final result of evaluating all policies that apply to a request. The rules, in order:
 
-1. **Default deny** — everything starts as denied.
-2. **Explicit deny wins** — any matching `Deny` blocks the request, no matter how many `Allow`s exist.
-3. **Explicit allow** — the request goes through only if some policy allows it and nothing denies it.
+1. **Default deny**  -  everything starts as denied.
+2. **Explicit deny wins**  -  any matching `Deny` blocks the request, no matter how many `Allow`s exist.
+3. **Explicit allow**  -  the request goes through only if some policy allows it and nothing denies it.
 4. Boundaries and SCPs act as **ceilings**: an action must be allowed by them too, otherwise it is denied even if an identity policy allows it.
 
 Useful tool: the **IAM Policy Simulator** and **IAM Access Analyzer** help check what a policy actually allows.

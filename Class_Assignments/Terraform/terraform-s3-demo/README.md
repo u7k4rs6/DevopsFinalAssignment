@@ -6,7 +6,7 @@
 Create an AWS S3 bucket with Terraform and walk through the full workflow:
 `init → fmt → validate → plan → apply → show → output → destroy`.
 
-All output below is from a real run — Terraform `v1.16.4`, AWS provider `v6.67.0`, macOS on
+All output below is from a real run  -  Terraform `v1.16.4`, AWS provider `v6.67.0`, macOS on
 Apple Silicon. **The AWS API was LocalStack** (`localstack/localstack:4.0`, community edition), a
 local emulator of AWS that runs in Docker and answers the same API calls on
 `http://localhost:4566`. Terraform and the AWS CLI talk to it exactly as they would talk to AWS.
@@ -32,8 +32,8 @@ terraform-s3-demo/
 | `provider.tf` | **Which** plugin to use (`hashicorp/aws ~> 6.0`) and **where** (region, endpoint). `default_tags` are added to every resource |
 | `variables.tf` | **Inputs.** Declared with a type, description and default, so the same code works for dev/prod |
 | `terraform.tfvars` | **Values** for those inputs. Loaded automatically |
-| `main.tf` | **Resources** — the infrastructure itself |
-| `outputs.tf` | **Outputs** — values printed after apply, and readable by other tools/modules |
+| `main.tf` | **Resources**  -  the infrastructure itself |
+| `outputs.tf` | **Outputs**  -  values printed after apply, and readable by other tools/modules |
 
 ### What gets created
 
@@ -42,7 +42,7 @@ terraform-s3-demo/
 | `aws_s3_bucket.demo` | The bucket. `force_destroy = true` lets `destroy` delete it even with objects inside |
 | `aws_s3_bucket_versioning.demo` | Keep every version of every object (undo for overwrites/deletes) |
 | `aws_s3_bucket_server_side_encryption_configuration.demo` | Encrypt objects at rest with AES-256 |
-| `aws_s3_bucket_public_access_block.demo` | Block all public access — the setting behind most S3 data leaks |
+| `aws_s3_bucket_public_access_block.demo` | Block all public access  -  the setting behind most S3 data leaks |
 | `aws_s3_object.welcome` | One sample object, to show a resource that **depends** on the bucket |
 
 The last four all reference `aws_s3_bucket.demo.id`. Terraform reads those references, works
@@ -132,7 +132,7 @@ terraform validate
 Success! The configuration is valid.
 ```
 
-`validate` checks syntax, types and references **without** contacting AWS — e.g. a typo like
+`validate` checks syntax, types and references **without** contacting AWS  -  e.g. a typo like
 `aws_s3_bucket.dmeo.id` fails here, before any plan.
 
 ![terraform validate: configuration is valid](../images/task1-4-terraform-validate.png)
@@ -166,7 +166,7 @@ Saved the plan to: tfplan
 
 (Shortened. The full plan is in [`../lab/transcript.txt`](../lab/transcript.txt).) The plan is
 a dry run: Terraform compares the code with the state file and with what really exists, and
-lists what it *would* do — `+` create, `~` change, `-` destroy. `(known after apply)` values,
+lists what it *would* do  -  `+` create, `~` change, `-` destroy. `(known after apply)` values,
 like the ARN, are decided by AWS. `-out=tfplan` saves this exact plan so `apply` does exactly
 what was reviewed.
 
@@ -202,7 +202,7 @@ then the four resources that reference it were created together.
 
 ![terraform apply creating the bucket first, then four dependents in parallel](../images/task1-6-terraform-apply.png)
 
-**Checking with a different tool** — the AWS CLI, not Terraform:
+**Checking with a different tool**  -  the AWS CLI, not Terraform:
 
 ```bash
 aws --endpoint-url=http://localhost:4566 s3 ls
@@ -230,7 +230,7 @@ Created by Terraform for Session 18 - dev
 aws: [ERROR]: An error occurred (NoSuchTagSet) when calling the GetBucketTagging operation: The TagSet does not exist
 ```
 
-Bucket, object, versioning and encryption are all really there — but **the bucket has no
+Bucket, object, versioning and encryption are all really there  -  but **the bucket has no
 tags**, even though Terraform said it created it with five. See step 8.
 
 ![AWS CLI confirming the bucket, object, versioning and encryption; tags missing](../images/task1-7-verify-with-aws-cli.png)
@@ -256,7 +256,7 @@ resource "aws_s3_bucket" "demo" {
     ...
 ```
 
-`show` prints the **state** — Terraform's record of everything it manages, kept in
+`show` prints the **state**  -  Terraform's record of everything it manages, kept in
 `terraform.tfstate`. The state already shows the problem: `tags = {}`. When Terraform read the
 bucket back after creating it, the tags weren't there.
 
@@ -290,7 +290,7 @@ aws_s3_object.welcome
 
 ![terraform output and state list](../images/task1-9-terraform-output.png)
 
-### 8. Plan again — drift detection
+### 8. Plan again  -  drift detection
 
 Running `plan` right after a successful `apply` should say "No changes". It didn't:
 

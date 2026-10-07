@@ -36,7 +36,7 @@ NAME       STATUS   ROLES           AGE    VERSION   INTERNAL-IP    CONTAINER-RU
 minikube   Ready    control-plane   2d5h   v1.37.0   192.168.49.2   containerd://2.3.4
 ```
 
-One node doing both jobs — `ROLES: control-plane`, but workloads run here too because Minikube
+One node doing both jobs  -  `ROLES: control-plane`, but workloads run here too because Minikube
 removes the usual taint. Runtime is **containerd**, not Docker: Kubernetes talks to any runtime
 through the CRI.
 
@@ -58,13 +58,13 @@ kube-scheduler-minikube            Running   minikube
 kube-proxy-...                     Running   minikube
 ```
 
-The control plane is not special software on the host — it is **pods running on the cluster
+The control plane is not special software on the host  -  it is **pods running on the cluster
 itself**.
 
 | Component | Job |
 |---|---|
 | `kube-apiserver` | Entry point. Every `kubectl` call goes through it |
-| `etcd` | Key-value store holding all cluster state — the source of truth |
+| `etcd` | Key-value store holding all cluster state  -  the source of truth |
 | `kube-scheduler` | Picks a node for each new Pod |
 | `kube-controller-manager` | Runs the controllers that reconcile desired vs actual state |
 | `kubelet` | Agent on each node; starts containers and reports health |
@@ -102,7 +102,7 @@ kubectl api-resources --namespaced=false -o name | head
 ```
 
 Pods, Services, Deployments and ConfigMaps live **inside** a namespace. Nodes,
-PersistentVolumes and Namespaces themselves are **cluster-wide** — which is why two teams can
+PersistentVolumes and Namespaces themselves are **cluster-wide**  -  which is why two teams can
 both have a `backend` Service, but not two nodes with the same name.
 
 ![api-resources split into namespaced objects like pods and services, and cluster-scoped ones like nodes and namespaces](images/task1-6-api-resources.png)
@@ -119,7 +119,7 @@ both have a `backend` Service, but not two nodes with the same name.
 5. That node's **kubelet** pulls the image and starts the container via containerd.
 6. **kube-proxy** updates network rules so the Pod is reachable through its Service.
 
-Nothing in that chain is a direct command — every step is a controller noticing a difference
+Nothing in that chain is a direct command  -  every step is a controller noticing a difference
 between desired and actual state and closing it. That loop is why deleting a pod in
 [Kubernetes_Pods_Rs_Deployment](../Kubernetes_Pods_Rs_Deployment/README.md) gets it recreated in
 seconds.
@@ -128,7 +128,7 @@ seconds.
 
 | Object | What it adds |
 |---|---|
-| Pod | Smallest unit — containers sharing network and storage |
+| Pod | Smallest unit  -  containers sharing network and storage |
 | ReplicaSet | Keeps N identical Pods alive |
 | Deployment | Versioned rollouts and rollback over ReplicaSets |
 | DaemonSet | One Pod per node |

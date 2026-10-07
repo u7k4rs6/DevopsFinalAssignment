@@ -3,7 +3,7 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-**Infrastructure as Code (IaC)** means writing infrastructure — buckets, networks, servers — as
+**Infrastructure as Code (IaC)** means writing infrastructure  -  buckets, networks, servers  -  as
 code files instead of clicking through the AWS console. The files go into Git, so infrastructure
 gets the same things application code has: review, history, and the ability to rebuild it
 identically. Terraform reads `.tf` files, compares them with what exists, and makes the
@@ -19,7 +19,7 @@ difference.
 
 ```text
 Terraform/
-├── terraform-s3-demo/       Task 1: S3 bucket with Terraform — full workflow + screenshots
+├── terraform-s3-demo/       Task 1: S3 bucket with Terraform  -  full workflow + screenshots
 │   ├── main.tf  variables.tf  outputs.tf  provider.tf  terraform.tfvars
 │   └── README.md
 ├── aws-services/            Task 2: AWS services research

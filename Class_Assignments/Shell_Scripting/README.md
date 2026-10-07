@@ -314,7 +314,7 @@ wc -l /root/myreport/proc_list.txt
 CURRENT_DATE=$(date)
 ```
 
-`$(...)` is **command substitution** — it runs `date` and substitutes its output. Two rules that matter and bite people:
+`$(...)` is **command substitution**  -  it runs `date` and substitutes its output. Two rules that matter and bite people:
 
 - **No spaces around `=`.** `CURRENT_DATE = $(date)` does not assign; bash reads it as running a command called `CURRENT_DATE`.
 - **Quote when expanding.** I wrote `mkdir -p "$DIR_NAME"`, not `mkdir -p $DIR_NAME`. Unquoted, a directory name with a space becomes two arguments and creates two directories.
@@ -336,7 +336,7 @@ one line above because the second printed as soon as the first input was consume
 DIR_NAME=${DIR_NAME:-system_report}
 ```
 
-`${VAR:-default}` expands to `$VAR`, or to `default` if `$VAR` is unset **or empty**. This stops the script breaking if the user just presses Enter. (`${VAR-default}` without the colon only substitutes when *unset*, not when empty — a subtle difference.)
+`${VAR:-default}` expands to `$VAR`, or to `default` if `$VAR` is unset **or empty**. This stops the script breaking if the user just presses Enter. (`${VAR-default}` without the colon only substitutes when *unset*, not when empty  -  a subtle difference.)
 
 ### `mkdir -p` and `touch`
 
@@ -345,7 +345,7 @@ mkdir -p "$DIR_NAME"
 touch "$DIR_NAME/$FILE_NAME"
 ```
 
-`-p` does two useful things: it creates intermediate parent directories, and it **does not error if the directory already exists** — so re-running the script is safe.
+`-p` does two useful things: it creates intermediate parent directories, and it **does not error if the directory already exists**  -  so re-running the script is safe.
 
 `touch` creates an empty file if it does not exist, and updates the modification timestamp if it does.
 
@@ -377,8 +377,8 @@ TOTAL_PROCS=$(ps aux | tail -n +2 | wc -l)
 
 ### `df -h` and `ps aux`
 
-- `df -h` — free space per mounted filesystem, `-h` for human-readable units.
-- `ps aux` — every process on the system in BSD syntax: `a` all users, `u` user-oriented detail, `x` including processes without a terminal.
+- `df -h`  -  free space per mounted filesystem, `-h` for human-readable units.
+- `ps aux`  -  every process on the system in BSD syntax: `a` all users, `u` user-oriented detail, `x` including processes without a terminal.
 
 ### `#!/bin/bash`
 

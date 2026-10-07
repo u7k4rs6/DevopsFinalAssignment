@@ -80,7 +80,7 @@ backend    alpine:latest   Up 5 seconds
 frontend   nginx:alpine    Up 5 seconds
 ```
 
-`sleep infinity` is needed on the alpine container because a container lives only as long as its main process — plain `alpine` would run its default shell, find no input, and exit immediately.
+`sleep infinity` is needed on the alpine container because a container lives only as long as its main process  -  plain `alpine` would run its default shell, find no input, and exit immediately.
 
 ![three networks and three containers created](images/task1-1-create-networks.png)
 
@@ -93,7 +93,7 @@ docker network connect frontend-net backend
 docker network connect database-net backend
 ```
 
-`docker network connect` attaches a **running** container to an additional network — no restart, no recreate. This is how a container ends up multi-homed.
+`docker network connect` attaches a **running** container to an additional network  -  no restart, no recreate. This is how a container ends up multi-homed.
 
 ### Confirm which networks each container is on
 
@@ -111,11 +111,11 @@ frontend-net=172.20.0.2
 database-net=172.22.0.2
 ```
 
-The backend has **three IP addresses on three different subnets** — one interface per network it joined. The frontend and database have exactly one each.
+The backend has **three IP addresses on three different subnets**  -  one interface per network it joined. The frontend and database have exactly one each.
 
 ![backend attached to two more networks, holding three IPs on three subnets](images/task1-2-backend-multihomed.png)
 
-### Check connectivity — from the backend
+### Check connectivity  -  from the backend
 
 ```bash
 docker exec backend ping -c 3 frontend
@@ -144,7 +144,7 @@ PING database (172.22.0.2): 56 data bytes
 round-trip min/avg/max = 0.177/0.190/0.204 ms
 ```
 
-Both reachable, **by container name**, resolved through Docker's embedded DNS. Notice `frontend` resolved to `172.20.0.2` and `database` to `172.22.0.2` — different subnets, and the backend used a different local interface for each.
+Both reachable, **by container name**, resolved through Docker's embedded DNS. Notice `frontend` resolved to `172.20.0.2` and `database` to `172.22.0.2`  -  different subnets, and the backend used a different local interface for each.
 
 Beyond ICMP, actual application traffic works too:
 
@@ -165,7 +165,7 @@ port 3306 on database is OPEN
 
 HTTP to the frontend and the MySQL port on the database, both by name.
 
-### Check connectivity — from the frontend
+### Check connectivity  -  from the frontend
 
 ```bash
 docker exec frontend ping -c 3 backend
@@ -181,11 +181,11 @@ PING backend (172.20.0.3): 56 data bytes
 3 packets transmitted, 3 packets received, 0% packet loss
 ```
 
-Works — they share `frontend-net`. And it resolved the backend to `172.20.0.3`, the backend's address **on that specific network**, not one of its other two.
+Works  -  they share `frontend-net`. And it resolved the backend to `172.20.0.3`, the backend's address **on that specific network**, not one of its other two.
 
 ![backend pinging both frontend and database by container name with 0% loss](images/task1-3-connectivity.png)
 
-### The isolation test — frontend to database
+### The isolation test  -  frontend to database
 
 ```bash
 docker exec frontend ping -c 3 database
@@ -196,7 +196,7 @@ ping: bad address 'database'
 [exit code: 1]
 ```
 
-**This failure is the expected and desired result.** And look at *how* it failed — not a timeout, but `bad address`. The name did not even resolve.
+**This failure is the expected and desired result.** And look at *how* it failed  -  not a timeout, but `bad address`. The name did not even resolve.
 
 That is worth understanding: Docker's embedded DNS is **scoped per network**. A container can only resolve the names of containers it shares a network with. The frontend cannot reach the database because, as far as its DNS is concerned, the database does not exist. The isolation is at the name-resolution layer, before any packet is sent.
 
@@ -235,9 +235,9 @@ docker exec backend  getent hosts database   # 172.22.0.2  database
 
 | From ↓ / To → | frontend | backend | database |
 |---|---|---|---|
-| **frontend** | — | resolves | **fails** |
-| **backend** | resolves | — | resolves |
-| **database** | **fails** | resolves | — |
+| **frontend** |  -  | resolves | **fails** |
+| **backend** | resolves |  -  | resolves |
+| **database** | **fails** | resolves |  -  |
 
 Exactly the three-tier isolation intended: the backend is the only path between the frontend and the database.
 
@@ -304,7 +304,7 @@ Docker allocated a separate subnet per network automatically, and `backend` appe
 
 `--network host` removes network isolation entirely. The container shares the **host's own network namespace** rather than getting its own. Consequences:
 
-- **No port publishing.** `-p` is meaningless and ignored — the container binds directly to the host's ports.
+- **No port publishing.** `-p` is meaningless and ignored  -  the container binds directly to the host's ports.
 - No NAT, so slightly lower latency and no port-mapping overhead.
 - **No isolation**, and port conflicts are real: two containers cannot both bind port 80.
 
@@ -336,7 +336,7 @@ apache-host   httpd:2.4   Up 4 seconds
 NetworkMode=host  Networks=host
 ```
 
-The **`PORTS` column is empty** — and that is correct. There is no mapping to display, because there is no NAT. Apache is bound straight to port 80 of the host namespace.
+The **`PORTS` column is empty**  -  and that is correct. There is no mapping to display, because there is no NAT. Apache is bound straight to port 80 of the host namespace.
 
 ```bash
 docker logs apache-host | tail -3
@@ -367,13 +367,13 @@ HTTP 000
 
 This is **not** a broken configuration. It is how Docker Desktop works, and it is worth understanding properly:
 
-Docker on macOS does not run natively — the Linux kernel runs inside a **virtual machine**. So `--network host` means *the VM's* host namespace, not macOS. Apache really is on port 80 — of the VM, at `192.168.65.3`. `localhost:80` on macOS is a different network stack entirely, so nothing is listening there.
+Docker on macOS does not run natively  -  the Linux kernel runs inside a **virtual machine**. So `--network host` means *the VM's* host namespace, not macOS. Apache really is on port 80  -  of the VM, at `192.168.65.3`. `localhost:80` on macOS is a different network stack entirely, so nothing is listening there.
 
 On a native **Linux** host this works exactly as the task describes, because there is no VM in between.
 
 ### Proving the host network genuinely works
 
-To show Apache really is serving on port 80 of the host namespace, I ran a second container **also** on the host network and reached Apache over `localhost` — with no `-p` anywhere:
+To show Apache really is serving on port 80 of the host namespace, I ran a second container **also** on the host network and reached Apache over `localhost`  -  with no `-p` anywhere:
 
 ```bash
 docker run --rm --network host alpine:latest sh -c 'apk add -q curl; curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:80'
@@ -433,7 +433,7 @@ docker-desktop
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
 ```
 
-The container's hostname is **`docker-desktop`** — the VM's hostname, not a container ID. And it can see `docker0` and the `br-*` bridges from Task 1, which a normally-isolated container never could. It is genuinely inside the host's network namespace.
+The container's hostname is **`docker-desktop`**  -  the VM's hostname, not a container ID. And it can see `docker0` and the `br-*` bridges from Task 1, which a normally-isolated container never could. It is genuinely inside the host's network namespace.
 
 ![identical curl from a bridge container failing, proving the namespace difference](images/task2-3-apache-port80.png)
 
@@ -457,7 +457,7 @@ HTTP 200
 
 ![Apache serving on port 80 in the browser, with name and enrollment number](images/apache-port80.png)
 
-Note the difference in the `PORTS` column between the two runs — empty for `--network host`, and `0.0.0.0:80->80/tcp` here. That column is the quickest way to tell which mode a container is in.
+Note the difference in the `PORTS` column between the two runs  -  empty for `--network host`, and `0.0.0.0:80->80/tcp` here. That column is the quickest way to tell which mode a container is in.
 
 To reach the true host-network container from macOS instead, Docker Desktop has an opt-in *Enable host networking* setting under **Settings → Resources → Network**, which requires a restart. I left it off rather than change a global setting on my machine, since the behaviour above already demonstrates what the task is about.
 
@@ -512,7 +512,7 @@ bind: /Users/.../Class_Assignments/Docker_Network/bindvolume -> /usr/share/nginx
 bind: /Users/.../Class_Assignments/Docker_Network/nginx-bindmount.conf -> /etc/nginx/conf.d/default.conf (RW=false)
 ```
 
-`Type: bind` with a real host path as `Source`. A named volume would instead show `Type: volume` with a path under Docker's own storage. The `:ro` on the config file gives `RW=false` — read-only inside the container.
+`Type: bind` with a real host path as `Source`. A named volume would instead show `Type: volume` with a path under Docker's own storage. The `:ro` on the config file gives `RW=false`  -  read-only inside the container.
 
 ### 3. Access the site and verify the content
 
@@ -610,7 +610,7 @@ nginx-bind -> Up 7 seconds
 
 ### 7. Writes flow both ways
 
-A bind mount is not a one-way copy — it is the same directory, so the container can write back to the host:
+A bind mount is not a one-way copy  -  it is the same directory, so the container can write back to the host:
 
 ```bash
 docker exec nginx-bind sh -c 'echo "<!-- appended from inside the container -->" >> /usr/share/nginx/html/index.html'
@@ -625,7 +625,7 @@ That line was written **inside** the container and appeared in the file on my ho
 
 ### A real problem I hit, and the fix
 
-My first attempt served **truncated** responses right after an edit — the new text cut off mid-word:
+My first attempt served **truncated** responses right after an edit  -  the new text cut off mid-word:
 
 ```
 $ curl -s http://localhost:8090
@@ -655,7 +655,7 @@ server {
 }
 ```
 
-With `sendfile off` and a moment's pause after editing, every response is complete and correct — which is what the verified output above shows.
+With `sendfile off` and a moment's pause after editing, every response is complete and correct  -  which is what the verified output above shows.
 
 I am recording this rather than hiding it because it is a genuinely useful thing to know: **bind mounts on Docker Desktop are not the same as bind mounts on native Linux.** They cross a VM boundary, which adds caching and a real performance cost. On native Linux this problem does not occur. It is also why `sendfile off` is a standard recommendation for nginx development containers on macOS and Windows.
 
@@ -668,7 +668,7 @@ I am recording this rather than hiding it because it is a genuinely useful thing
 | Visible/editable from host | Yes, directly | Not conveniently |
 | Survives `docker rm` | Yes, it is your directory | Yes, until `docker volume rm` |
 | Portable across machines | No, depends on host paths | Yes |
-| Best for | **Development** — live code editing, config files | **Production data** — databases, uploads |
+| Best for | **Development**  -  live code editing, config files | **Production data**  -  databases, uploads |
 
 Rule of thumb: bind mounts for things **you** edit, named volumes for things the **application** writes.
 
@@ -680,13 +680,13 @@ Rule of thumb: bind mounts for things **you** edit, named volumes for things the
 - Understand their use cases
 - Understand how overlay networks work across multiple Docker hosts
 
-This task is written as research, but overlay networks can be created and used for real on a single machine in swarm mode — so rather than only writing notes, I actually built one and captured the output. I left swarm mode afterwards to restore my Docker state.
+This task is written as research, but overlay networks can be created and used for real on a single machine in swarm mode  -  so rather than only writing notes, I actually built one and captured the output. I left swarm mode afterwards to restore my Docker state.
 
 ### What an overlay network is
 
 Every network in Task 1 was a **bridge**, and a bridge is strictly local to one Docker host. Two containers on two different machines cannot join the same bridge.
 
-An **overlay** network spans **multiple Docker hosts**. Containers on different physical machines get addresses on one logical subnet and talk to each other by name as if they were on the same LAN — even though their packets are crossing a real network in between.
+An **overlay** network spans **multiple Docker hosts**. Containers on different physical machines get addresses on one logical subnet and talk to each other by name as if they were on the same LAN  -  even though their packets are crossing a real network in between.
 
 ### How it works across multiple hosts
 
@@ -694,7 +694,7 @@ The mechanism is **VXLAN encapsulation** (Virtual Extensible LAN):
 
 1. A container on host A sends an ordinary Ethernet frame to a container on host B, using the overlay's private address (e.g. `10.0.1.5`).
 2. Host A's overlay driver **wraps** that whole frame inside a **UDP packet on port 4789**, addressed to host B's real IP.
-3. That UDP packet travels the physical network as ordinary traffic. Routers in between see only a UDP packet between two hosts — they know nothing of the overlay.
+3. That UDP packet travels the physical network as ordinary traffic. Routers in between see only a UDP packet between two hosts  -  they know nothing of the overlay.
 4. Host B receives it, **unwraps** the inner frame, and delivers it to the target container.
 
 The inner network is "tunnelled" over the outer one, which is why it is called an overlay. Supporting pieces:
@@ -711,7 +711,7 @@ Ports that must be open between hosts:
 | 7946 | TCP + UDP | Node discovery / gossip |
 | 4789 | UDP | VXLAN data plane |
 
-### Demonstration — overlay requires swarm mode
+### Demonstration  -  overlay requires swarm mode
 
 ```bash
 docker network create -d overlay will-fail-net
@@ -758,7 +758,7 @@ NETWORK ID     NAME      DRIVER    SCOPE
 p7163974cpqg   ingress   overlay   swarm
 ```
 
-Note **`SCOPE: swarm`**, not `local` — this network is a cluster-wide object, unlike every bridge in Task 1.
+Note **`SCOPE: swarm`**, not `local`  -  this network is a cluster-wide object, unlike every bridge in Task 1.
 
 ![overlay creation failing without swarm, then docker swarm init succeeding](images/task4-1-overlay-swarm-init.png)
 
@@ -775,7 +775,7 @@ docker network inspect app-overlay --format 'Name={{.Name}}  Driver={{.Driver}} 
 Name=app-overlay  Driver=overlay  Scope=swarm  Attachable=true  Subnet=10.0.1.0/24
 ```
 
-Subnet `10.0.1.0/24`, distinct from the `172.x` bridge ranges. `--attachable` lets ordinary `docker run` containers join, not just swarm services — useful for debugging.
+Subnet `10.0.1.0/24`, distinct from the `172.x` bridge ranges. `--attachable` lets ordinary `docker run` containers join, not just swarm services  -  useful for debugging.
 
 ### Deploy a service and scale it
 
@@ -798,7 +798,7 @@ web.2     docker-desktop   Running 17 seconds ago
 web.3     docker-desktop   Running 17 seconds ago
 ```
 
-All three replicas are on `docker-desktop` because this is a single-node swarm. On a multi-node cluster the `NODE` column would show them spread across different machines — **and they would still share this one overlay network.** That is the whole point.
+All three replicas are on `docker-desktop` because this is a single-node swarm. On a multi-node cluster the `NODE` column would show them spread across different machines  -  **and they would still share this one overlay network.** That is the whole point.
 
 ### The routing mesh
 
@@ -814,7 +814,7 @@ HTTP 200
 
 ![overlay network created with scope swarm and a 3-replica service running on it](images/task4-2-overlay-create-service.png)
 
-### Service discovery — the part that shows overlay DNS
+### Service discovery  -  the part that shows overlay DNS
 
 ```bash
 docker run --rm --network app-overlay alpine:latest sh -c 'nslookup web; nslookup tasks.web'
@@ -853,7 +853,7 @@ web.3.czrniyjvn5asimo6r1axjmloi = 10.0.1.5/24
 app-overlay-endpoint = 10.0.1.6/24
 ```
 
-The service has one VIP on `ingress` and one on `app-overlay`, and each replica has its own overlay address. On a multi-host cluster this listing would be identical in shape — the only difference is that the containers would be running on different physical machines.
+The service has one VIP on `ingress` and one on `app-overlay`, and each replica has its own overlay address. On a multi-host cluster this listing would be identical in shape  -  the only difference is that the containers would be running on different physical machines.
 
 ![web resolving to a single VIP while tasks.web returns all three replica addresses](images/task4-3-overlay-service-discovery.png)
 
@@ -862,7 +862,7 @@ The service has one VIP on `ingress` and one on `app-overlay`, and each replica 
 - **Multi-host container networking.** The core case: services on different machines communicating by name over one private subnet.
 - **Swarm service-to-service traffic.** A `web` service reaching an `api` service by name, without either knowing about IPs or hosts.
 - **Horizontal scaling with built-in load balancing.** The VIP means scaling from 3 to 30 replicas needs no client change.
-- **Service isolation in a cluster.** Separate overlays per tier, exactly as I did with bridges in Task 1, but cluster-wide — a `frontend-overlay` and `db-overlay` where only the API joins both.
+- **Service isolation in a cluster.** Separate overlays per tier, exactly as I did with bridges in Task 1, but cluster-wide  -  a `frontend-overlay` and `db-overlay` where only the API joins both.
 - **Encrypted traffic between hosts.** `--opt encrypted` for compliance, since VXLAN is unencrypted by default and crosses the physical network.
 - **Rolling updates without downtime.** Swarm replaces replicas one at a time; the VIP keeps routing to healthy ones throughout.
 
@@ -880,7 +880,7 @@ The service has one VIP on `ingress` and one on `app-overlay`, and each replica 
 | Typical subnet here | `172.20–22.0.0/16` | `10.0.1.0/24` |
 | Use for | Single-host apps, local dev | Clustered/distributed apps |
 
-### Cleanup — restoring state
+### Cleanup  -  restoring state
 
 ```bash
 docker service rm web
@@ -902,7 +902,7 @@ NETWORK ID   NAME      DRIVER    SCOPE
 
 ![cleanup removing the service and overlay, and leaving swarm](images/task4-4-overlay-cleanup.png)
 
-Swarm inactive and no overlay networks remain — my Docker installation is back to how it started.
+Swarm inactive and no overlay networks remain  -  my Docker installation is back to how it started.
 
 ---
 
@@ -954,7 +954,7 @@ docker service rm web; docker network rm app-overlay; docker swarm leave --force
 
 **Networks are the isolation boundary.** Containers sharing a user-defined network reach each other
 **by name**; containers with no shared network cannot even resolve each other. `frontend` → `database`
-failed with `bad address`, not a timeout — Docker's DNS is scoped per network, so isolation happens
+failed with `bad address`, not a timeout  -  Docker's DNS is scoped per network, so isolation happens
 before a packet is sent. That is stronger than firewall rules, and it is the default.
 
 **Multi-homing is how you build tiers.** `docker network connect` attaches a running container to
@@ -977,7 +977,7 @@ more networks with no restart. Putting only the backend on both networks gives r
 Neither is a misconfiguration, and neither happens on Linux.
 
 **Bind mounts for development, named volumes for data.** Editing `index.html` changed what nginx
-served with `StartedAt` unchanged and `RestartCount: 0` — no restart, no rebuild.
+served with `StartedAt` unchanged and `RestartCount: 0`  -  no restart, no rebuild.
 
 **Overlay is bridge plus a cluster.** Same DNS-by-name model extended across machines via VXLAN over
 UDP 4789. The service VIP (`web` → one load-balanced address) versus `tasks.web` (→ all replicas) is

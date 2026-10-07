@@ -103,7 +103,7 @@ client library.
 
 ![The raw /metrics output of the app](images/task1-2-metrics-endpoint.png)
 
-### CPU, memory, application health — as PromQL queries
+### CPU, memory, application health  -  as PromQL queries
 
 ```
 # health: up (1 = scrape worked)
@@ -251,7 +251,7 @@ The target page even says why: the container is gone, so its DNS name doesn't re
 
 ![ShopApiDown firing, target health down](images/task1-13-app-down-alert.png)
 
-![Grafana: health DOWN, 19.9% errors, and the whole incident visible — the CPU plateau at 1 core from 00:46 to 00:53 and the /api/report traffic burst](images/task1-14-grafana-app-down.png)
+![Grafana: health DOWN, 19.9% errors, and the whole incident visible  -  the CPU plateau at 1 core from 00:46 to 00:53 and the /api/report traffic burst](images/task1-14-grafana-app-down.png)
 
 (The "Firing alerts" panel still says 1 here: the screenshot was taken a few seconds after
 `ShopApiDown` fired, before Grafana's next refresh picked it up.)
@@ -272,7 +272,7 @@ minute, because it is computed over a **1-minute window** that still contained t
 
 ---
 
-## Task 2: Observability — the three pillars
+## Task 2: Observability  -  the three pillars
 
 | Pillar | What it is | Answers | In this demo |
 |---|---|---|---|
@@ -430,7 +430,7 @@ CD created the namespace, ConfigMap, Deployment and Service from commit `6360907
 
 ![Argo CD synced v1: 2 pods, Service and ConfigMap created from Git](images/task3-3-create-application.png)
 
-### 2. Change by commit — and a bad commit
+### 2. Change by commit  -  and a bad commit
 
 Change replicas from 2 to 3 and the page from v1 to v2, then commit and push:
 

@@ -7,8 +7,8 @@
 
 ## Tasks
 
-**Task 1** — Practice the commands and repo shared in the `devops-heros` GitHub repo.
-**Task 2** — Create a Markdown file, execute the networking commands, add the output, and add a short explanation of what I understood about each command.
+**Task 1**  -  Practice the commands and repo shared in the `devops-heros` GitHub repo.
+**Task 2**  -  Create a Markdown file, execute the networking commands, add the output, and add a short explanation of what I understood about each command.
 
 ### Where it was run
 
@@ -39,9 +39,9 @@ devops-lab
 
 ### Explanation
 
-`hostname` prints the machine's own name. It is the simplest possible identity check — useful when you are SSH'd into several servers and need to be certain which one your command is about to run on.
+`hostname` prints the machine's own name. It is the simplest possible identity check  -  useful when you are SSH'd into several servers and need to be certain which one your command is about to run on.
 
-`-f` asks for the **fully qualified domain name** (FQDN), i.e. hostname plus DNS domain, like `web01.example.com`. Here it returns just `devops-lab` because the container has no DNS domain configured — a bare name means the box is not part of a DNS domain.
+`-f` asks for the **fully qualified domain name** (FQDN), i.e. hostname plus DNS domain, like `web01.example.com`. Here it returns just `devops-lab` because the container has no DNS domain configured  -  a bare name means the box is not part of a DNS domain.
 
 ---
 
@@ -68,7 +68,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 `whoami` prints the current **effective** username. `id` gives the full picture: numeric user ID, group ID and all group memberships.
 
-The important detail here is `uid=0`. **UID 0 is root** — that is what actually grants administrative privilege, not the name "root". The name is just a label in `/etc/passwd`; the kernel only cares about the number. Together these two commands answer "who am I and what am I allowed to do", which is the first thing to check when a command fails with *Permission denied*.
+The important detail here is `uid=0`. **UID 0 is root**  -  that is what actually grants administrative privilege, not the name "root". The name is just a label in `/etc/passwd`; the kernel only cares about the number. Together these two commands answer "who am I and what am I allowed to do", which is the first thing to check when a command fails with *Permission denied*.
 
 ---
 
@@ -105,9 +105,9 @@ Reading the output:
 
 - **`lo`** is the loopback interface, always `127.0.0.1/8`. Traffic to it never leaves the machine. This is what `localhost` resolves to.
 - **`eth0`** is the real network interface, with IP **`172.17.0.2/16`**.
-- **`/16`** is the CIDR prefix — 16 bits of network, so the subnet is `172.17.0.0` – `172.17.255.255`. Anything in that range is reachable directly without a router.
-- **`link/ether 02:42:ac:11:00:02`** is the MAC address, the layer-2 hardware address. The `02:42:ac` prefix is Docker's signature, and the last four octets `ac:11:00:02` are literally the IP `172.17.0.2` in hex — Docker derives the MAC from the IP.
-- **`state UP`** and **`LOWER_UP`** mean the interface is administratively up *and* the physical link is live. An interface can be `UP` with `NO-CARRIER` — configured but unplugged.
+- **`/16`** is the CIDR prefix  -  16 bits of network, so the subnet is `172.17.0.0` – `172.17.255.255`. Anything in that range is reachable directly without a router.
+- **`link/ether 02:42:ac:11:00:02`** is the MAC address, the layer-2 hardware address. The `02:42:ac` prefix is Docker's signature, and the last four octets `ac:11:00:02` are literally the IP `172.17.0.2` in hex  -  Docker derives the MAC from the IP.
+- **`state UP`** and **`LOWER_UP`** mean the interface is administratively up *and* the physical link is live. An interface can be `UP` with `NO-CARRIER`  -  configured but unplugged.
 - **`mtu 65535`** is the largest packet the interface will send. Normally 1500 on Ethernet; it is huge here because this is a virtual interface inside a VM.
 
 ---
@@ -165,16 +165,16 @@ default via 172.17.0.1 dev eth0
 
 ### Explanation
 
-`ip route` prints the kernel **routing table** — the rules deciding where a packet goes based on its destination.
+`ip route` prints the kernel **routing table**  -  the rules deciding where a packet goes based on its destination.
 
 Two rules here, and the kernel picks the **most specific match** first:
 
-1. `172.17.0.0/16 dev eth0 ... scope link` — anything inside my own subnet is **directly reachable** on `eth0`, no router involved. `scope link` means "on the same link as me". `proto kernel` means the kernel added this automatically when the IP was configured.
-2. `default via 172.17.0.1 dev eth0` — everything else goes to the **default gateway** `172.17.0.1`. This is the catch-all, equivalent to `0.0.0.0/0`.
+1. `172.17.0.0/16 dev eth0 ... scope link`  -  anything inside my own subnet is **directly reachable** on `eth0`, no router involved. `scope link` means "on the same link as me". `proto kernel` means the kernel added this automatically when the IP was configured.
+2. `default via 172.17.0.1 dev eth0`  -  everything else goes to the **default gateway** `172.17.0.1`. This is the catch-all, equivalent to `0.0.0.0/0`.
 
 `ip route get 8.8.8.8` is the genuinely useful one: instead of making you read the table and work it out, it asks the kernel to **decide** for a specific destination and show the answer. It confirms 8.8.8.8 will leave via the gateway `172.17.0.1` out of `eth0`, sourced from `172.17.0.2`.
 
-This is the command for "I have an IP and DNS works, but I still cannot reach anything" — a missing or wrong default route is a very common cause.
+This is the command for "I have an IP and DNS works, but I still cannot reach anything"  -  a missing or wrong default route is a very common cause.
 
 ---
 
@@ -220,14 +220,14 @@ rtt min/avg/max/mdev = 27.413/30.128/34.124/2.885 ms
 
 What the fields mean:
 
-- **`icmp_seq`** — sequence number. Gaps mean dropped packets.
-- **`time`** — round-trip time. ~11 ms to Google DNS, ~28 ms to google.com.
-- **`ttl=63`** — Time To Live remaining. Each router decrements it by one, and a packet is discarded at zero, which prevents infinite loops. Linux typically starts at 64, so `63` means the reply crossed **one** hop.
-- **`0% packet loss`** — the number that matters. Loss indicates congestion or a bad link; high `mdev` (jitter) indicates an unstable path.
+- **`icmp_seq`**  -  sequence number. Gaps mean dropped packets.
+- **`time`**  -  round-trip time. ~11 ms to Google DNS, ~28 ms to google.com.
+- **`ttl=63`**  -  Time To Live remaining. Each router decrements it by one, and a packet is discarded at zero, which prevents infinite loops. Linux typically starts at 64, so `63` means the reply crossed **one** hop.
+- **`0% packet loss`**  -  the number that matters. Loss indicates congestion or a bad link; high `mdev` (jitter) indicates an unstable path.
 
 Running it against a **name** rather than an IP is a deliberately useful trick: the first line shows `PING google.com (142.250.207.174)`, which proves DNS resolution worked *before* any packet was sent. So a successful `ping google.com` tests DNS **and** connectivity, while `ping 8.8.8.8` isolates connectivity only. If the IP pings but the name does not, the fault is DNS.
 
-The reverse name `pnbomb-bl-in-f14.1e100.net` comes from a reverse DNS lookup of the replying address — `1e100.net` is Google's infrastructure domain (1e100 = 10^100 = a googol).
+The reverse name `pnbomb-bl-in-f14.1e100.net` comes from a reverse DNS lookup of the replying address  -  `1e100.net` is Google's infrastructure domain (1e100 = 10^100 = a googol).
 
 An important limitation: **no reply does not prove a host is down.** Plenty of hosts and firewalls simply drop ICMP. Failing to ping a server that is happily serving HTTP is common.
 
@@ -268,13 +268,13 @@ Address: 20.207.73.82
 
 `nslookup` queries DNS to turn a name into an IP address.
 
-- **`Server` / `Address`** — *which* DNS resolver answered. `192.168.65.7#53` is the resolver's IP, and `#53` is the DNS port. This is valuable on its own: it tells you which resolver you are actually using, which is often not the one you assumed.
-- **`Non-authoritative answer`** — the answer came from a **cache**, not from the domain's own authoritative nameserver. This is normal and expected; it is why DNS is fast. An authoritative answer would come directly from Google's own nameservers.
-- **`Address`** — the resolved IP.
+- **`Server` / `Address`**  -  *which* DNS resolver answered. `192.168.65.7#53` is the resolver's IP, and `#53` is the DNS port. This is valuable on its own: it tells you which resolver you are actually using, which is often not the one you assumed.
+- **`Non-authoritative answer`**  -  the answer came from a **cache**, not from the domain's own authoritative nameserver. This is normal and expected; it is why DNS is fast. An authoritative answer would come directly from Google's own nameservers.
+- **`Address`**  -  the resolved IP.
 
 `nslookup` isolates DNS from everything else. If `nslookup google.com` works but the browser cannot load the page, DNS is fine and the problem lies elsewhere. If `nslookup` itself fails, nothing that uses hostnames will work.
 
-Worth noting: `dig` is the preferred modern tool for real DNS debugging — it shows the full query, TTLs, and record sections. `nslookup` is the older, simpler one, still installed everywhere.
+Worth noting: `dig` is the preferred modern tool for real DNS debugging  -  it shows the full query, TTLs, and record sections. `nslookup` is the older, simpler one, still installed everywhere.
 
 ---
 
@@ -301,7 +301,7 @@ expires: Thu, 03 Sep 2026 16:10:44 GMT
 cache-control: private
 alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 ```
-*(`set-cookie` and CSP headers trimmed for readability — the full response is in the transcript.)*
+*(`set-cookie` and CSP headers trimmed for readability  -  the full response is in the transcript.)*
 
 ```
 Mind your words, they are important.
@@ -315,21 +315,21 @@ http_code=200 time_total=0.178381s size=85676bytes
 
 ### Explanation
 
-`curl` makes HTTP(S) requests from the command line. Where `ping` tests whether a *host* is up, `curl` tests whether the *application* is actually working — which is a completely different question.
+`curl` makes HTTP(S) requests from the command line. Where `ping` tests whether a *host* is up, `curl` tests whether the *application* is actually working  -  which is a completely different question.
 
 The flags I used:
 
-- **`-I`** — send a `HEAD` request: fetch **headers only**, no body. Ideal for checking whether a service is alive without downloading a megabyte of HTML.
-- **`-s`** — silent, suppresses the progress meter. Essential when piping output.
-- **`-o /dev/null`** — discard the body.
-- **`-w`** — write out chosen variables afterwards, so you get a clean one-line summary.
+- **`-I`**  -  send a `HEAD` request: fetch **headers only**, no body. Ideal for checking whether a service is alive without downloading a megabyte of HTML.
+- **`-s`**  -  silent, suppresses the progress meter. Essential when piping output.
+- **`-o /dev/null`**  -  discard the body.
+- **`-w`**  -  write out chosen variables afterwards, so you get a clean one-line summary.
 
 Reading the header output:
 
-- **`HTTP/2 200`** — protocol version and status code. `200` is success. This is the single most important line.
-- **`server: gws`** — Google Web Server.
-- **`content-type`** — what the body actually is.
-- **`alt-svc: h3=":443"`** — the server advertises HTTP/3 over QUIC on port 443.
+- **`HTTP/2 200`**  -  protocol version and status code. `200` is success. This is the single most important line.
+- **`server: gws`**  -  Google Web Server.
+- **`content-type`**  -  what the body actually is.
+- **`alt-svc: h3=":443"`**  -  the server advertises HTTP/3 over QUIC on port 443.
 
 The `-w` form is the practical one for scripting and health checks: `http_code=200`, a total time of **0.178 s**, and **85676 bytes** downloaded. That is enough to build a monitoring check that alerts on a non-200 or on latency.
 
@@ -366,20 +366,20 @@ Recv-Q Send-Q Local Address:Port Peer Address:Port Process
 
 `ss` (socket statistics) shows network sockets. It replaces the deprecated `netstat` and is considerably faster, because it reads kernel data directly instead of parsing `/proc`.
 
-The flags, which are worth memorising as a set — **`ss -tuln`**:
+The flags, which are worth memorising as a set  -  **`ss -tuln`**:
 
 - **`-t`** TCP, **`-u`** UDP
 - **`-l`** listening sockets only
-- **`-n`** numeric — do **not** resolve port numbers to names, so you see `80` instead of `http`. This also makes it much faster, since no DNS lookups happen.
+- **`-n`** numeric  -  do **not** resolve port numbers to names, so you see `80` instead of `http`. This also makes it much faster, since no DNS lookups happen.
 
 Reading it:
 
-- **`0.0.0.0:80`** — listening on port 80 on **all** IPv4 interfaces. This matters for security: `0.0.0.0` is reachable from the network, whereas `127.0.0.1:80` would only accept local connections.
-- **`[::]:80`** — the same on IPv6.
-- **`Send-Q`** on a listening socket is the **accept backlog** (511 for nginx, 4096 for sshd) — how many pending connections may queue before new ones are refused.
+- **`0.0.0.0:80`**  -  listening on port 80 on **all** IPv4 interfaces. This matters for security: `0.0.0.0` is reachable from the network, whereas `127.0.0.1:80` would only accept local connections.
+- **`[::]:80`**  -  the same on IPv6.
+- **`Send-Q`** on a listening socket is the **accept backlog** (511 for nginx, 4096 for sshd)  -  how many pending connections may queue before new ones are refused.
 - **`Recv-Q`** on a listening socket is the number of connections waiting to be accepted. Persistently non-zero means the application is not keeping up.
 
-Adding **`-p`** shows the owning process. This is the answer to "what is already using this port" — exactly the situation I hit while doing the Docker homework, where port 3001 was occupied. The nginx line shows one master plus many workers all sharing the same listening socket, which is how nginx's worker model operates.
+Adding **`-p`** shows the owning process. This is the answer to "what is already using this port"  -  exactly the situation I hit while doing the Docker homework, where port 3001 was occupied. The nginx line shows one master plus many workers all sharing the same listening socket, which is how nginx's worker model operates.
 
 ---
 
@@ -435,9 +435,9 @@ PING myapp.local (127.0.0.1) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 0.065 ms
 ```
 
-`myapp.local` is not a real domain and no DNS server anywhere knows it, yet it resolved to `127.0.0.1` immediately — because `/etc/hosts` was checked first.
+`myapp.local` is not a real domain and no DNS server anywhere knows it, yet it resolved to `127.0.0.1` immediately  -  because `/etc/hosts` was checked first.
 
-This is genuinely useful in practice: pointing a production hostname at a staging server to test it, or at `127.0.0.1` to block a domain. It is also the first thing to check when a machine resolves a name "wrongly" and no DNS change explains it — a stale `/etc/hosts` entry is a classic and very confusing bug.
+This is genuinely useful in practice: pointing a production hostname at a staging server to test it, or at `127.0.0.1` to block a domain. It is also the first thing to check when a machine resolves a name "wrongly" and no DNS change explains it  -  a stale `/etc/hosts` entry is a classic and very confusing bug.
 
 ---
 
@@ -468,13 +468,13 @@ tracepath -m 8 8.8.8.8
 
 ### Explanation
 
-`tracepath` traces the route to a destination and additionally discovers the **path MTU** — the largest packet size that can cross the whole path without fragmentation. It needs no root privileges, which is its main advantage over classic `traceroute`.
+`tracepath` traces the route to a destination and additionally discovers the **path MTU**  -  the largest packet size that can cross the whole path without fragmentation. It needs no root privileges, which is its main advantage over classic `traceroute`.
 
 It works by sending packets with a deliberately small **TTL**. TTL 1 expires at the first router, which returns an ICMP "time exceeded" naming itself; TTL 2 expires at the second, and so on. Each expiry reveals one hop.
 
-**Being honest about this output:** only hop 1 answered — `172.17.0.1`, the Docker bridge gateway, which matches the `default via 172.17.0.1` route from command 5. Everything after that is `no reply`.
+**Being honest about this output:** only hop 1 answered  -  `172.17.0.1`, the Docker bridge gateway, which matches the `default via 172.17.0.1` route from command 5. Everything after that is `no reply`.
 
-This is **not** a broken network — commands 6, 7 and 8 above prove the internet is fully reachable from this container. The cause is that Docker Desktop's NAT layer does not return the ICMP "time exceeded" messages that `tracepath` relies on, so the intermediate hops are invisible. I confirmed this by re-running the trace in ICMP mode, which does work — see the next section.
+This is **not** a broken network  -  commands 6, 7 and 8 above prove the internet is fully reachable from this container. The cause is that Docker Desktop's NAT layer does not return the ICMP "time exceeded" messages that `tracepath` relies on, so the intermediate hops are invisible. I confirmed this by re-running the trace in ICMP mode, which does work  -  see the next section.
 
 `pmtu 65535` is the MTU of the local virtual interface, consistent with the `mtu 65535` on `eth0` in command 3.
 
@@ -508,7 +508,7 @@ traceroute to 8.8.8.8 (8.8.8.8), 8 hops max, 60 byte packets
 
 `traceroute` does the same TTL trick as `tracepath`, but sends **three** probes per hop, which is why each line has three timings. Three numbers per hop let you spot an unstable or congested router, where one probe is much slower than its neighbours.
 
-`* * *` means no reply for any of the three probes at that TTL — the same NAT behaviour described above.
+`* * *` means no reply for any of the three probes at that TTL  -  the same NAT behaviour described above.
 
 ### Confirming the diagnosis
 
@@ -535,7 +535,7 @@ traceroute to 8.8.8.8 (8.8.8.8), 10 hops max, 60 byte packets
 
 Both reach **`dns.google (8.8.8.8)`** in two hops. So the path was fine all along; only the **UDP** probes were being dropped.
 
-That is the real lesson from this pair of commands, and it is more useful than a clean textbook trace would have been: **`* * *` does not mean the route is broken.** It means those particular probes got no reply. Firewalls very commonly permit ICMP or TCP while dropping UDP, or rate-limit ICMP responses. When a trace looks dead, change the probe type (`-I`, `-T`) before concluding anything — and if the final destination still responds, the path works regardless of what the middle hops show.
+That is the real lesson from this pair of commands, and it is more useful than a clean textbook trace would have been: **`* * *` does not mean the route is broken.** It means those particular probes got no reply. Firewalls very commonly permit ICMP or TCP while dropping UDP, or rate-limit ICMP responses. When a trace looks dead, change the probe type (`-I`, `-T`) before concluding anything  -  and if the final destination still responds, the path works regardless of what the middle hops show.
 
 Real-world use: `traceroute -T -p 443` is the practical choice for diagnosing a path to an HTTPS service, since it probes with the same protocol and port the real traffic will use.
 
@@ -550,7 +550,7 @@ Real-world use: `traceroute -T -p 443` is the practical choice for diagnosing a 
 timeout 6 telnet localhost 9999
 ```
 
-### Output — port that is open
+### Output  -  port that is open
 
 ```
 Trying ::1...
@@ -573,7 +573,7 @@ Connection: close
 Connection closed by foreign host.
 ```
 
-### Output — port that is closed
+### Output  -  port that is closed
 
 ```
 Trying ::1...
@@ -586,18 +586,18 @@ telnet: Unable to connect to remote host: Connection refused
 
 ### Explanation
 
-`telnet <host> <port>` opens a raw TCP connection. The original remote-login protocol is obsolete and must never be used for that — it transmits passwords in cleartext, and SSH replaced it. But as a **TCP connectivity tester** it is still genuinely useful and installed nearly everywhere.
+`telnet <host> <port>` opens a raw TCP connection. The original remote-login protocol is obsolete and must never be used for that  -  it transmits passwords in cleartext, and SSH replaced it. But as a **TCP connectivity tester** it is still genuinely useful and installed nearly everywhere.
 
 ![telnet to a closed port showing Connection refused, and to live nginx showing an HTTP response](images/13b-telnet-closed-and-nginx.png)
 
 The two outputs above are the two answers you are looking for:
 
-- **`Connected to localhost.`** — the TCP three-way handshake succeeded. Something is listening and accepting on that port.
-- **`Connection refused`** — the host was reachable but **nothing is listening** on that port. The host actively sent a TCP RST. This is a different failure from a **timeout**, which usually means a firewall silently dropped the packet. Distinguishing "refused" from "timed out" is the single most useful thing this command tells you.
+- **`Connected to localhost.`**  -  the TCP three-way handshake succeeded. Something is listening and accepting on that port.
+- **`Connection refused`**  -  the host was reachable but **nothing is listening** on that port. The host actively sent a TCP RST. This is a different failure from a **timeout**, which usually means a firewall silently dropped the packet. Distinguishing "refused" from "timed out" is the single most useful thing this command tells you.
 
-Because the connection is raw, you can then type protocol commands by hand — which is why I sent `GET / HTTP/1.0` and got a real HTTP response back from nginx, complete with `Server: nginx/1.24.0 (Ubuntu)`.
+Because the connection is raw, you can then type protocol commands by hand  -  which is why I sent `GET / HTTP/1.0` and got a real HTTP response back from nginx, complete with `Server: nginx/1.24.0 (Ubuntu)`.
 
-**About the `400 Bad Request`:** that is telnet's own doing, and worth understanding rather than hiding. HTTP requires lines to end with a literal CRLF, but telnet operates in line mode and transforms carriage returns as it sends them, so nginx received a malformed request line. The connection, the server, and the response are all completely real — the request was simply mangled in transit. It is a good illustration of why telnet is the right tool for *"is this port open"* and the wrong tool for *"is this HTTP endpoint returning correct data"*. For the latter, use `curl` (command 8), or `nc` / `openssl s_client` for raw sockets.
+**About the `400 Bad Request`:** that is telnet's own doing, and worth understanding rather than hiding. HTTP requires lines to end with a literal CRLF, but telnet operates in line mode and transforms carriage returns as it sends them, so nginx received a malformed request line. The connection, the server, and the response are all completely real  -  the request was simply mangled in transit. It is a good illustration of why telnet is the right tool for *"is this port open"* and the wrong tool for *"is this HTTP endpoint returning correct data"*. For the latter, use `curl` (command 8), or `nc` / `openssl s_client` for raw sockets.
 
 For reference, `nc -zv host port` is the cleaner modern equivalent for a pure port check, and it can test UDP too.
 
@@ -620,12 +620,12 @@ The commands split into layers, and the skill is knowing which layer you are tes
 
 A practical order for debugging "the website is down":
 
-1. `ip a` — do I have an address?
-2. `ip route` — is there a default gateway?
-3. `ping 8.8.8.8` — internet reachable by IP? *(rules DNS out)*
-4. `nslookup <site>` — does the name resolve? *(if 3 works and this fails, it is DNS)*
-5. `curl -I https://<site>` — is the app returning 200?
-6. `ss -tuln` — if it is my server, is it listening on the right address?
+1. `ip a`  -  do I have an address?
+2. `ip route`  -  is there a default gateway?
+3. `ping 8.8.8.8`  -  internet reachable by IP? *(rules DNS out)*
+4. `nslookup <site>`  -  does the name resolve? *(if 3 works and this fails, it is DNS)*
+5. `curl -I https://<site>`  -  is the app returning 200?
+6. `ss -tuln`  -  if it is my server, is it listening on the right address?
 
 Two things this run taught me that a textbook would not:
 

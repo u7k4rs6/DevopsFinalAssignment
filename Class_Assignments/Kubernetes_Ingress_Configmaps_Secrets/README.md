@@ -3,7 +3,7 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-All output below was captured from a real run on my machine — Minikube `v1.39.0` (`docker`
+All output below was captured from a real run on my machine  -  Minikube `v1.39.0` (`docker`
 driver), Kubernetes `v1.37.0`, `ingress-nginx` controller `v1.15.1`, macOS on Apple Silicon
 (`arm64`). The manifests are the ones from the class repo,
 `session-12-ingress-configmaps-secrets`. Raw transcripts are in [`lab/`](lab/).
@@ -14,7 +14,7 @@ single entry point instead of one NodePort per service.
 
 ---
 
-## Task 1: ConfigMap — configuration out of the image
+## Task 1: ConfigMap  -  configuration out of the image
 
 - Create a ConfigMap of non-sensitive settings
 - List it, describe it, and read a single key back
@@ -31,7 +31,7 @@ yatri-app-config   5      9h
 
 `DATA 5` is the number of keys, not bytes. The reason this object exists at all: without it, the
 only ways to change `LOG_LEVEL` are to rebuild the image or hard-code the value into the
-Deployment — meaning `production` and `staging` would need different images of identical code.
+Deployment  -  meaning `production` and `staging` would need different images of identical code.
 
 ![The ConfigMap created with five keys](images/task1-1-configmap-created.png)
 
@@ -63,7 +63,7 @@ PORT:
 5000
 ```
 
-Everything is in plain text, which is the whole distinction from a Secret in Task 2 — `describe`
+Everything is in plain text, which is the whole distinction from a Secret in Task 2  -  `describe`
 prints a ConfigMap's values in full and deliberately refuses to do the same for a Secret.
 
 ![kubectl describe printing all five ConfigMap values in plain text](images/task1-2-configmap-contents.png)
@@ -82,7 +82,7 @@ INR
 
 ---
 
-## Task 2: Secret — and the base64 trap
+## Task 2: Secret  -  and the base64 trap
 
 - Base64-encode three credentials
 - Create the Secret and show that its values are masked
@@ -122,7 +122,7 @@ POSTGRES_PASSWORD:  14 bytes
 POSTGRES_USER:      11 bytes
 ```
 
-`describe` gives **byte counts instead of values** — the one visible behavioural difference from
+`describe` gives **byte counts instead of values**  -  the one visible behavioural difference from
 a ConfigMap. It is worth being clear about what this does and does not buy you: base64 is
 encoding, not encryption. Anyone who can `get secret` can decode it in one command, and by
 default Secrets are stored unencrypted in etcd. What they actually provide is that values do not
@@ -141,7 +141,7 @@ c2VjcmV0cGFzc3dvcmQ=
 secretpassword
 ```
 
-One pipe from "masked" to plaintext — which is the point about base64 not being a security
+One pipe from "masked" to plaintext  -  which is the point about base64 not being a security
 boundary.
 
 ![The Secret value retrieved base64-encoded and then decoded back to plaintext in one pipe](images/task2-3-decoding-a-secret.png)
@@ -173,7 +173,7 @@ echo -n 'secretpassword' | base64 -d | xxd
 00000000: 7365 6372 6574 7061 7373 776f 7264       secretpassword
 ```
 
-There it is — a trailing **`0a`** byte, an invisible newline welded onto the end of the password.
+There it is  -  a trailing **`0a`** byte, an invisible newline welded onto the end of the password.
 The Secret is created successfully, the pod starts normally, nothing logs a warning, and then
 the database rejects every login because the password is `secretpassword\n` and not
 `secretpassword`. Hours get lost to this, because every layer reports success and the only
@@ -185,7 +185,7 @@ visible symptom is an authentication failure that looks like a wrong password.
 
 ---
 
-## Task 3: Ingress — one entry point instead of many
+## Task 3: Ingress  -  one entry point instead of many
 
 - Confirm the ingress controller is running
 - Create an Ingress with host and path-based routing rules
@@ -210,7 +210,7 @@ NAME                       TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)    
 ingress-nginx-controller   NodePort   10.111.241.145   <none>        80:31994/TCP,443:30107/TCP   16m
 ```
 
-The controller is an ordinary Deployment behind an ordinary NodePort Service — the same
+The controller is an ordinary Deployment behind an ordinary NodePort Service  -  the same
 primitives from [Session 11](../Kubernetes_Networking_and_Services/README.md). All an Ingress does
 is reprogram this one nginx instead of creating more Services.
 
@@ -238,7 +238,7 @@ Annotations:   nginx.ingress.kubernetes.io/ssl-redirect: false
 
 I applied the Ingress before deploying the apps, which turned out to be informative:
 **`<error: services ... not found>`**. The Ingress was accepted and the controller synced it
-anyway — an Ingress pointing at a non-existent Service is valid, and only shows up as a 503 at
+anyway  -  an Ingress pointing at a non-existent Service is valid, and only shows up as a 503 at
 request time. Same principle as the empty-endpoints Service in
 [Session 11, Task 7](../Kubernetes_Networking_and_Services/README.md): Kubernetes lets you wire
 things up in any order, so "created successfully" is not the same as "working".
@@ -284,7 +284,7 @@ kubectl rollout status deployment/yatri-backend --timeout=240s
 
 ![The ConfigMap and Secret applied ahead of the workloads that consume them](images/task4-2-config-and-secret.png)
 
-The backend consumes both objects in two different ways — `envFrom.configMapRef` pulls in every
+The backend consumes both objects in two different ways  -  `envFrom.configMapRef` pulls in every
 ConfigMap key at once, while each Secret value is mapped individually with
 `valueFrom.secretKeyRef`:
 
@@ -337,13 +337,13 @@ POSTGRES_USER   : yatri_admin
 POSTGRES_DB     : yatri_production_db
 ```
 
-This one response is the whole session. **Same host, same port, different path — a completely
+This one response is the whole session. **Same host, same port, different path  -  a completely
 different pod answered.** And what it printed did not come from its image: `production`, `INFO`
 and `INR` came from the ConfigMap, `yatri_admin` and `yatri_production_db` from the Secret.
 
 The `rewrite-target: /$2` annotation is doing quiet but essential work here. The path pattern
 `/api(/|$)(.*)` captures whatever follows `/api` as group 2, and the rewrite forwards only that
-to the backend — so the backend sees `/` and does not need to know it is mounted under `/api`.
+to the backend  -  so the backend sees `/` and does not need to know it is mounted under `/api`.
 Without it the backend would receive `/api/` and return a 404.
 
 ![The /api/ path returning the backend's output, showing values injected from both the ConfigMap and the Secret](images/task4-6-routing-api-to-backend.png)
@@ -365,7 +365,7 @@ POSTGRES_PASSWORD=secretpassword
 POSTGRES_USER=yatri_admin
 ```
 
-Inside the container both look identical — plain environment variables, with the Secret's
+Inside the container both look identical  -  plain environment variables, with the Secret's
 password fully readable. The separation is entirely about *who can read the object through the
 API*, not about how the value is stored in the process. Anyone who can `kubectl exec` into the
 pod can read the password, which is worth knowing before treating Secrets as a security control.
@@ -391,12 +391,12 @@ yatri-backend-f65c8c945-f2bsw    0/1     CreateContainerConfigError   0         
 
 Two behaviours in one listing. The **existing** pods keep running and keep serving, because
 environment variables are resolved once at container start and copied into the process. The
-**new** pod cannot be created at all — `CreateContainerConfigError`, with the reason named
+**new** pod cannot be created at all  -  `CreateContainerConfigError`, with the reason named
 exactly.
 
 The practical consequence is a delayed failure: delete a ConfigMap in production and nothing
 breaks, until the next rollout or node eviction, at which point pods start failing for a change
-made hours earlier. It also means editing a ConfigMap does **not** update running pods — env
+made hours earlier. It also means editing a ConfigMap does **not** update running pods  -  env
 vars need a restart to pick up new values (a mounted volume would update, but only after a
 kubelet sync delay).
 
@@ -410,16 +410,16 @@ kubelet sync delay).
 |---|---|---|
 | Stored as | Plain text | base64 (not encrypted) |
 | `describe` shows | Full values | Byte counts only |
-| Protects against | Nothing — it is not for secrets | Casual exposure in output and logs; separate RBAC |
+| Protects against | Nothing  -  it is not for secrets | Casual exposure in output and logs; separate RBAC |
 | Use for | Log levels, feature flags, URLs, ports | Passwords, API keys, tokens, certificates |
 
 The trailing-newline trap is the thing I will actually carry forward. `echo` versus `echo -n`
 produces a Secret that is accepted by the API, mounts cleanly, starts the pod without a warning,
-and then fails authentication for a reason nothing reports — and `xxd` is the only way to see
+and then fails authentication for a reason nothing reports  -  and `xxd` is the only way to see
 the `0a` that caused it.
 
 The other lesson was how tolerant Kubernetes is of things being wired up in the wrong order. An
 Ingress pointing at Services that do not exist was accepted and synced; a Service selecting no
 pods was accepted in Session 11; a deleted ConfigMap left running pods untouched. "Applied
-successfully" consistently means "the object is valid", never "the thing works" — which is why
+successfully" consistently means "the object is valid", never "the thing works"  -  which is why
 `describe` and `get endpoints` matter more than the output of `apply`.

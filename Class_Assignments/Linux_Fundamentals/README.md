@@ -8,7 +8,7 @@
 ## How this was run
 
 macOS has no `adduser`, `useradd` or `journalctl`, so I ran these in an Ubuntu 24.04 container with
-systemd as PID 1 — otherwise `journalctl` has no journal to read.
+systemd as PID 1  -  otherwise `journalctl` has no journal to read.
 
 ```bash
 docker build -t linux-lab:24.04 lab/
@@ -32,12 +32,12 @@ Dockerfile, scripts and full transcripts: [`lab/`](lab/)
 
 Every file on a Linux filesystem is really two separate things:
 
-1. An **inode** — the actual metadata and pointers to the data blocks on disk.
-2. A **directory entry** — a name that points to an inode.
+1. An **inode**  -  the actual metadata and pointers to the data blocks on disk.
+2. A **directory entry**  -  a name that points to an inode.
 
 A filename is not the file. It is a pointer to an inode. That single fact explains both link types:
 
-- A **hard link** is an additional directory entry pointing at the **same inode**. It is not a copy and it is not a shortcut — it is another equally valid name for the same file. The inode keeps a *link count*, and the data is only freed when that count reaches zero.
+- A **hard link** is an additional directory entry pointing at the **same inode**. It is not a copy and it is not a shortcut  -  it is another equally valid name for the same file. The inode keeps a *link count*, and the data is only freed when that count reaches zero.
 - A **soft link** (symbolic link) is its own separate file, with its own inode, whose *contents* are a text path to another file. Resolving it is a second lookup. If the target moves or is deleted, the link still exists but points at nothing.
 
 ### Commands to create both
@@ -65,9 +65,9 @@ total 8
 
 This one block of output shows the whole difference. Reading it carefully:
 
-- `-i` prints the inode number in the first column. `original.txt` and `hard.txt` are both **824827** — literally the same file. `soft.txt` has its own inode, **824828**.
+- `-i` prints the inode number in the first column. `original.txt` and `hard.txt` are both **824827**  -  literally the same file. `soft.txt` has its own inode, **824828**.
 - The second column is the **link count**. It is `2` for the hard-linked pair, because two names now point at that inode. It is `1` for the soft link.
-- `soft.txt` has type `l` (`lrwxrwxrwx`) and `ls` prints `-> original.txt`. Its size is **12 bytes**, which is exactly the length of the string `original.txt` — the link's content *is* the path.
+- `soft.txt` has type `l` (`lrwxrwxrwx`) and `ls` prints `-> original.txt`. Its size is **12 bytes**, which is exactly the length of the string `original.txt`  -  the link's content *is* the path.
 
 Confirming with `stat`:
 
@@ -94,7 +94,7 @@ soft.txt:     symbolic link to original.txt
 hard.txt:     ASCII text
 ```
 
-Note `file` reports `hard.txt` as plain `ASCII text`, not as a link. There is no way to tell "which one was the original" — because there is no original. Both names are equal.
+Note `file` reports `hard.txt` as plain `ASCII text`, not as a link. There is no way to tell "which one was the original"  -  because there is no original. Both names are equal.
 
 ![creating a soft and hard link, with ls -li showing the shared inode 824827 and link count 2](images/task1-1-create-links.png)
 
@@ -112,7 +112,7 @@ appended via hard link
 
 Writing via `hard.txt` changed what `original.txt` shows, because they are one file.
 
-### Deleting the target — the key difference
+### Deleting the target  -  the key difference
 
 ```bash
 rm original.txt
@@ -136,7 +136,7 @@ cat: soft.txt: No such file or directory
 [exit code: 1]
 ```
 
-The soft link is now **dangling**. It still exists as a file, and `ls` still shows it, but following it fails — its stored path no longer resolves.
+The soft link is now **dangling**. It still exists as a file, and `ls` still shows it, but following it fails  -  its stored path no longer resolves.
 
 ```bash
 cat hard.txt
@@ -186,7 +186,7 @@ total 8
 824829 drwxr-xr-x 2 root root 4096 Sep  3 16:09 mydir
 ```
 
-Important detail: `rm` on a symlink removes **the link**, not the target. But `rm softlink/` with a trailing slash, or `rm -r` on a symlink to a directory, can behave differently — so it is worth being deliberate.
+Important detail: `rm` on a symlink removes **the link**, not the target. But `rm softlink/` with a trailing slash, or `rm -r` on a symlink to a directory, can behave differently  -  so it is worth being deliberate.
 
 ![soft link to a directory allowed, hard link to a directory refused](images/task1-3-directories.png)
 
@@ -207,7 +207,7 @@ Important detail: `rm` on a symlink removes **the link**, not the target. But `r
 The two most likely follow-up questions:
 
 - *Why can't a hard link cross filesystems?* Because inode numbers are only unique **within** a filesystem. A directory entry on one filesystem cannot meaningfully reference an inode number belonging to another.
-- *What happens if you delete the file a soft link points to?* The link survives as a dangling link. And if a new file is later created at that same path, the link silently starts resolving to that new file — which is a real source of bugs.
+- *What happens if you delete the file a soft link points to?* The link survives as a dangling link. And if a new file is later created at that same path, the link silently starts resolving to that new file  -  which is a real source of bugs.
 
 ---
 
@@ -238,7 +238,7 @@ This output is the clearest way to see what is actually going on:
 - `useradd` is a **compiled binary**. It is the low-level tool from the `shadow-utils` package, and it does exactly what you tell it and nothing more.
 - `adduser` is a **Perl script**. It is a Debian/Ubuntu-specific, higher-level wrapper that calls `useradd` underneath and applies sensible policy.
 
-So `adduser` is not a competitor to `useradd` — it is a friendly front-end for it.
+So `adduser` is not a competitor to `useradd`  -  it is a friendly front-end for it.
 
 ### `useradd` without `-m`: no home directory
 
@@ -257,7 +257,7 @@ drwxr-xr-x 1 root   root   4096 Sep  3 16:09 ..
 drwxr-x--- 2 ubuntu ubuntu 4096 Aug 10 14:55 ubuntu
 ```
 
-The account exists and `/etc/passwd` even records `/home/nohomeuser` as its home — but **the directory was never created**. This is the classic `useradd` trap: the user can log in and land in a directory that does not exist. Note also the default shell is `/bin/sh`, not bash.
+The account exists and `/etc/passwd` even records `/home/nohomeuser` as its home  -  but **the directory was never created**. This is the classic `useradd` trap: the user can log in and land in a directory that does not exist. Note also the default shell is `/bin/sh`, not bash.
 
 ### `useradd -m`: home directory created
 
@@ -276,13 +276,13 @@ drwxr-x--- 2 useradduser useradduser 4096 Sep  3 16:09 useradduser
 useradduser L 2026-09-03 0 99999 7 -1
 ```
 
-Now the home directory exists, and `-s /bin/bash` gave it a usable shell. But `passwd -S` reports **`L`** — the account is **locked**, with no password set. It cannot log in until you separately run `passwd useradduser`.
+Now the home directory exists, and `-s /bin/bash` gave it a usable shell. But `passwd -S` reports **`L`**  -  the account is **locked**, with no password set. It cannot log in until you separately run `passwd useradduser`.
 
 ![useradd with and without -m, showing the missing home directory](images/task2-1-useradd.png)
 
 ### `adduser`: the recommended way
 
-`adduser` is normally **interactive** — it prompts for the password and for the GECOS fields (full name, room, phone). To run it non-interactively for this transcript I passed `--disabled-password --gecos ''`:
+`adduser` is normally **interactive**  -  it prompts for the password and for the GECOS fields (full name, room, phone). To run it non-interactively for this transcript I passed `--disabled-password --gecos ''`:
 
 ```bash
 adduser --disabled-password --gecos '' testuser
@@ -358,15 +358,15 @@ useradduser:x:1002:1002::/home/useradduser:/bin/bash
 testuser:x:1003:1003:,,,:/home/testuser:/bin/bash
 ```
 
-The GECOS field (between the home dir and the 4th colon) is empty for both `useradd` accounts, but `,,,` for the `adduser` one — placeholders for the full-name/room/phone fields it manages.
+The GECOS field (between the home dir and the 4th colon) is empty for both `useradd` accounts, but `,,,` for the `adduser` one  -  placeholders for the full-name/room/phone fields it manages.
 
 ### Which is preferred on Ubuntu, and why
 
 **`adduser`**, for creating human user accounts by hand.
 
-Not because `useradd` is broken, but because `adduser` applies Debian/Ubuntu's own policy by default — home directory, `/etc/skel`, correct UID range, group membership, password prompt. With `useradd` you must remember every one of those flags, and forgetting `-m` silently produces a half-working account.
+Not because `useradd` is broken, but because `adduser` applies Debian/Ubuntu's own policy by default  -  home directory, `/etc/skel`, correct UID range, group membership, password prompt. With `useradd` you must remember every one of those flags, and forgetting `-m` silently produces a half-working account.
 
-The honest caveat: **`useradd` is preferred in scripts and automation.** `adduser` is interactive by design and its output format is not a stable interface, whereas `useradd` is POSIX-ish, predictable, and available on every distribution — `adduser` is Debian-family only, so it will not exist on RHEL/CentOS/Alpine. Ansible's `user` module, for instance, uses `useradd` underneath.
+The honest caveat: **`useradd` is preferred in scripts and automation.** `adduser` is interactive by design and its output format is not a stable interface, whereas `useradd` is POSIX-ish, predictable, and available on every distribution  -  `adduser` is Debian-family only, so it will not exist on RHEL/CentOS/Alpine. Ansible's `user` module, for instance, uses `useradd` underneath.
 
 Rule of thumb: **at a terminal, `adduser`; in a script, `useradd` with explicit flags.**
 
@@ -402,7 +402,7 @@ info: Removing user `nohomeuser' ...
 
 ### What it is
 
-`journalctl` is the query tool for the **systemd journal**. On a systemd machine, logs are not just plain text in `/var/log` — `systemd-journald` collects stdout/stderr of every service, kernel messages, and structured metadata into an indexed binary journal. `journalctl` is how you read and filter it.
+`journalctl` is the query tool for the **systemd journal**. On a systemd machine, logs are not just plain text in `/var/log`  -  `systemd-journald` collects stdout/stderr of every service, kernel messages, and structured metadata into an indexed binary journal. `journalctl` is how you read and filter it.
 
 Why that matters: because the journal is structured, you can filter by unit, priority, boot, or time **without** grepping across a pile of different log files with different formats.
 
@@ -434,7 +434,7 @@ Sep 03 16:09:23 devops-lab chfn[180]: changed user 'testuser' information
 Sep 03 16:09:23 devops-lab gpasswd[188]: members of group users set by root to testuser
 ```
 
-Worth pointing out: these are the log entries produced by **Task 2 above**. You can see `adduser` calling `groupadd` and `useradd` underneath — the journal independently confirms that `adduser` is a wrapper.
+Worth pointing out: these are the log entries produced by **Task 2 above**. You can see `adduser` calling `groupadd` and `useradd` underneath  -  the journal independently confirms that `adduser` is a wrapper.
 
 `-n 15` shows the last 15 entries. `--no-pager` stops it opening `less`, which is what you want when scripting or capturing output.
 
@@ -460,7 +460,7 @@ Sep 03 16:08:46 devops-lab kernel:   DMA      [mem 0x0000000070000000-0x00000000
 
 ![journalctl version, disk usage and the most recent system log entries](images/task3-1-journalctl-system.png)
 
-### Checking logs for a specific service — `-u`
+### Checking logs for a specific service  -  `-u`
 
 This is the flag worth actually remembering. `-u <unit>` restricts output to one systemd unit.
 
@@ -491,7 +491,7 @@ Sep 03 16:08:46 devops-lab sshd[71]: Server listening on :: port 22.
 Sep 03 16:08:46 devops-lab systemd[1]: Started ssh.service - OpenBSD Secure Shell server.
 ```
 
-Only ssh, out of the whole system journal. Notice it interleaves messages from **systemd** (starting/started) and from **sshd itself** (listening on port 22) — journald captured the daemon's own stdout automatically, with no logging configuration.
+Only ssh, out of the whole system journal. Notice it interleaves messages from **systemd** (starting/started) and from **sshd itself** (listening on port 22)  -  journald captured the daemon's own stdout automatically, with no logging configuration.
 
 Now doing it with a service I control, and restarting it to watch new entries land:
 
@@ -528,7 +528,7 @@ journalctl -p err --no-pager | head -10
 Sep 03 16:09:23 devops-lab deluser[202]: In order to use the --remove-home, --remove-all-files, and --backup features, you need to install the `perl' package. To accomplish that, run apt-get install perl.
 ```
 
-`-p err` shows only priority `error` and worse. Out of an 8 MB journal, one line — and it happens to be the genuine failure I hit in Task 2, surfaced instantly. That is the argument for structured logs in one sentence.
+`-p err` shows only priority `error` and worse. Out of an 8 MB journal, one line  -  and it happens to be the genuine failure I hit in Task 2, surfaced instantly. That is the argument for structured logs in one sentence.
 
 ```bash
 journalctl --since '10 minutes ago' --no-pager | head -3
@@ -553,7 +553,7 @@ init.scope
 systemd-journald.service
 ```
 
-Which units have logged anything at all — useful when you do not know the exact unit name.
+Which units have logged anything at all  -  useful when you do not know the exact unit name.
 
 Because the journal is structured, it can emit machine-readable output:
 
@@ -590,7 +590,7 @@ All that metadata is attached to every entry automatically. It is what makes the
 | `journalctl -u nginx` | one service only |
 | `journalctl -u nginx -f` | follow one service live |
 | `journalctl -b` | this boot only |
-| `journalctl -b -1` | the **previous** boot — how you debug a crash |
+| `journalctl -b -1` | the **previous** boot  -  how you debug a crash |
 | `journalctl -k` | kernel messages |
 | `journalctl -p err` | errors and worse |
 | `journalctl --since "1 hour ago"` | time window |
@@ -598,7 +598,7 @@ All that metadata is attached to every entry automatically. It is what makes the
 | `journalctl --vacuum-time=7d` | delete entries older than 7 days |
 | `journalctl -o json-pretty` | structured output |
 
-One practical gotcha: by default many distributions keep the journal in `/run/log/journal`, which is **tmpfs and lost on reboot**. To make `journalctl -b -1` work you need persistent storage — `Storage=persistent` in `/etc/systemd/journald.conf` plus `/var/log/journal` existing. That is exactly what the lab `Dockerfile` sets up, which is why the boot logs above are readable at all.
+One practical gotcha: by default many distributions keep the journal in `/run/log/journal`, which is **tmpfs and lost on reboot**. To make `journalctl -b -1` work you need persistent storage  -  `Storage=persistent` in `/etc/systemd/journald.conf` plus `/var/log/journal` existing. That is exactly what the lab `Dockerfile` sets up, which is why the boot logs above are readable at all.
 
 ---
 
@@ -645,7 +645,7 @@ app.py
 helpers.py
 ```
 
-`mv` does double duty as both rename and move — there is no separate `rename` command. `rmdir` only removes *empty* directories; `rm -r` is what removes a tree.
+`mv` does double duty as both rename and move  -  there is no separate `rename` command. `rmdir` only removes *empty* directories; `rm -r` is what removes a tree.
 
 ### Reading files
 
@@ -779,7 +779,7 @@ chown testuser:testuser data.txt && ls -l data.txt
 -rw-r--r-- 1 testuser testuser 45 Sep  3 16:11 data.txt
 ```
 
-Reading the mode: three groups of three — **owner, group, other** — each `r`(4) `w`(2) `x`(1). So `755` = owner `rwx`, group `r-x`, other `r-x`. `644` = owner `rw-`, everyone else read-only. `chmod` changes permissions, `chown` changes who owns it.
+Reading the mode: three groups of three  -  **owner, group, other**  -  each `r`(4) `w`(2) `x`(1). So `755` = owner `rwx`, group `r-x`, other `r-x`. `644` = owner `rw-`, everyone else read-only. `chmod` changes permissions, `chown` changes who owns it.
 
 ![cheat sheet: chmod and chown changing permissions and ownership](images/task4-4-permissions.png)
 
@@ -854,7 +854,7 @@ Swap:          1.0Gi          0B       1.0Gi
 
 `df` = free space **per filesystem**. `du` = space **used by files/directories**. When "the disk is full", `df` tells you which filesystem and `du` tells you what filled it.
 
-On `free`: the number that matters is **`available` (7.0Gi)**, not `free` (2.6Gi). The 4.6Gi in `buff/cache` is disk cache the kernel will hand back on demand — it is not lost memory.
+On `free`: the number that matters is **`available` (7.0Gi)**, not `free` (2.6Gi). The 4.6Gi in `buff/cache` is disk cache the kernel will hand back on demand  -  it is not lost memory.
 
 ### System information
 
@@ -880,7 +880,7 @@ Linux devops-lab 6.12.76-linuxkit #1 SMP Fri May 29 10:00:01 UTC 2026 aarch64 aa
 /usr/bin/awk
 ```
 
-`load average` is three numbers — 1, 5 and 15 minute averages of runnable processes. Compare against the CPU count: a load of 4.0 is fine on 10 cores and badly overloaded on 2.
+`load average` is three numbers  -  1, 5 and 15 minute averages of runnable processes. Compare against the CPU count: a load of 4.0 is fine on 10 cores and badly overloaded on 2.
 
 ![cheat sheet: df, du, free, uname and uptime](images/task4-6-disk-memory-sysinfo.png)
 
@@ -914,7 +914,7 @@ ls: cannot access '/nonexistent': No such file or directory
 2
 ```
 
-The distinction that matters: `>` is **destructive** — it truncates the file immediately, before the command even runs. `>>` appends. And stdout (`1`) and stderr (`2`) are separate streams, which is why an error can still appear on your terminal even when you redirected "the output".
+The distinction that matters: `>` is **destructive**  -  it truncates the file immediately, before the command even runs. `>>` appends. And stdout (`1`) and stderr (`2`) are separate streams, which is why an error can still appear on your terminal even when you redirected "the output".
 
 ![cheat sheet: tar, gzip, redirection and pipes](images/task4-7-archives-redirection.png)
 

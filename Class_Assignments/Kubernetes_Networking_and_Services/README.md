@@ -3,17 +3,17 @@
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
 
-All output below was captured from a real run on my machine — Minikube `v1.39.0` (`docker`
+All output below was captured from a real run on my machine  -  Minikube `v1.39.0` (`docker`
 driver), Kubernetes `v1.37.0`, macOS on Apple Silicon (`arm64`). The manifests are the ones from
 the class repo, `session-11-kubernetes-services`. Raw transcripts are in [`lab/`](lab/).
 
 A Service exists because Pod IPs are disposable. Every rollout in
-[Session 10](../Kubernetes_Pods_Rs_Deployment/README.md) replaced every pod IP in the cluster —
+[Session 10](../Kubernetes_Pods_Rs_Deployment/README.md) replaced every pod IP in the cluster  - 
 a Service is the stable name and virtual IP that survives that.
 
 ---
 
-## Task 1: ClusterIP — the default, internal only
+## Task 1: ClusterIP  -  the default, internal only
 
 - Deploy 3 replicas and put a ClusterIP Service in front of them
 - Show the Service's virtual IP and the endpoints behind it
@@ -42,12 +42,12 @@ NAME                    ENDPOINTS                                        AGE
 web-service-clusterip   10.244.0.100:80,10.244.0.101:80,10.244.0.99:80   0s
 ```
 
-Two different things to keep apart here. `CLUSTER-IP 10.106.195.228` is a **virtual** IP — no
+Two different things to keep apart here. `CLUSTER-IP 10.106.195.228` is a **virtual** IP  -  no
 network interface anywhere holds it; `kube-proxy` writes iptables rules that rewrite traffic
 destined for it. `ENDPOINTS` is the real list: the three pod IPs on port 80, maintained
 automatically by matching the Service's selector against pod labels.
 
-Also note the port translation — the Service listens on `8080` and forwards to `targetPort: 80`
+Also note the port translation  -  the Service listens on `8080` and forwards to `targetPort: 80`
 on the pods, which is why the endpoints show `:80`.
 
 ![The ClusterIP Service with its virtual IP, and the endpoints list showing the three real pod IPs behind it](images/task1-2-clusterip-service-and-endpoints.png)
@@ -67,7 +67,7 @@ kubectl exec curl-client -- curl -s http://web-service-clusterip.default.svc.clu
 ```
 
 Short name, raw ClusterIP and full FQDN all land in the same place. The short name only works
-from a pod in the *same namespace* — it relies on the DNS search path, which is unpacked in
+from a pod in the *same namespace*  -  it relies on the DNS search path, which is unpacked in
 Task 6. The FQDN works from anywhere in the cluster, which is why it is the form to use in
 config that might move namespaces.
 
@@ -87,14 +87,14 @@ kubectl get endpoints web-service-clusterip -o jsonpath='{range .subsets[*].addr
 ```
 
 Six requests, six 200s, spread across the three endpoints. `ClusterIP` is unreachable from
-outside the cluster by design — there is no route to `10.106.195.228` from my Mac, which is
+outside the cluster by design  -  there is no route to `10.106.195.228` from my Mac, which is
 exactly the point of the type.
 
 ![Six successful requests through the Service and the three endpoint IPs it distributes across](images/task1-4-clusterip-load-balances.png)
 
 ---
 
-## Task 2: NodePort — reaching a Service from outside
+## Task 2: NodePort  -  reaching a Service from outside
 
 - Expose the app on a fixed port on the node
 - Reach it from the macOS host
@@ -150,7 +150,7 @@ curl: (28) Connection timed out - node IP is not routable from the macOS host (d
 
 `192.168.49.2` is an address on a Docker bridge network that exists **inside** the Linux VM
 Docker Desktop runs. On native Linux that bridge is on the host itself and the curl succeeds; on
-macOS there is no route to it. That is why `minikube service --url` exists — it opens a local
+macOS there is no route to it. That is why `minikube service --url` exists  -  it opens a local
 tunnel and hands back a `127.0.0.1` address.
 
 Worth noting for anyone re-running this: on the Docker driver `minikube service --url` holds the
@@ -161,7 +161,7 @@ killed afterwards rather than called inline.
 
 ---
 
-## Task 3: LoadBalancer — and why it stays pending locally
+## Task 3: LoadBalancer  -  and why it stays pending locally
 
 - Create a LoadBalancer Service and read its EXTERNAL-IP
 - Explain why it never gets one on a local cluster
@@ -182,7 +182,7 @@ Endpoints:                10.244.0.106:80,10.244.0.105:80,10.244.0.107:80
 ```
 
 `EXTERNAL-IP <pending>` is the correct result, not a failure. `LoadBalancer` does not implement
-a load balancer — it asks the **cloud provider** to provision one and write its address back
+a load balancer  -  it asks the **cloud provider** to provision one and write its address back
 into this field. On AWS that produces an ELB hostname, on GCP an external IP. Minikube has no
 cloud controller, so the request is never fulfilled and the field waits forever.
 
@@ -209,7 +209,7 @@ It still serves traffic, through the NodePort underneath. `minikube tunnel` woul
 
 ---
 
-## Task 4: ExternalName — a DNS alias with no pods
+## Task 4: ExternalName  -  a DNS alias with no pods
 
 - Create a Service that points at an address outside the cluster
 - Show that it resolves as a CNAME
@@ -225,7 +225,7 @@ NAME                        TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)
 external-database-service   ExternalName   <none>       api.github.com   <none>    0s
 ```
 
-No cluster IP, no ports, no selector, no endpoints — this Service creates **nothing** in the
+No cluster IP, no ports, no selector, no endpoints  -  this Service creates **nothing** in the
 data path. It is a CoreDNS record and that is all.
 
 ![An ExternalName Service with no cluster IP and no ports, pointing at api.github.com](images/task4-1-externalname-service.png)
@@ -246,7 +246,7 @@ managed database to an in-cluster one is a Service change instead of a config ch
 
 ![nslookup resolving the ExternalName Service to a CNAME for api.github.com and its real address](images/task4-2-externalname-cname-resolution.png)
 
-### Sending traffic through it — and the TLS catch
+### Sending traffic through it  -  and the TLS catch
 
 ```bash
 kubectl exec dns-test-client -- curl -s -H 'Host: api.github.com' https://external-database-service
@@ -258,7 +258,7 @@ command terminated with exit code 60
 
 Exit code 60 is a certificate failure. DNS resolution worked fine, but TLS was negotiated
 against the name `external-database-service`, and GitHub's certificate is issued for
-`api.github.com` — so verification fails. The `Host:` header does not help, because certificate
+`api.github.com`  -  so verification fails. The `Host:` header does not help, because certificate
 validation happens during the TLS handshake, before any HTTP header is sent.
 
 ```bash
@@ -272,7 +272,7 @@ HTTP 301
 ```
 
 The plain HTTP request is the proof: **301**, GitHub's redirect to HTTPS. There is no certificate
-to verify over HTTP, so the request completes and the answer comes from GitHub's real servers —
+to verify over HTTP, so the request completes and the answer comes from GitHub's real servers  - 
 the CNAME genuinely carried traffic out of the cluster. With `-k` the handshake completes but
 GitHub returns 400, because the SNI name it received is not one of its own hostnames.
 
@@ -284,7 +284,7 @@ alias as a valid name.
 
 ---
 
-## Task 5: Headless Service — DNS straight to the pods
+## Task 5: Headless Service  -  DNS straight to the pods
 
 - Create a Service with `clusterIP: None`
 - Back it with a StatefulSet
@@ -301,7 +301,7 @@ NAME                   TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 web-service-headless   ClusterIP   None         <none>        80/TCP    0s
 ```
 
-`CLUSTER-IP: None` — no virtual IP, so no load balancing and no `kube-proxy` rules at all.
+`CLUSTER-IP: None`  -  no virtual IP, so no load balancing and no `kube-proxy` rules at all.
 
 ![A headless Service showing CLUSTER-IP None](images/task5-1-headless-service-no-clusterip.png)
 
@@ -336,7 +336,7 @@ Address: 10.244.0.115
 
 **Three A records for one name.** A normal ClusterIP Service answers with a single virtual IP
 and hides the pods; a headless Service hands the client the full list and lets it decide. That
-is what clustered software needs — a database replica has to connect to a *specific* peer, not
+is what clustered software needs  -  a database replica has to connect to a *specific* peer, not
 to whichever one a load balancer picks.
 
 ![nslookup on the headless Service returning all three pod IPs as separate A records](images/task5-3-headless-dns-returns-all-pod-ips.png)
@@ -356,7 +356,7 @@ HTTP 200 from web-stateful-0
 ```
 
 `web-stateful-0.web-service-headless` resolves to exactly one pod and nothing else. The pod's IP
-will change when it is rescheduled — but the **name will not**, because the StatefulSet
+will change when it is rescheduled  -  but the **name will not**, because the StatefulSet
 guarantees the ordinal. This pairing of a StatefulSet with a headless Service is how a
 Kafka/etcd/MySQL cluster finds its own members.
 
@@ -383,7 +383,7 @@ NAME       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
 kube-dns   ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   2d3h
 ```
 
-Cluster DNS is itself just a Deployment behind a ClusterIP Service — `10.96.0.10` is a virtual
+Cluster DNS is itself just a Deployment behind a ClusterIP Service  -  `10.96.0.10` is a virtual
 IP exactly like the one in Task 1.
 
 ![The CoreDNS pod running in kube-system behind the kube-dns Service at 10.96.0.10](images/task6-1-coredns-running.png)
@@ -418,7 +418,7 @@ Address: 10.106.195.228
 ```
 
 This is the most useful thing in the session. Two `NXDOMAIN` responses appear *before* the
-answer — and they are not errors. `ndots:5` tells the resolver that any name with fewer than 5
+answer  -  and they are not errors. `ndots:5` tells the resolver that any name with fewer than 5
 dots should be tried against each search domain first, so `web-service-clusterip` is queried as
 `.cluster.local`, then `.svc.cluster.local`, then `.default.svc.cluster.local`, which hits.
 
@@ -431,7 +431,7 @@ entirely.
 
 ---
 
-## Task 7: Endpoint triage — a Service that selects nothing
+## Task 7: Endpoint triage  -  a Service that selects nothing
 
 - Apply a Service whose selector does not match the running pods
 - Diagnose it from `get endpoints`
@@ -453,7 +453,7 @@ broken-backend-service   <none>      0s
 
 The Service was created successfully and has a perfectly good ClusterIP. Nothing warned me.
 But `ENDPOINTS: <none>` means every request to it fails with connection refused, while
-`kubectl get svc` continues to look completely healthy — which is what makes this failure
+`kubectl get svc` continues to look completely healthy  -  which is what makes this failure
 confusing in practice.
 
 ![A healthy-looking Service with a ClusterIP but an endpoints list showing none](images/task7-1-empty-endpoints-bug.png)
@@ -480,8 +480,8 @@ There is the whole diagnosis in three commands. The Service selects `app=wrong-b
 the pods are labelled `app=yatri-backend`; querying the Service's own selector returns nothing.
 
 Unlike the Deployment selector mismatch in
-[Session 10, Task 7](../Kubernetes_Pods_Rs_Deployment/README.md) — which the API server rejected
-outright — this one is **accepted**, because a Service selector matching nothing is legal. It
+[Session 10, Task 7](../Kubernetes_Pods_Rs_Deployment/README.md)  -  which the API server rejected
+outright  -  this one is **accepted**, because a Service selector matching nothing is legal. It
 has to be: the Service often exists before the pods do. That is exactly why `kubectl get
 endpoints` is the first command to run when a Service is not answering.
 
@@ -496,10 +496,10 @@ endpoints` is the first command to run when a Service is not answering.
 | `ClusterIP` | Virtual IP + endpoints | Inside cluster only | Service-to-service traffic (default) |
 | `NodePort` | ClusterIP + port on every node | Node IP:30000–32767 | Dev access, or behind an external LB |
 | `LoadBalancer` | NodePort + cloud LB request | Public internet (on a cloud) | Production external entry point |
-| `ExternalName` | A CNAME record, nothing else | N/A — it is DNS only | Aliasing a service outside the cluster |
+| `ExternalName` | A CNAME record, nothing else | N/A  -  it is DNS only | Aliasing a service outside the cluster |
 | Headless | DNS records per pod, no VIP | Inside cluster only | StatefulSets, peer discovery |
 
-The first four are cumulative, which was not obvious from the diagrams — a `LoadBalancer`
+The first four are cumulative, which was not obvious from the diagrams  -  a `LoadBalancer`
 Service really does contain a NodePort and a ClusterIP, visible in its own `describe` output.
 Headless is the one that is genuinely different: it opts out of the virtual IP entirely.
 

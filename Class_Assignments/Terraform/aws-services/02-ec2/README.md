@@ -1,4 +1,4 @@
-# EC2 — Elastic Compute Cloud (Compute)
+# EC2  -  Elastic Compute Cloud (Compute)
 
 **Name:** Utkarsh Bahuguna
 **Enrollment No:** 24bcs10161
@@ -7,7 +7,7 @@ EC2 lets you rent virtual machines (called **instances**) in AWS data centers. Y
 
 ## What is EC2?
 
-An EC2 instance is a virtual server running in one **Availability Zone (AZ)** inside a Region. You get full control of the OS (root/Administrator access), which makes EC2 the most flexible compute option in AWS — and also the one where you are responsible for patching, scaling and backups.
+An EC2 instance is a virtual server running in one **Availability Zone (AZ)** inside a Region. You get full control of the OS (root/Administrator access), which makes EC2 the most flexible compute option in AWS  -  and also the one where you are responsible for patching, scaling and backups.
 
 Pricing models:
 
@@ -38,14 +38,14 @@ The instance type sets CPU, memory, network and storage capacity. Naming example
 | Storage optimized | Fast local disks, high IOPS | `i4i`, `d3` |
 | Accelerated computing | GPUs / ML chips | `p5`, `g6`, `inf2`, `trn1` |
 
-`t` instances are **burstable**: they earn CPU credits while idle and spend them under load — cheap for small or spiky workloads.
+`t` instances are **burstable**: they earn CPU credits while idle and spend them under load  -  cheap for small or spiky workloads.
 
 ## Key pairs
 
 A key pair is used to log in to Linux instances over SSH (or to decrypt the Windows Administrator password).
 
 - AWS keeps the **public key** and places it on the instance at launch.
-- You download the **private key** (`.pem`) once — AWS does not keep a copy. Lose it and you cannot use it again.
+- You download the **private key** (`.pem`) once  -  AWS does not keep a copy. Lose it and you cannot use it again.
 - Types: RSA and ED25519 (ED25519 is not supported for Windows instances).
 - Alternative without SSH keys or open port 22: **EC2 Instance Connect** or **Systems Manager Session Manager**.
 
