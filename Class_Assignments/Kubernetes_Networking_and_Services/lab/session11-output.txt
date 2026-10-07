@@ -45,7 +45,7 @@ $ kubectl exec curl-client -- curl -s http://web-service-clusterip.default.svc.c
 ###END###
 ###SHOT:task1-4-clusterip-load-balances###
 $ for i in $(seq 1 6); do kubectl exec curl-client -- curl -s -o /dev/null -w '%{http_code} ' http://web-service-clusterip:8080; done
-200 200 200 200 200 200 
+200 200 200 200 200 200
 
 $ kubectl get endpoints web-service-clusterip -o jsonpath='{range .subsets[*].addresses[*]}{.ip}{"\n"}{end}'
 Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
@@ -302,7 +302,7 @@ broken-backend-service   <none>      0s
 ###SHOT:task7-2-diagnosing-the-selector-typo###
 $ kubectl describe svc broken-backend-service | grep -E 'Selector|Endpoints'
 Selector:                 app=wrong-backend-name
-Endpoints:                
+Endpoints:
 
 $ kubectl get pods -l app=yatri-backend --show-labels
 NAME                            READY   STATUS    RESTARTS   AGE   LABELS

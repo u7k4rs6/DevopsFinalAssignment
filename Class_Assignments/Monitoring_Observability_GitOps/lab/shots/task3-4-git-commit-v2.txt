@@ -6,6 +6,6 @@ $ cd /private/tmp/claude-501/-Users-utkarsh24bcs10161/82161c67-b573-47a2-b8ef-11
 +    <p>Version: v2 - deployed by Argo CD from Git</p>
 -  replicas: 2
 +  replicas: 3
-remote: . Processing 1 references        
+remote: . Processing 1 references
 76ecc4f v2: scale to 3 replicas, new page
 6360907 v1: session20-mini with 2 replicas

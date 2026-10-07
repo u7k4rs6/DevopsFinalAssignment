@@ -79,8 +79,8 @@ $ kubectl apply -f hpa/hpa.yml; sleep 45; kubectl get hpa php-apache; kubectl to
 horizontalpodautoscaler.autoscaling/php-apache created
 NAME         REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   cpu: <unknown>/50%   1         5         1          46s
-NAME                          CPU(cores)   MEMORY(bytes)   
-php-apache-55d769b97b-kdtnh   16m          26Mi            
+NAME                          CPU(cores)   MEMORY(bytes)
+php-apache-55d769b97b-kdtnh   16m          26Mi
 
 $ kubectl describe hpa php-apache | sed -n "1,30p"
 Name:                                                  php-apache
@@ -158,12 +158,12 @@ php-apache-55d769b97b-8htqm   1/1     Running   0          3m49s   10.244.0.40  
 php-apache-55d769b97b-f5fxx   1/1     Running   0          3m49s   10.244.0.38   minikube   <none>           <none>
 php-apache-55d769b97b-kdtnh   1/1     Running   0          6m6s    10.244.0.36   minikube   <none>           <none>
 php-apache-55d769b97b-tnm64   1/1     Running   0          3m34s   10.244.0.41   minikube   <none>           <none>
-NAME                          CPU(cores)   MEMORY(bytes)   
-php-apache-55d769b97b-6xrsk   129m         39Mi            
-php-apache-55d769b97b-8htqm   150m         39Mi            
-php-apache-55d769b97b-f5fxx   149m         45Mi            
-php-apache-55d769b97b-kdtnh   136m         49Mi            
-php-apache-55d769b97b-tnm64   134m         37Mi            
+NAME                          CPU(cores)   MEMORY(bytes)
+php-apache-55d769b97b-6xrsk   129m         39Mi
+php-apache-55d769b97b-8htqm   150m         39Mi
+php-apache-55d769b97b-f5fxx   149m         45Mi
+php-apache-55d769b97b-kdtnh   136m         49Mi
+php-apache-55d769b97b-tnm64   134m         37Mi
 
 $ kubectl describe hpa php-apache | sed -n "/Metrics:/,\$p"
 Metrics:                                               ( current / target )
@@ -263,8 +263,8 @@ index.html
 $ kubectl get hpa -n production-webapp; kubectl top pods -n production-webapp
 NAME          REFERENCE            TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
 web-app-hpa   Deployment/web-app   cpu: <unknown>/50%   2         5         2          85s
-NAME                     CPU(cores)   MEMORY(bytes)   
-web-app-f9769fb4-ldkkn   3m           8Mi             
+NAME                     CPU(cores)   MEMORY(bytes)
+web-app-f9769fb4-ldkkn   3m           8Mi
 
 $ date +%H:%M:%S; kubectl get hpa php-apache; kubectl get pods -l app=php-apache; kubectl describe hpa php-apache | grep SuccessfulRescale
 00:14:26
@@ -292,7 +292,7 @@ php-apache-55d769b97b-6xrsk   1/1     Running   0          11m
 $ kubectl get hpa -n production-webapp; kubectl top pods -n production-webapp
 NAME          REFERENCE            TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
 web-app-hpa   Deployment/web-app   cpu: 1%/50%   2         5         2          6m35s
-NAME                     CPU(cores)   MEMORY(bytes)   
-web-app-f9769fb4-ldkkn   1m           8Mi             
-web-app-f9769fb4-xmzt7   1m           8Mi             
+NAME                     CPU(cores)   MEMORY(bytes)
+web-app-f9769fb4-ldkkn   1m           8Mi
+web-app-f9769fb4-xmzt7   1m           8Mi
 

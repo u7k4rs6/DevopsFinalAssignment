@@ -1,5 +1,5 @@
 time="2026-10-06T23:47:49+05:30" level=info msg="Using docker host 'unix:///var/run/docker.sock', and daemon socket 'unix:///var/run/docker.sock'"
-level=warning msg= ⚠ You are using Apple M-series chip and you have not specified container architecture, you might encounter issues while running act. If so, try running it with '--container-architecture linux/amd64'. ⚠ 
+level=warning msg= ⚠ You are using Apple M-series chip and you have not specified container architecture, you might encounter issues while running act. If so, try running it with '--container-architecture linux/amd64'. ⚠
 
 time="2026-10-06T23:47:49+05:30" level=info msg="Start server on http://10.114.2.89:34567"
 [Calculator CI/CD/Test          ] ⭐ Run Set up job
@@ -77,7 +77,7 @@ time="2026-10-06T23:47:49+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Test          ]   | cachedir: .pytest_cache
 [Calculator CI/CD/Test          ]   | rootdir: /Users/utkarsh24bcs10161/Desktop/Learn_DevOps/Class_Assignments/CICD_GitHub_Actions
 [Calculator CI/CD/Test          ]   | collecting ... collected 9 items
-[Calculator CI/CD/Test          ]   | 
+[Calculator CI/CD/Test          ]   |
 [Calculator CI/CD/Test          ]   | tests/test_api.py::test_health PASSED                                    [ 11%]
 [Calculator CI/CD/Test          ]   | tests/test_api.py::test_add_endpoint PASSED                              [ 22%]
 [Calculator CI/CD/Test          ]   | tests/test_api.py::test_divide_by_zero_returns_400 PASSED                [ 33%]
@@ -87,7 +87,7 @@ time="2026-10-06T23:47:49+05:30" level=info msg="Start server on http://10.114.2
 [Calculator CI/CD/Test          ]   | tests/test_calculator.py::test_multiply PASSED                           [ 77%]
 [Calculator CI/CD/Test          ]   | tests/test_calculator.py::test_divide PASSED                             [ 88%]
 [Calculator CI/CD/Test          ]   | tests/test_calculator.py::test_divide_by_zero PASSED                     [100%]
-[Calculator CI/CD/Test          ]   | 
+[Calculator CI/CD/Test          ]   |
 [Calculator CI/CD/Test          ]   | ============================== 9 passed in 0.06s ===============================
 [Calculator CI/CD/Test          ]   ✅  Success - Main Run unit tests [233.142ms]
 [Calculator CI/CD/Test          ] ⭐ Run Post Setup Python

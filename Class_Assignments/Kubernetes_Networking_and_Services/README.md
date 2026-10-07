@@ -8,7 +8,7 @@ driver), Kubernetes `v1.37.0`, macOS on Apple Silicon (`arm64`). The manifests a
 the class repo, `session-11-kubernetes-services`. Raw transcripts are in [`lab/`](lab/).
 
 A Service exists because Pod IPs are disposable. Every rollout in
-[Session 10](../Kubernetes_Pods_Rs_Deployment/README.md) replaced every pod IP in the cluster  - 
+[Session 10](../Kubernetes_Pods_Rs_Deployment/README.md) replaced every pod IP in the cluster  -
 a Service is the stable name and virtual IP that survives that.
 
 ---
@@ -272,7 +272,7 @@ HTTP 301
 ```
 
 The plain HTTP request is the proof: **301**, GitHub's redirect to HTTPS. There is no certificate
-to verify over HTTP, so the request completes and the answer comes from GitHub's real servers  - 
+to verify over HTTP, so the request completes and the answer comes from GitHub's real servers  -
 the CNAME genuinely carried traffic out of the cluster. With `-k` the handshake completes but
 GitHub returns 400, because the SNI name it received is not one of its own hostnames.
 

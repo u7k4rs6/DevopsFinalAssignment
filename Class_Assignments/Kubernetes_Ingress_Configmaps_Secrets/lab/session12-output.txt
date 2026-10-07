@@ -142,7 +142,7 @@ Default backend:  <default>
 Rules:
   Host         Path  Backends
   ----         ----  --------
-  yatri.local  
+  yatri.local
                /api(/|$)(.*)   yatri-backend-service:80 (<error: services "yatri-backend-service" not found>)
                /               yatri-frontend-service:80 (<error: services "yatri-frontend-service" not found>)
 Annotations:   nginx.ingress.kubernetes.io/ssl-redirect: false
@@ -232,13 +232,13 @@ $ kubectl describe ingress yatri-ingress | sed -n '1,25p'
 Name:             yatri-ingress
 Labels:           app=yatri-app
 Namespace:        default
-Address:          
+Address:
 Ingress Class:    nginx
 Default backend:  <default>
 Rules:
   Host         Path  Backends
   ----         ----  --------
-  yatri.local  
+  yatri.local
                /api(/|$)(.*)   yatri-backend-service:80 (10.244.0.156:5000,10.244.0.155:5000)
                /               yatri-frontend-service:80 (10.244.0.153:80,10.244.0.154:80)
 Annotations:   nginx.ingress.kubernetes.io/rewrite-target: /$2

@@ -27,7 +27,7 @@ actually the point uses `minikube service --url`. The failure itself is shown in
 ### The five phases are not the STATUS column
 
 `kubectl get pods` shows a *friendly* STATUS that mixes together the Pod phase and the container
-state. There are only five real phases  -  `Pending`, `Running`, `Succeeded`, `Failed`, `Unknown`  - 
+state. There are only five real phases  -  `Pending`, `Running`, `Succeeded`, `Failed`, `Unknown`  -
 and `CrashLoopBackOff`, `ImagePullBackOff` and `Completed` are none of them. All twelve pods at
 once:
 
@@ -52,7 +52,7 @@ lifecycle-succeeded         0/1     Completed          0             2m31s 10.24
 lifecycle-termination       1/1     Running            0             2m31s 10.244.0.24   minikube
 ```
 
-Two columns are doing the real work here. `READY` is `0/1` for everything that is not serving  - 
+Two columns are doing the real work here. `READY` is `0/1` for everything that is not serving  -
 including `lifecycle-succeeded`, which finished *successfully*. `RESTARTS` separates the two
 failure modes: `lifecycle-crashloop` is on restart 4, `lifecycle-failed` has never restarted,
 because its pod has `restartPolicy: Never`.
@@ -691,7 +691,7 @@ deleting anything, so the decision stays reversible right up until the `delete`.
 - Apply v2 with `strategy: Recreate` and poll the Service continuously
 - Show the outage window in the poll output
 
-`Recreate` tears down every old pod *before* creating any new one. The downtime is not a bug  - 
+`Recreate` tears down every old pod *before* creating any new one. The downtime is not a bug  -
 it is the point, for cases where two versions must never run at once: a breaking database
 migration, a `ReadWriteOnce` volume that only one pod can mount, or a legacy app with a single
 writer.
